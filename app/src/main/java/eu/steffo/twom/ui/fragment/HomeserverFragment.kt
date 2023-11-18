@@ -77,6 +77,7 @@ fun HomeserverContents() {
                         }
 
                         if(!(URLUtil.isHttpUrl(homeserver) || URLUtil.isHttpsUrl(homeserver))) {
+                            homeserverFieldState = HomeserverFieldState.Error
                             homeserverUrlValid = false
                             return@OnValueChange
                         }
