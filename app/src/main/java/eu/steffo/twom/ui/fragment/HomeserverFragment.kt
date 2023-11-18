@@ -45,7 +45,7 @@ fun HomeserverContents() {
     val matrix = LocalMatrix.current
 
     var homeserver by rememberSaveable { mutableStateOf("") }
-    var homeserverFieldState by rememberSaveable { mutableStateOf<HomeserverFieldState>(HomeserverFieldState.Empty) }
+    var homeserverFieldState by rememberSaveable { mutableStateOf(HomeserverFieldState.Empty) }
     var homeserverUrlValid by rememberSaveable { mutableStateOf<Boolean?>(null) }
     var homeserverFlowValid by rememberSaveable { mutableStateOf<Boolean?>(null) }
 
