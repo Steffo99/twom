@@ -116,7 +116,6 @@ fun HomeserverContents() {
                     enabled = (LocalMatrix.current != null),
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
             Row(
                 modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 10.dp)
             ) {
