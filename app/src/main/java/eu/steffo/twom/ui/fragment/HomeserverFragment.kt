@@ -35,14 +35,14 @@ import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 fun LoginFragment() {
     TwoMMatrixProvider {
         TwoMTheme {
-            LoginContents()
+            HomeserverContents()
         }
     }
 }
 
 @Composable
 @Preview
-fun LoginContents() {
+fun HomeserverContents() {
     val scope = rememberCoroutineScope()
     val matrix = LocalMatrix.current
 

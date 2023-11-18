@@ -3,7 +3,7 @@ package eu.steffo.twom
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import eu.steffo.twom.ui.fragment.LoginFragment
+import eu.steffo.twom.ui.fragment.HomeserverFragment
 
 
 class MainActivity : ComponentActivity() {
@@ -11,6 +11,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
 
-        setContent { LoginFragment() }
+        setContent { HomeserverFragment() }
     }
 }
