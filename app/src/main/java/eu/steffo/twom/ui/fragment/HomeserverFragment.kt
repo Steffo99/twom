@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 
 @Composable
-fun LoginFragment() {
+fun HomeserverFragment() {
     TwoMMatrixProvider {
         TwoMTheme {
             HomeserverContents()
@@ -98,8 +98,7 @@ fun HomeserverContents() {
                                 ))
                             }
                             catch(e: Throwable) {
-                                Log.e("LoginFragment", "Failed to get flows for homeserver", e)
-                                homeserverFieldState = HomeserverFieldState.Done
+                                homeserverFieldState = HomeserverFieldState.Error
                                 homeserverFlowValid = false
                                 return@ValidateFlows
                             }

@@ -3,6 +3,7 @@ package eu.steffo.twom.ui.input
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Icon
@@ -19,6 +20,7 @@ enum class HomeserverFieldState {
     Empty,
     Waiting,
     Validating,
+    Error,
     Done,
 }
 
@@ -51,6 +53,7 @@ fun HomeserverField(
                     HomeserverFieldState.Empty -> Icons.Default.Build
                     HomeserverFieldState.Waiting -> Icons.Default.Create
                     HomeserverFieldState.Validating -> Icons.Default.Send
+                    HomeserverFieldState.Error -> Icons.Default.Close
                     HomeserverFieldState.Done -> Icons.Default.Check
                 },
                 LocalContext.current.getString(R.string.homeserver_trailingicon_validating_description)
