@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 
 
-enum class HomeserverFieldState {
+enum class SelectHomeserverFieldState {
     Empty,
     Waiting,
     Validating,
@@ -27,12 +27,12 @@ enum class HomeserverFieldState {
 
 @Composable
 @Preview
-fun HomeserverField(
+fun SelectHomeserverField(
     modifier: Modifier = Modifier,
     value: String = "",
     onValueChange: (String) -> Unit = {},
     enabled: Boolean = true,
-    state: HomeserverFieldState = HomeserverFieldState.Empty,
+    state: SelectHomeserverFieldState = SelectHomeserverFieldState.Empty,
     error: String? = null,
 ) {
     TextField(
@@ -50,11 +50,11 @@ fun HomeserverField(
         trailingIcon = {
             Icon(
                 when(state) {
-                    HomeserverFieldState.Empty -> Icons.Default.Build
-                    HomeserverFieldState.Waiting -> Icons.Default.Create
-                    HomeserverFieldState.Validating -> Icons.Default.Send
-                    HomeserverFieldState.Error -> Icons.Default.Close
-                    HomeserverFieldState.Done -> Icons.Default.Check
+                    SelectHomeserverFieldState.Empty -> Icons.Default.Build
+                    SelectHomeserverFieldState.Waiting -> Icons.Default.Create
+                    SelectHomeserverFieldState.Validating -> Icons.Default.Send
+                    SelectHomeserverFieldState.Error -> Icons.Default.Close
+                    SelectHomeserverFieldState.Done -> Icons.Default.Check
                 },
                 LocalContext.current.getString(R.string.homeserver_trailingicon_validating_description)
             )

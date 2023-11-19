@@ -19,8 +19,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
-import eu.steffo.twom.ui.input.HomeserverField
-import eu.steffo.twom.ui.input.HomeserverFieldState
+import eu.steffo.twom.ui.input.SelectHomeserverField
+import eu.steffo.twom.ui.input.SelectHomeserverFieldState
 import eu.steffo.twom.ui.scaffold.LocalMatrix
 import eu.steffo.twom.ui.scaffold.TwoMMatrixProvider
 import eu.steffo.twom.ui.scaffold.TwoMTopAppBar
@@ -45,9 +45,9 @@ fun HomeserverContents() {
     val matrix = LocalMatrix.current
 
     var homeserver by rememberSaveable { mutableStateOf("") }
-    var homeserverFieldState by rememberSaveable { mutableStateOf(HomeserverFieldState.Empty) }
-    var homeserverUrlValid by rememberSaveable { mutableStateOf<Boolean?>(null) }
-    var homeserverFlowValid by rememberSaveable { mutableStateOf<Boolean?>(null) }
+    var state by rememberSaveable { mutableStateOf(SelectHomeserverFieldState.Empty) }
+    var urlValid by rememberSaveable { mutableStateOf<Boolean?>(null) }
+    var flowValid by rememberSaveable { mutableStateOf<Boolean?>(null) }
 
     TwoMTopAppBar {
         Column(
@@ -61,55 +61,55 @@ fun HomeserverContents() {
             Row(
                 modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 10.dp)
             ) {
-                HomeserverField(
+                SelectHomeserverField(
                     modifier = Modifier.fillMaxWidth(),
                     value = homeserver,
                     onValueChange = OnValueChange@{
                         homeserver = it
-                        homeserverUrlValid = null
-                        homeserverFlowValid = null
-                        homeserverFieldState = HomeserverFieldState.Empty
+                        urlValid = null
+                        flowValid = null
+                        state = SelectHomeserverFieldState.Empty
 
                         if(homeserver == "") {
                             return@OnValueChange
                         }
 
                         if(!(URLUtil.isHttpUrl(homeserver) || URLUtil.isHttpsUrl(homeserver))) {
-                            homeserverFieldState = HomeserverFieldState.Error
-                            homeserverUrlValid = false
+                            state = SelectHomeserverFieldState.Error
+                            urlValid = false
                             return@OnValueChange
                         }
-                        homeserverUrlValid = true
+                        urlValid = true
 
                         val uri = Uri.parse(homeserver)
 
                         scope.launch ValidateFlows@{
-                            homeserverFieldState = HomeserverFieldState.Waiting
+                            state = SelectHomeserverFieldState.Waiting
                             delay(500L)
                             if(homeserver != it) return@ValidateFlows
 
                             val authenticationService = matrix!!.authenticationService()
 
-                            homeserverFieldState = HomeserverFieldState.Validating
+                            state = SelectHomeserverFieldState.Validating
                             try {
                                 authenticationService.getLoginFlow(HomeServerConnectionConfig(
                                     homeServerUri = uri,
                                 ))
                             }
                             catch(e: Throwable) {
-                                homeserverFieldState = HomeserverFieldState.Error
-                                homeserverFlowValid = false
+                                state = SelectHomeserverFieldState.Error
+                                flowValid = false
                                 return@ValidateFlows
                             }
 
-                            homeserverFieldState = HomeserverFieldState.Done
-                            homeserverFlowValid = true
+                            state = SelectHomeserverFieldState.Done
+                            flowValid = true
                         }
                     },
-                    state = homeserverFieldState,
+                    state = state,
                     error =
-                        if(homeserverUrlValid == false) LocalContext.current.getString(R.string.homeserver_error_malformedurl)
-                        else if(homeserverFlowValid == false) LocalContext.current.getString(R.string.homeserver_error_notmatrix)
+                        if(urlValid == false) LocalContext.current.getString(R.string.homeserver_error_malformedurl)
+                        else if(flowValid == false) LocalContext.current.getString(R.string.homeserver_error_notmatrix)
                         else null
                     ,
                     enabled = (LocalMatrix.current != null),
@@ -120,7 +120,7 @@ fun HomeserverContents() {
             ) {
                 Button(
                     onClick = {},
-                    enabled = homeserverUrlValid == true && homeserverFlowValid == true,
+                    enabled = urlValid == true && flowValid == true,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(LocalContext.current.getString(R.string.login_button_continue_text))
