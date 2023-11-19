@@ -19,9 +19,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
+import eu.steffo.twom.global.TwoMMatrix
 import eu.steffo.twom.ui.input.SelectHomeserverField
 import eu.steffo.twom.ui.input.SelectHomeserverFieldState
-import eu.steffo.twom.ui.scaffold.LocalMatrix
 import eu.steffo.twom.ui.scaffold.TwoMTopAppBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 @Preview
 fun HomeserverFragment() {
     val scope = rememberCoroutineScope()
-    val matrix = LocalMatrix.current
+    val matrix = TwoMMatrix.matrix
 
     var homeserver by rememberSaveable { mutableStateOf("") }
     var state by rememberSaveable { mutableStateOf(SelectHomeserverFieldState.Empty) }
@@ -77,7 +77,7 @@ fun HomeserverFragment() {
                             delay(500L)
                             if(homeserver != it) return@ValidateFlows
 
-                            val authenticationService = matrix!!.authenticationService()
+                            val authenticationService = matrix.authenticationService()
 
                             state = SelectHomeserverFieldState.Validating
                             try {
@@ -101,7 +101,6 @@ fun HomeserverFragment() {
                         else if(flowValid == false) LocalContext.current.getString(R.string.homeserver_error_notmatrix)
                         else null
                     ,
-                    enabled = (LocalMatrix.current != null),
                 )
             }
             Row(

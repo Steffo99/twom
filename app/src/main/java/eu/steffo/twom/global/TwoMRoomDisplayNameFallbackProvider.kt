@@ -1,41 +1,6 @@
-package eu.steffo.twom.ui.scaffold
-
 import android.content.Context
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.ui.platform.LocalContext
 import eu.steffo.twom.R
-import org.matrix.android.sdk.api.Matrix
-import org.matrix.android.sdk.api.MatrixConfiguration
 import org.matrix.android.sdk.api.provider.RoomDisplayNameFallbackProvider
-import org.matrix.android.sdk.api.session.Session
-
-val LocalMatrix = compositionLocalOf<Matrix?> { null }
-val LocalSession = compositionLocalOf<Session?> { null }
-
-@Composable
-fun TwoMMatrixProvider(
-    content: @Composable () -> Unit = {},
-) {
-    val matrix = Matrix(
-        context = LocalContext.current,
-        matrixConfiguration = MatrixConfiguration(
-            applicationFlavor = "TwoM",
-            roomDisplayNameFallbackProvider = TwoMRoomDisplayNameFallbackProvider(LocalContext.current)
-        )
-    )
-
-    // TODO: The session should be opened somewhere, I think.
-    val session = matrix.authenticationService().getLastAuthenticatedSession()
-
-    CompositionLocalProvider(
-        LocalMatrix provides matrix,
-        LocalSession provides session,
-    ) {
-        content()
-    }
-}
 
 
 class TwoMRoomDisplayNameFallbackProvider(

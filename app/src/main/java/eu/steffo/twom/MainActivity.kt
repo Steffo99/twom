@@ -1,10 +1,11 @@
 package eu.steffo.twom
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import eu.steffo.twom.ui.fragment.HomeserverFragment
-import eu.steffo.twom.ui.scaffold.TwoMMatrixProvider
+import androidx.compose.material3.Text
+import eu.steffo.twom.global.TwoMMatrix
 import eu.steffo.twom.ui.theme.TwoMTheme
 
 
@@ -13,11 +14,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
 
+        TwoMMatrix.initMatrix(applicationContext)
+        TwoMMatrix.initSessionFromStorage()
+
+        // Do this in a better way
+        if(TwoMMatrix.session == null) {
+            val homeserverIntent = Intent(applicationContext, HomeserverActivity::class.java)
+            startActivity(homeserverIntent)
+        }
+
         setContent {
-            TwoMMatrixProvider {
-                TwoMTheme {
-                    HomeserverFragment()
-                }
+            TwoMTheme {
+                Text("Garasauto")
             }
         }
     }
