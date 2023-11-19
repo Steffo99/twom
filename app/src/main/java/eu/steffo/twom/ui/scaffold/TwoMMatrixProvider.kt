@@ -39,7 +39,7 @@ fun TwoMMatrixProvider(
 
 
 class TwoMRoomDisplayNameFallbackProvider(
-    val context: Context
+    private val context: Context
 ) : RoomDisplayNameFallbackProvider {
 
     override fun getNameFor1member(name: String): String {
