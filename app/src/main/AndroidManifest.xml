@@ -16,20 +16,18 @@
 
         <!--
             Remove WorkManagerInitializer Provider because we are using on-demand initialization of WorkManager
-            https://github.com/vector-im/element-android/blob/1a941149ab2eb5f725ff5297391c756bc694a60c/vector-app/src/main/AndroidManifest.xml#L42C1-L57C20
+            https://github.com/matrix-org/matrix-android-sdk2-sample#androidmanifestxml-file
         -->
+        <!--suppress AndroidDomInspection -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
+            tools:ignore="MissingClass"
             tools:node="merge">
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
-                tools:node="remove" />
-            <!-- We init the lib ourself in EmojiCompatWrapper -->
-            <meta-data
-                android:name="androidx.emoji2.text.EmojiCompatInitializer"
                 tools:node="remove" />
         </provider>
 
