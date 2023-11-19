@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import eu.steffo.twom.ui.fragment.HomeserverFragment
+import eu.steffo.twom.ui.scaffold.TwoMMatrixProvider
+import eu.steffo.twom.ui.theme.TwoMTheme
 
 
 class MainActivity : ComponentActivity() {
@@ -11,6 +13,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
 
-        setContent { HomeserverFragment() }
+        setContent {
+            TwoMMatrixProvider {
+                TwoMTheme {
+                    HomeserverFragment()
+                }
+            }
+        }
     }
 }

@@ -22,25 +22,14 @@ import eu.steffo.twom.R
 import eu.steffo.twom.ui.input.SelectHomeserverField
 import eu.steffo.twom.ui.input.SelectHomeserverFieldState
 import eu.steffo.twom.ui.scaffold.LocalMatrix
-import eu.steffo.twom.ui.scaffold.TwoMMatrixProvider
 import eu.steffo.twom.ui.scaffold.TwoMTopAppBar
-import eu.steffo.twom.ui.theme.TwoMTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 
 @Composable
-fun HomeserverFragment() {
-    TwoMMatrixProvider {
-        TwoMTheme {
-            HomeserverContents()
-        }
-    }
-}
-
-@Composable
 @Preview
-fun HomeserverContents() {
+fun HomeserverFragment() {
     val scope = rememberCoroutineScope()
     val matrix = LocalMatrix.current
 
