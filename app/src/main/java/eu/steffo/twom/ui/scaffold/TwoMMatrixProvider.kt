@@ -9,8 +9,10 @@ import eu.steffo.twom.R
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
 import org.matrix.android.sdk.api.provider.RoomDisplayNameFallbackProvider
+import org.matrix.android.sdk.api.session.Session
 
 val LocalMatrix = compositionLocalOf<Matrix?> { null }
+val LocalSession = compositionLocalOf<Session?> { null }
 
 @Composable
 fun TwoMMatrixProvider(
@@ -24,7 +26,13 @@ fun TwoMMatrixProvider(
         )
     )
 
-    CompositionLocalProvider(LocalMatrix provides matrix) {
+    // TODO: The session should be opened somewhere, I think.
+    val session = matrix.authenticationService().getLastAuthenticatedSession()
+
+    CompositionLocalProvider(
+        LocalMatrix provides matrix,
+        LocalSession provides session,
+    ) {
         content()
     }
 }
