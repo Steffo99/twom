@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">TwoM</string>
-    <string name="homeserver_placeholder">https://candy.steffo.eu</string>
-    <string name="homeserver_label">Homeserver</string>
-    <string name="homeserver_supporting">The URL of the homeserver providing you with Matrix access.</string>
-    <string name="homeserver_error_malformedurl">The homeserver URL you provided is not a valid URL.</string>
+    <string name="selecthomeserver_input_placeholder">https://candy.steffo.eu</string>
+    <string name="selecthomeserver_input_label">Homeserver</string>
+    <string name="selecthomeserver_input_supporting_empty">The URL of the homeserver providing you with Matrix access.</string>
+    <string name="selecthomeserver_input_supporting_urlinvalid">The homeserver URL you provided is not a valid URL.</string>
     <string name="room_name_fallback_members_0">Is this even a party?</string>
     <string name="room_name_fallback_members_1">%1$s\'s party</string>
     <string name="room_name_fallback_members_2">%1$s and %2$s\'s party</string>
@@ -11,10 +11,13 @@
     <string name="room_name_fallback_members_4">%1$s, %2$s, %3$s, %4$s\'s party</string>
     <string name="room_name_fallback_members_more">%1$s, %2$s, %3$s and %4$d others\' party</string>
     <string name="room_name_fallback_invite">Party invite</string>
-    <string name="login_button_continue_text">Continue</string>
-    <string name="login_welcome_text">Welcome to TwoM! To start using the app, you\'ll need to select the Matrix homeserver you want to use.</string>
-    <string name="homeserver_error_notmatrix">The homeserver URL you provided does not point to a Matrix homeserver.</string>
-    <string name="homeserver_trailingicon_validating_description">Checking if the URL points to a Matrix homeserver…</string>
-    <string name="homeserver_trailingicon_waiting_description">Waiting for you to stop writing…</string>
-    <string name="homeserver_trailingicon_waiting_done">All checks complete.</string>
+    <string name="selecthomeserver_complete_text">Continue</string>
+    <string name="selecthomeserver_text">Please select the homeserver you would like to log into.</string>
+    <string name="selecthomeserver_input_supporting_flowinvalid">The homeserver URL you provided does not point to a Matrix homeserver.</string>
+    <string name="selecthomeserver_input_supporting_validating">Checking if the URL points to a Matrix homeserver…</string>
+    <string name="selecthomeserver_input_supporting_waiting">Waiting for you to stop writing…</string>
+    <string name="selecthomeserver_input_supporting_valid">All checks complete!</string>
+    <string name="homeserver_title">Select homeserver</string>
+    <string name="login_title">Log into Matrix</string>
+    <string name="back">Go back</string>
 </resources>
