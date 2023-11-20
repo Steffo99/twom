@@ -7,6 +7,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +25,10 @@ fun LoginActivityControl(
     onSelectHomeserver: () -> Unit = {},
     onComplete: () -> Unit = {},
 ) {
+
+    var username by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+
     Column(modifier) {
         Row(BASE_PADDING) {
             Text(LocalContext.current.getString(R.string.login_text))
@@ -37,8 +45,11 @@ fun LoginActivityControl(
         Row(BASE_PADDING) {
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = "",
-                onValueChange = {},
+                value = username,
+                onValueChange = { username = it },
+                label = {
+                    Text(LocalContext.current.getString(R.string.login_username_label))
+                },
                 placeholder = {
                     Text(LocalContext.current.getString(R.string.login_username_placeholder))
                 },
@@ -48,10 +59,13 @@ fun LoginActivityControl(
             )
         }
         Row(BASE_PADDING) {
-            TextField(
+            PasswordField(
                 modifier = Modifier.fillMaxWidth(),
-                value = "",
-                onValueChange = {},
+                value = password,
+                onValueChange = { password = it },
+                label = {
+                    Text(LocalContext.current.getString(R.string.login_password_label))
+                },
                 placeholder = {
                     Text(LocalContext.current.getString(R.string.login_password_placeholder))
                 },
