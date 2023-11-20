@@ -22,7 +22,6 @@ import eu.steffo.twom.ui.homeserver.SelectHomeserverActivity
 import eu.steffo.twom.ui.theme.TwoMTheme
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 class LoginActivity : ComponentActivity() {
     private lateinit var homeserverLauncher: ActivityResultLauncher<Intent>
 
@@ -38,26 +37,11 @@ class LoginActivity : ComponentActivity() {
         super.onStart()
 
         setContent {
-            TwoMTheme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar (
-                            title = { Text(LocalContext.current.getString(R.string.login_title)) }
-                        )
-                    }
-                ) {
-                    Row(Modifier.padding(it)) {
-                        Button(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = {
-                                homeserverLauncher.launch(Intent(applicationContext, SelectHomeserverActivity::class.java))
-                            }
-                        ) {
-                            Text("→")
-                        }
-                    }
+            LoginActivityScaffold(
+                onSelectHomeserver = {
+                    homeserverLauncher.launch(Intent(applicationContext, SelectHomeserverActivity::class.java))
                 }
-            }
+            )
         }
     }
 }

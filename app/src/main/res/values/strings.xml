@@ -20,4 +20,11 @@
     <string name="homeserver_title">Select homeserver</string>
     <string name="login_title">Log into Matrix</string>
     <string name="back">Go back</string>
+    <string name="login_text">To use TwoM, you need to log into a Matrix homeserver.</string>
+    <string name="login_complete_text">Continue</string>
+    <string name="login_selecthomeserver_text">Select homeserver</string>
+    <string name="login_username_placeholder">\@steffo:candy.steffo.eu</string>
+    <string name="login_username_supporting">The Matrix ID to login as, including the @ symbol and the homeserver name.</string>
+    <string name="login_password_placeholder">••••••••</string>
+    <string name="login_password_supporting">The password of the Matrix account.</string>
 </resources>

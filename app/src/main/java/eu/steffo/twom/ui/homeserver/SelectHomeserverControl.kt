@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.TwoMMatrix
+import eu.steffo.twom.ui.BASE_PADDING
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
@@ -36,13 +37,11 @@ fun SelectHomeserverControl(
     var homeserver by rememberSaveable { mutableStateOf("") }
     var state by rememberSaveable { mutableStateOf(SelectHomeserverFieldState.Empty) }
 
-    val padding = Modifier.padding(all = 10.dp)
-
     Column(modifier) {
-        Row(padding) {
+        Row(BASE_PADDING) {
             Text(LocalContext.current.getString(R.string.selecthomeserver_text))
         }
-        Row(padding) {
+        Row(BASE_PADDING) {
             SelectHomeserverField(
                 modifier = Modifier.fillMaxWidth(),
                 value = homeserver,
@@ -87,13 +86,13 @@ fun SelectHomeserverControl(
                 state = state,
             )
         }
-        Row(padding) {
+        Row(BASE_PADDING) {
             Button(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     onComplete(homeserver)
                 },
                 enabled = (state == SelectHomeserverFieldState.Valid),
-                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(LocalContext.current.getString(R.string.selecthomeserver_complete_text))
             }
