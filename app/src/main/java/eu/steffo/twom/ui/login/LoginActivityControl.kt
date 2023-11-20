@@ -23,7 +23,7 @@ import eu.steffo.twom.ui.BASE_PADDING
 fun LoginActivityControl(
     modifier: Modifier = Modifier,
     onSelectHomeserver: () -> Unit = {},
-    onComplete: () -> Unit = {},
+    onComplete: (username: String, password: String) -> Unit = { _, _ -> },
 ) {
 
     var username by rememberSaveable { mutableStateOf("") }
@@ -77,7 +77,9 @@ fun LoginActivityControl(
         Row(BASE_PADDING) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = onComplete,
+                onClick = {
+                    onComplete(username, password)
+                },
                 enabled = false,
             ) {
                 Text(LocalContext.current.getString(R.string.login_complete_text))
