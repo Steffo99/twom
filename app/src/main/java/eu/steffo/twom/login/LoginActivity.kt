@@ -9,7 +9,16 @@ class LoginActivity : ComponentActivity() {
         super.onStart()
 
         setContent {
-            LoginActivityScaffold()
+            LoginActivityScaffold(
+                onBack = {
+                    setResult(RESULT_CANCELED)
+                    finish()
+                },
+                onLogin = {
+                    setResult(RESULT_OK)
+                    finish()
+                },
+            )
         }
     }
 }

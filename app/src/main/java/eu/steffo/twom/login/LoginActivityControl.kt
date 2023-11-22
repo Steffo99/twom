@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -21,9 +23,15 @@ import eu.steffo.twom.R
 import eu.steffo.twom.matrix.TwoMMatrix
 import eu.steffo.twom.theme.TwoMPadding
 import kotlinx.coroutines.launch
+import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
+import org.matrix.android.sdk.api.auth.data.LoginFlowResult
+import org.matrix.android.sdk.api.auth.login.LoginWizard
+import org.matrix.android.sdk.api.auth.wellknown.WellknownResult
+import org.matrix.android.sdk.api.failure.MatrixIdFailure
 import org.matrix.android.sdk.api.session.Session
 
 
+// TODO: Localize error messages
 @Composable
 @Preview(showBackground = true)
 fun LoginActivityControl(
@@ -35,19 +43,15 @@ fun LoginActivityControl(
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
-    var loggingIn by rememberSaveable { mutableStateOf(false) }
+    var loginStep by rememberSaveable { mutableStateOf(LoginStep.NONE) }
+    var errorMessage by rememberSaveable { mutableStateOf<String?>(null) }
 
     Column(modifier) {
-        if (loggingIn) {
-            LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
-            )
-        } else {
-            LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
-                progress = 0.0f,
-            )
-        }
+        LinearProgressIndicator(
+            modifier = Modifier.fillMaxWidth(),
+            progress = loginStep.step.toFloat() / LoginStep.DONE.step.toFloat(),
+            color = if (errorMessage != null) MaterialTheme.colorScheme.error else ProgressIndicatorDefaults.linearColor
+        )
         Row(TwoMPadding.base) {
             Text(LocalContext.current.getString(R.string.login_text))
         }
@@ -88,43 +92,119 @@ fun LoginActivityControl(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     scope.launch Login@{
-                        Log.d(this::class.qualifiedName, "Launching login wizard...")
-                        val wizard = TwoMMatrix.matrix.authenticationService().getLoginWizard()
+                        errorMessage = null
 
-                        // TODO: Which exceptions can this spawn?
-                        Log.d(this::class.qualifiedName, "Trying to login as: $username")
-                        loggingIn = true
+                        Log.d("Login", "Getting authentication service...")
+                        loginStep = LoginStep.SERVICE
+                        val auth = TwoMMatrix.matrix.authenticationService()
 
+                        Log.d("Login", "Retrieving .well-known data for: $username")
+                        loginStep = LoginStep.WELLKNOWN
+                        lateinit var wellKnown: WellknownResult
+                        try {
+                            wellKnown = auth.getWellKnownData(username, null)
+                        } catch (e: MatrixIdFailure.InvalidMatrixId) {
+                            Log.d(
+                                "Login",
+                                "User seems to have input an invalid Matrix ID: $username",
+                                e
+                            )
+                            errorMessage = "The input Matrix ID is invalid."
+                            return@Login
+                        } catch (e: Throwable) {
+                            // TODO: It sure would be nice to know which exceptions can be thrown here.
+                            Log.e(
+                                "Login",
+                                "Something went wrong while retrieving .well-known data for: $username",
+                                e
+                            )
+                            errorMessage = e.message
+                            return@Login
+                        }
+                        if (wellKnown !is WellknownResult.Prompt) {
+                            Log.w(
+                                "Login",
+                                "Data is not .well-known for: $username"
+                            )
+                            errorMessage =
+                                "Non .well-known Matrix servers are not currently supported by TwoM."
+                            return@Login
+                        }
+
+                        Log.d("Login", "Retrieving login flows for: ${wellKnown.homeServerUrl}")
+                        loginStep = LoginStep.FLOWS
+                        lateinit var flows: LoginFlowResult
+                        try {
+                            flows = auth.getLoginFlow(
+                                HomeServerConnectionConfig
+                                    .Builder()
+                                    .withHomeServerUri(wellKnown.homeServerUrl)
+                                    .build()
+                            )
+                        } catch (e: Throwable) {
+                            // TODO: It sure would be nice to know which exceptions can be thrown here.
+                            Log.e(
+                                "Login",
+                                "Something went wrong while retrieving login flows for: ${wellKnown.homeServerUrl}",
+                                e
+                            )
+                            errorMessage = e.message
+                            return@Login
+                        }
+
+                        Log.d("Login", "Creating login wizard...")
+                        loginStep = LoginStep.WIZARD
+                        lateinit var wizard: LoginWizard
+                        try {
+                            wizard = auth.getLoginWizard()  // Why is this stateful? Aargh.
+                        } catch (e: Throwable) {
+                            // TODO: It sure would be nice to know which exceptions can be thrown here.
+                            Log.e(
+                                "Login",
+                                "Something went wrong while creating the login wizard.",
+                                e
+                            )
+                            errorMessage = e.message
+                            return@Login
+                        }
+
+                        Log.d("Login", "Logging in as: $username")
+                        loginStep = LoginStep.LOGIN
                         lateinit var session: Session
-                        // TODO: Why does this not catch the exception?
                         try {
                             session = wizard.login(
                                 login = username,
                                 password = password,
-                                initialDeviceName = "Garasauto", // TODO
-                                deviceId = "Garasauto", // TODO
+                                initialDeviceName = "Garasauto",  // TODO: Set a proper device name
+                                deviceId = "Garasauto",  // TODO: Set a proper device id
                             )
-                        } catch (e: RuntimeException) {
+                        } catch (e: Throwable) {
                             Log.e(
-                                this::class.qualifiedName,
+                                "Login",
                                 "Something went wrong while logging in as: $username",
                                 e
                             )
+                            errorMessage = e.message
                             return@Login
-                        } finally {
-                            loggingIn = false
                         }
 
                         Log.d(
-                            this::class.qualifiedName,
-                            "Logged in with session id: ${session.sessionId}"
+                            "Login",
+                            "Logged in successfully with session id: ${session.sessionId}"
                         )
+                        loginStep = LoginStep.DONE
+
                         onLogin(session)
                     }
                 },
-                enabled = (username != ""),
+                enabled = (username != "" && (loginStep == LoginStep.NONE || errorMessage != null)),
             ) {
                 Text(LocalContext.current.getString(R.string.login_complete_text))
+            }
+        }
+        if (errorMessage != null) {
+            Row(TwoMPadding.base) {
+                ErrorText(text = errorMessage ?: "Unknown error")
             }
         }
     }

@@ -20,11 +20,14 @@ import androidx.compose.ui.platform.LocalContext
 import eu.steffo.twom.R
 import eu.steffo.twom.login.LoginActivity
 import eu.steffo.twom.theme.TwoMTheme
+import org.matrix.android.sdk.api.session.Session
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MatrixActivity : ComponentActivity() {
     private lateinit var loginLauncher: ActivityResultLauncher<Intent>
+
+    private var session: Session? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +36,35 @@ class MatrixActivity : ComponentActivity() {
         TwoMMatrix.ensureMatrix(applicationContext)
 
         loginLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                Log.d(this::class.qualifiedName, "LoginActivity has returned a result.")
-        }
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) HandleResult@{
+                Log.d(this::class.qualifiedName, "LoginActivity has returned a result!")
+
+                when (it.resultCode) {
+                    RESULT_OK -> {
+                        session =
+                            TwoMMatrix.matrix.authenticationService().getLastAuthenticatedSession()
+
+                        setContent {
+                            TwoMTheme {
+                                Scaffold(
+                                    topBar = {
+                                        CenterAlignedTopAppBar(
+                                            title = {
+                                                Text(LocalContext.current.getString(R.string.app_name))
+                                            }
+                                        )
+                                    }
+                                ) {
+                                    Text(session?.myUserId ?: "No session", Modifier.padding(it))
+                                }
+                            }
+                        }
+                    }
+                }
+                if (it.resultCode == RESULT_CANCELED) {
+                    return@HandleResult
+                }
+            }
     }
 
     override fun onStart() {
@@ -59,7 +88,7 @@ class MatrixActivity : ComponentActivity() {
                                 loginLauncher.launch(Intent(applicationContext, LoginActivity::class.java))
                             }
                         ) {
-                            Text("→")
+                            Text("plis login with matrics no scam 100%")
                         }
                     }
                 }

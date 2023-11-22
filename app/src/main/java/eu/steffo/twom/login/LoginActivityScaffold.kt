@@ -23,8 +23,6 @@ import org.matrix.android.sdk.api.session.Session
 @Preview
 fun LoginActivityScaffold(
     onBack: () -> Unit = {},
-    selectedHomeserver: String? = null,
-    onSelectHomeserver: () -> Unit = {},
     onLogin: (session: Session) -> Unit = {},
 ) {
     TwoMTheme {
@@ -43,7 +41,10 @@ fun LoginActivityScaffold(
                 )
             }
         ) {
-            LoginActivityControl(Modifier.padding(it))
+            LoginActivityControl(
+                modifier = Modifier.padding(it),
+                onLogin = onLogin
+            )
         }
     }
 }
