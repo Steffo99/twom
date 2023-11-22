@@ -1,4 +1,4 @@
-package eu.steffo.twom.ui.login
+package eu.steffo.twom.login
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
-import eu.steffo.twom.ui.theme.TwoMTheme
+import eu.steffo.twom.theme.TwoMTheme
 import org.matrix.android.sdk.api.session.Session
 
 
@@ -43,11 +43,7 @@ fun LoginActivityScaffold(
                 )
             }
         ) {
-            LoginActivityControl(
-                modifier = Modifier.padding(it),
-                selectedHomeserver = selectedHomeserver,
-                onSelectHomeserver = onSelectHomeserver,
-            )
+            LoginActivityControl(Modifier.padding(it))
         }
     }
 }

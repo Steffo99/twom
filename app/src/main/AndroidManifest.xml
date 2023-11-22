@@ -31,7 +31,7 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".matrix.MatrixActivity"
             android:exported="true"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
@@ -42,11 +42,11 @@
         </activity>
 
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
 
         <activity
-            android:name=".ui.homeserver.SelectHomeserverActivity"
+            android:name=".homeserver.SelectHomeserverActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
 
     </application>

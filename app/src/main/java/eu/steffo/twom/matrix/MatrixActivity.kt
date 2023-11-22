@@ -1,4 +1,4 @@
-package eu.steffo.twom
+package eu.steffo.twom.matrix
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,24 +17,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import eu.steffo.twom.matrix.TwoMMatrix
-import eu.steffo.twom.ui.login.LoginActivity
-import eu.steffo.twom.ui.theme.TwoMTheme
+import eu.steffo.twom.R
+import eu.steffo.twom.login.LoginActivity
+import eu.steffo.twom.theme.TwoMTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-class MainActivity : ComponentActivity() {
+class MatrixActivity : ComponentActivity() {
     private lateinit var loginLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
 
-        TwoMMatrix.initMatrix(applicationContext)
-        TwoMMatrix.tryInitSessionFromStorage()
+        TwoMMatrix.ensureMatrix(applicationContext)
 
-        loginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            Log.i("Garasauto", "Garaso")
+        loginLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                Log.d(this::class.qualifiedName, "LoginActivity has returned a result.")
         }
     }
 
@@ -45,8 +45,10 @@ class MainActivity : ComponentActivity() {
             TwoMTheme {
                 Scaffold(
                     topBar = {
-                        CenterAlignedTopAppBar (
-                            title = { Text(LocalContext.current.getString(R.string.app_name)) }
+                        CenterAlignedTopAppBar(
+                            title = {
+                                Text(LocalContext.current.getString(R.string.app_name))
+                            }
                         )
                     }
                 ) {

@@ -1,8 +1,10 @@
-package eu.steffo.twom.ui
+package eu.steffo.twom.theme
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 
-val BASE_PADDING = Modifier.padding(all = 10.dp)
+object TwoMPadding {
+    val base = Modifier.padding(all = 10.dp)
+}

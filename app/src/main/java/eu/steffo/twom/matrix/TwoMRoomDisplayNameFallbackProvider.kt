@@ -1,3 +1,5 @@
+package eu.steffo.twom.matrix
+
 import android.content.Context
 import eu.steffo.twom.R
 import org.matrix.android.sdk.api.provider.RoomDisplayNameFallbackProvider

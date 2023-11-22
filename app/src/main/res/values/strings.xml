@@ -12,7 +12,6 @@
     <string name="room_name_fallback_members_more">%1$s, %2$s, %3$s and %4$d others\' party</string>
     <string name="room_name_fallback_invite">Party invite</string>
     <string name="selecthomeserver_complete_text">Continue</string>
-    <string name="selecthomeserver_text">Please select the homeserver you would like to log into.</string>
     <string name="selecthomeserver_input_supporting_flowinvalid">The homeserver URL you provided does not point to a Matrix homeserver.</string>
     <string name="selecthomeserver_input_supporting_validating">Checking if the URL points to a Matrix homeserver…</string>
     <string name="selecthomeserver_input_supporting_waiting">Waiting for you to stop writing…</string>
@@ -22,13 +21,13 @@
     <string name="back">Go back</string>
     <string name="login_text">To use TwoM, you need to log into a Matrix homeserver. Currently, TwoM supports only username and password authentication.</string>
     <string name="login_complete_text">Log in</string>
-    <string name="login_selecthomeserver_text">Select homeserver</string>
-    <string name="login_username_placeholder">steffo</string>
-    <string name="login_username_supporting">The Matrix ID to login as.</string>
+    <string name="login_username_placeholder">\@steffo:candy.steffo.eu</string>
+    <string name="login_username_supporting">The Matrix ID to login as, including the leading \"@\" and the trailing \":localpart\".</string>
     <string name="login_password_placeholder">p4ssw0rd!</string>
     <string name="login_password_supporting">The password of the Matrix account.</string>
     <string name="login_username_label">Username</string>
     <string name="login_password_label">Password</string>
     <string name="password_show">Show password</string>
     <string name="password_hide">Hide password</string>
+    <string name="selecthomeserver_text">Please enter the localpart of your Matrix homeserver.</string>
 </resources>

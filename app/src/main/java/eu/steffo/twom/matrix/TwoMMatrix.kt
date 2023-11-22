@@ -1,58 +1,41 @@
 package eu.steffo.twom.matrix
 
-import TwoMRoomDisplayNameFallbackProvider
 import android.content.Context
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
-import org.matrix.android.sdk.api.session.Session
 
 
+/**
+ * Object containing the global state of the application.
+ */
 object TwoMMatrix {
-    var matrix: Matrix? = null
-        private set
+    /**
+     * The global [Matrix] object of the application.
+     *
+     * Most activities will expect this to be available.
+     */
+    lateinit var matrix: Matrix
 
-    fun initMatrix(context: Context) {
-        if(matrix != null) {
-            throw MatrixAlreadyInitializedError()
-        }
-        matrix = Matrix(
-            context = context.applicationContext,
-            matrixConfiguration = MatrixConfiguration(
-                applicationFlavor = "TwoM",
-                roomDisplayNameFallbackProvider = TwoMRoomDisplayNameFallbackProvider(context.applicationContext)
+    private fun isMatrixInitialized(): Boolean {
+        return this::matrix.isInitialized
+    }
+
+    /**
+     * Make sure the [matrix] object is available, constructing it if it isn't initialized.
+     *
+     * Uses the passed [Context] to access the [application context][Context.getApplicationContext], which is required by the SDK provided by the Matrix Foundation.
+     */
+    fun ensureMatrix(context: Context): Matrix? {
+        if (!isMatrixInitialized()) {
+            matrix = Matrix(
+                context = context.applicationContext,
+                matrixConfiguration = MatrixConfiguration(
+                    applicationFlavor = "TwoM",
+                    roomDisplayNameFallbackProvider = TwoMRoomDisplayNameFallbackProvider(context.applicationContext)
+                )
             )
-        )
-    }
-
-    var session: Session? = null
-        set(value) {
-            if (field != null) {
-                closeSession()
-            }
-            field = value
-            if (field != null) {
-                openSession()
-            }
+            return matrix
         }
-
-    fun tryInitSessionFromStorage() {
-        val lastSession = matrix?.authenticationService()?.getLastAuthenticatedSession()
-        if(lastSession != null) {
-            session = lastSession
-        }
-    }
-
-    // TODO: Does this throw an error if the session is already open?
-    private fun openSession() {
-        val currentSession = session ?: throw SessionNotInitializedError()
-        currentSession.open()
-        currentSession.syncService().startSync(true)
-    }
-
-    // TODO: Does this throw an error if the session is already closed?
-    private fun closeSession() {
-        val currentSession = session ?: throw SessionNotInitializedError()
-        currentSession.close()
-        currentSession.syncService().stopSync()
+        return null
     }
 }

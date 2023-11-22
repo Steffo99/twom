@@ -1,9 +1,11 @@
-package eu.steffo.twom.ui.login
+package eu.steffo.twom.login
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -17,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.TwoMMatrix
-import eu.steffo.twom.ui.BASE_PADDING
+import eu.steffo.twom.theme.TwoMPadding
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.Session
 
@@ -26,8 +28,6 @@ import org.matrix.android.sdk.api.session.Session
 @Preview(showBackground = true)
 fun LoginActivityControl(
     modifier: Modifier = Modifier,
-    selectedHomeserver: String? = null,
-    onSelectHomeserver: () -> Unit = {},
     onLogin: (session: Session) -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
@@ -38,19 +38,20 @@ fun LoginActivityControl(
     var loggingIn by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier) {
-        Row(BASE_PADDING) {
+        if (loggingIn) {
+            LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+            )
+        } else {
+            LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+                progress = 0.0f,
+            )
+        }
+        Row(TwoMPadding.base) {
             Text(LocalContext.current.getString(R.string.login_text))
         }
-        Row(BASE_PADDING) {
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = onSelectHomeserver,
-                enabled = true,
-            ) {
-                Text(LocalContext.current.getString(R.string.login_selecthomeserver_text))
-            }
-        }
-        Row(BASE_PADDING) {
+        Row(TwoMPadding.base) {
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = username,
@@ -64,18 +65,9 @@ fun LoginActivityControl(
                 supportingText = {
                     Text(LocalContext.current.getString(R.string.login_username_supporting))
                 },
-                prefix = {
-                    Text("@")
-                },
-                suffix = {
-                    // TODO: Properly perform the login process
-                    val localpart = selectedHomeserver?.replace(Regex("^https?://"), "")
-                    Text(":$localpart")
-                },
-                enabled = (selectedHomeserver != null),
             )
         }
-        Row(BASE_PADDING) {
+        Row(TwoMPadding.base) {
             PasswordField(
                 modifier = Modifier.fillMaxWidth(),
                 value = password,
@@ -89,26 +81,48 @@ fun LoginActivityControl(
                 supportingText = {
                     Text(LocalContext.current.getString(R.string.login_password_supporting))
                 },
-                enabled = (selectedHomeserver != null),
             )
         }
-        Row(BASE_PADDING) {
+        Row(TwoMPadding.base) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    val wizard = TwoMMatrix.matrix!!.authenticationService().getLoginWizard()
+                    scope.launch Login@{
+                        Log.d(this::class.qualifiedName, "Launching login wizard...")
+                        val wizard = TwoMMatrix.matrix.authenticationService().getLoginWizard()
 
-                    scope.launch {
-                        val session = wizard.login(
-                            login = "@$username:$selectedHomeserver",
-                            password = password,
-                            initialDeviceName = "Garasauto", // TODO
-                            deviceId = "Garasauto", // TODO
+                        // TODO: Which exceptions can this spawn?
+                        Log.d(this::class.qualifiedName, "Trying to login as: $username")
+                        loggingIn = true
+
+                        lateinit var session: Session
+                        // TODO: Why does this not catch the exception?
+                        try {
+                            session = wizard.login(
+                                login = username,
+                                password = password,
+                                initialDeviceName = "Garasauto", // TODO
+                                deviceId = "Garasauto", // TODO
+                            )
+                        } catch (e: RuntimeException) {
+                            Log.e(
+                                this::class.qualifiedName,
+                                "Something went wrong while logging in as: $username",
+                                e
+                            )
+                            return@Login
+                        } finally {
+                            loggingIn = false
+                        }
+
+                        Log.d(
+                            this::class.qualifiedName,
+                            "Logged in with session id: ${session.sessionId}"
                         )
-                        TwoMMatrix.session = session
+                        onLogin(session)
                     }
                 },
-                enabled = (username != "" && TwoMMatrix.matrix != null),
+                enabled = (username != ""),
             ) {
                 Text(LocalContext.current.getString(R.string.login_complete_text))
             }
