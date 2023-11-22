@@ -1,8 +1,12 @@
 package eu.steffo.twom.matrix
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +30,19 @@ fun MatrixActivityScaffold(
                 CenterAlignedTopAppBar(
                     title = {
                         Text(LocalContext.current.getString(R.string.app_name))
-                    }
+                    },
+                    actions = {
+                        if (session != null) {
+                            IconButton(
+                                onClick = {}
+                            ) {
+                                Icon(
+                                    Icons.Filled.AccountCircle,
+                                    LocalContext.current.getString(R.string.account_label)
+                                )
+                            }
+                        }
+                    },
                 )
             }
         ) {

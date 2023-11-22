@@ -22,4 +22,5 @@
     <string name="notloggedin_text">To use TwoM, you need to be logged into Matrix.</string>
     <string name="notloggedin_login_text">Login</string>
     <string name="loggedin_text">You are logged in.</string>
+    <string name="account_label">My account</string>
 </resources>
