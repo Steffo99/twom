@@ -9,25 +9,33 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
+import eu.steffo.twom.matrix.TwoMMatrix
 import eu.steffo.twom.ui.BASE_PADDING
+import kotlinx.coroutines.launch
+import org.matrix.android.sdk.api.session.Session
 
 
 @Composable
 @Preview(showBackground = true)
 fun LoginActivityControl(
     modifier: Modifier = Modifier,
+    selectedHomeserver: String? = null,
     onSelectHomeserver: () -> Unit = {},
-    onComplete: (username: String, password: String) -> Unit = { _, _ -> },
+    onLogin: (session: Session) -> Unit = {},
 ) {
+    val scope = rememberCoroutineScope()
 
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+
+    var loggingIn by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier) {
         Row(BASE_PADDING) {
@@ -56,6 +64,15 @@ fun LoginActivityControl(
                 supportingText = {
                     Text(LocalContext.current.getString(R.string.login_username_supporting))
                 },
+                prefix = {
+                    Text("@")
+                },
+                suffix = {
+                    // TODO: Properly perform the login process
+                    val localpart = selectedHomeserver?.replace(Regex("^https?://"), "")
+                    Text(":$localpart")
+                },
+                enabled = (selectedHomeserver != null),
             )
         }
         Row(BASE_PADDING) {
@@ -72,15 +89,26 @@ fun LoginActivityControl(
                 supportingText = {
                     Text(LocalContext.current.getString(R.string.login_password_supporting))
                 },
+                enabled = (selectedHomeserver != null),
             )
         }
         Row(BASE_PADDING) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    onComplete(username, password)
+                    val wizard = TwoMMatrix.matrix!!.authenticationService().getLoginWizard()
+
+                    scope.launch {
+                        val session = wizard.login(
+                            login = "@$username:$selectedHomeserver",
+                            password = password,
+                            initialDeviceName = "Garasauto", // TODO
+                            deviceId = "Garasauto", // TODO
+                        )
+                        TwoMMatrix.session = session
+                    }
                 },
-                enabled = false,
+                enabled = (username != "" && TwoMMatrix.matrix != null),
             ) {
                 Text(LocalContext.current.getString(R.string.login_complete_text))
             }

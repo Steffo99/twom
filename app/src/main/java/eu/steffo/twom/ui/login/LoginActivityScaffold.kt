@@ -1,12 +1,8 @@
 package eu.steffo.twom.ui.login
 
-import android.content.Intent
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.ui.theme.TwoMTheme
+import org.matrix.android.sdk.api.session.Session
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +23,9 @@ import eu.steffo.twom.ui.theme.TwoMTheme
 @Preview
 fun LoginActivityScaffold(
     onBack: () -> Unit = {},
+    selectedHomeserver: String? = null,
     onSelectHomeserver: () -> Unit = {},
+    onLogin: (session: Session) -> Unit = {},
 ) {
     TwoMTheme {
         Scaffold(
@@ -46,6 +45,7 @@ fun LoginActivityScaffold(
         ) {
             LoginActivityControl(
                 modifier = Modifier.padding(it),
+                selectedHomeserver = selectedHomeserver,
                 onSelectHomeserver = onSelectHomeserver,
             )
         }

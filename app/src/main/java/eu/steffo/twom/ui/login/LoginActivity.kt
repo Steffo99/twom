@@ -7,19 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import eu.steffo.twom.R
 import eu.steffo.twom.ui.homeserver.SelectHomeserverActivity
-import eu.steffo.twom.ui.theme.TwoMTheme
 
 
 class LoginActivity : ComponentActivity() {
@@ -29,7 +17,22 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         homeserverLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            Log.i("Garasauto", it.data?.getStringExtra(SelectHomeserverActivity.HOMESERVER_EXTRA_KEY) ?: "Undefined")
+            val selectedHomeserver =
+                it.data?.getStringExtra(SelectHomeserverActivity.HOMESERVER_EXTRA_KEY)
+            Log.d("LoginActivity", "Selected homeserver: $selectedHomeserver")
+            setContent {
+                LoginActivityScaffold(
+                    selectedHomeserver = selectedHomeserver,
+                    onSelectHomeserver = {
+                        homeserverLauncher.launch(
+                            Intent(
+                                applicationContext,
+                                SelectHomeserverActivity::class.java
+                            )
+                        )
+                    },
+                )
+            }
         }
     }
 

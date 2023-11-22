@@ -2,7 +2,6 @@ package eu.steffo.twom.matrix
 
 import TwoMRoomDisplayNameFallbackProvider
 import android.content.Context
-import androidx.compose.runtime.currentComposer
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
 import org.matrix.android.sdk.api.session.Session
@@ -26,7 +25,15 @@ object TwoMMatrix {
     }
 
     var session: Session? = null
-        private set
+        set(value) {
+            if (field != null) {
+                closeSession()
+            }
+            field = value
+            if (field != null) {
+                openSession()
+            }
+        }
 
     fun tryInitSessionFromStorage() {
         val lastSession = matrix?.authenticationService()?.getLastAuthenticatedSession()
@@ -36,21 +43,16 @@ object TwoMMatrix {
     }
 
     // TODO: Does this throw an error if the session is already open?
-    fun openSession() {
+    private fun openSession() {
         val currentSession = session ?: throw SessionNotInitializedError()
         currentSession.open()
         currentSession.syncService().startSync(true)
     }
 
     // TODO: Does this throw an error if the session is already closed?
-    fun closeSession() {
+    private fun closeSession() {
         val currentSession = session ?: throw SessionNotInitializedError()
         currentSession.close()
         currentSession.syncService().stopSync()
-    }
-
-    fun clearSession() {
-        closeSession()
-        session = null
     }
 }

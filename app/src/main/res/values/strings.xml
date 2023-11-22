@@ -23,8 +23,8 @@
     <string name="login_text">To use TwoM, you need to log into a Matrix homeserver. Currently, TwoM supports only username and password authentication.</string>
     <string name="login_complete_text">Log in</string>
     <string name="login_selecthomeserver_text">Select homeserver</string>
-    <string name="login_username_placeholder">\@steffo:candy.steffo.eu</string>
-    <string name="login_username_supporting">The Matrix ID to login as, including the @ symbol and the homeserver name.</string>
+    <string name="login_username_placeholder">steffo</string>
+    <string name="login_username_supporting">The Matrix ID to login as.</string>
     <string name="login_password_placeholder">p4ssw0rd!</string>
     <string name="login_password_supporting">The password of the Matrix account.</string>
     <string name="login_username_label">Username</string>
