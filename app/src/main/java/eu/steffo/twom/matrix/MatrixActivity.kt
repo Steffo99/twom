@@ -42,16 +42,18 @@ class MatrixActivity : ComponentActivity() {
                     }
                 }
             }
-    }
 
-    override fun onStart() {
-        super.onStart()
+        // Check if there's a session already stored
+        session = TwoMMatrix.matrix.authenticationService().getLastAuthenticatedSession()
 
         setContent {
             MatrixActivityScaffold(
-                onClickLogin = this::onClickLogin
+                onClickLogin = this::onClickLogin,
+                session = session,
             )
         }
+
+        // No onStart is needed, as session already sets content when it's changed
     }
 
     private fun onClickLogin() {
