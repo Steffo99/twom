@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
+import eu.steffo.twom.matrix.Avatar
 import org.matrix.android.sdk.api.session.Session
 
 @Composable
@@ -34,10 +35,18 @@ fun ProfileIconButton(
             enabled = (session != null),
             onClick = { expanded = true },
         ) {
-            Icon(
-                Icons.Filled.AccountCircle,
-                LocalContext.current.getString(R.string.account_label)
-            )
+            if (session == null) {
+                Icon(
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = LocalContext.current.getString(R.string.account_label),
+                )
+            } else {
+                Avatar(
+                    session = session,
+                    userId = session.myUserId,
+                    contentDescription = LocalContext.current.getString(R.string.account_label),
+                )
+            }
         }
         DropdownMenu(
             expanded = expanded,

@@ -24,32 +24,39 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         TwoMMatrix.ensureMatrix(applicationContext)
+        TwoMMatrix.ensureDefaultAvatar(applicationContext)
+
+        fetchLastSession()
+        openSession()
 
         loginLauncher =
             registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult(),
-                this::handleLoginResult
+                this::onLogin
             )
 
-        // This calls recompose() by itself
-        openLastSession()
+        resetContent()
     }
 
-    private fun openLastSession() {
+    override fun onDestroy() {
+        super.onDestroy()
+
+        closeSession()
+    }
+
+    private fun fetchLastSession() {
+        Log.d("Main", "Fetching the last successfully authenticated session...")
         session = TwoMMatrix.matrix.authenticationService().getLastAuthenticatedSession()
-        session?.open()
-        recompose()
     }
 
-    private fun recompose() {
-        Log.d("Main", "Recomposing...")
-        setContent {
-            MatrixActivityScaffold(
-                onClickLogin = this::onClickLogin,
-                onClickLogout = this::onClickLogout,
-                session = session,
-            )
-        }
+    private fun openSession() {
+        Log.d("Main", "If possible, opening session: $session")
+        session?.open()
+    }
+
+    private fun closeSession() {
+        Log.d("Main", "If possible, closing session: $session")
+        session?.close()
     }
 
     private fun onClickLogin() {
@@ -57,14 +64,17 @@ class MainActivity : ComponentActivity() {
         loginLauncher.launch(Intent(applicationContext, LoginActivity::class.java))
     }
 
-    private fun handleLoginResult(result: ActivityResult) {
+    private fun onLogin(result: ActivityResult) {
+        Log.d("Main", "Received result from login activity: $result")
         when (result.resultCode) {
             RESULT_OK -> {
                 Log.d(
                     "Main",
                     "Login activity returned a successful result, trying to get session..."
                 )
-                openLastSession()
+                fetchLastSession()
+                session?.open()
+                resetContent()
             }
 
             else -> {
@@ -79,7 +89,18 @@ class MainActivity : ComponentActivity() {
             session!!.signOutService().signOut(true)
             session = null
             Log.d("Main", "Done logging out, recomposing...")
-            recompose()
+            resetContent()
+        }
+    }
+
+    private fun resetContent() {
+        Log.d("Main", "Recomposing...")
+        setContent {
+            MatrixActivityScaffold(
+                onClickLogin = this::onClickLogin,
+                onClickLogout = this::onClickLogout,
+                session = session,
+            )
         }
     }
 }
