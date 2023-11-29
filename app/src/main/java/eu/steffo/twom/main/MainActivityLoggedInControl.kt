@@ -1,4 +1,4 @@
-package eu.steffo.twom.matrix
+package eu.steffo.twom.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +11,7 @@ import eu.steffo.twom.theme.TwoMPadding
 import org.matrix.android.sdk.api.session.Session
 
 @Composable
-fun MatrixActivityLoggedInControl(
+fun MainActivityLoggedInControl(
     session: Session,
     modifier: Modifier = Modifier,
 ) {

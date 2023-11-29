@@ -98,6 +98,9 @@ fun LoginActivityControl(
                         loginStep = LoginStep.SERVICE
                         val auth = TwoMMatrix.matrix.authenticationService()
 
+                        Log.d("Login", "Resetting authentication service...")
+                        auth.reset()
+
                         Log.d("Login", "Retrieving .well-known data for: $username")
                         loginStep = LoginStep.WELLKNOWN
                         lateinit var wellKnown: WellknownResult
