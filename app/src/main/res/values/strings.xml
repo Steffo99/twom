@@ -24,4 +24,6 @@
     <string name="loggedin_text">You are logged in.</string>
     <string name="account_label">My account</string>
     <string name="profile_logout_text">Logout</string>
+    <string name="room_list_empty_text">There are no rooms.</string>
+    <string name="loading">Loading...</string>
 </resources>

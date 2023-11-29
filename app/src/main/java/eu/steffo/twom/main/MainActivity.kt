@@ -50,13 +50,22 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun openSession() {
-        Log.d("Main", "If possible, opening session: $session")
-        session?.open()
+        val currentSession = session
+        Log.d("Main", "If possible, opening session: $currentSession")
+        if (currentSession != null) {
+            Log.d("Main", "Opening session: $currentSession")
+            currentSession.open()
+            currentSession.syncService().startSync(true)
+        }
     }
 
     private fun closeSession() {
-        Log.d("Main", "If possible, closing session: $session")
-        session?.close()
+        val currentSession = session
+        Log.d("Main", "If possible, closing session: $currentSession")
+        if (currentSession != null) {
+            Log.d("Main", "Closing session: $currentSession")
+            currentSession.close()
+        }
     }
 
     private fun onClickLogin() {

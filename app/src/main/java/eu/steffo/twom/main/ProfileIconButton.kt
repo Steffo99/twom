@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
-import eu.steffo.twom.matrix.Avatar
+import eu.steffo.twom.matrix.UserAvatar
 import org.matrix.android.sdk.api.session.Session
 
 @Composable
@@ -41,7 +41,7 @@ fun ProfileIconButton(
                     contentDescription = LocalContext.current.getString(R.string.account_label),
                 )
             } else {
-                Avatar(
+                UserAvatar(
                     session = session,
                     userId = session.myUserId,
                     contentDescription = LocalContext.current.getString(R.string.account_label),

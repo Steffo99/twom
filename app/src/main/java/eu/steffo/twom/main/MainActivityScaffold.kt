@@ -37,15 +37,15 @@ fun MatrixActivityScaffold(
                 )
             }
         ) {
-            if (session != null) {
-                MainActivityLoggedInControl(
-                    modifier = Modifier.padding(it),
-                    session = session,
-                )
-            } else {
+            if (session == null) {
                 MatrixActivityNotLoggedInControl(
                     modifier = Modifier.padding(it),
                     onClickLogin = onClickLogin,
+                )
+            } else {
+                MainActivityRoomListControl(
+                    modifier = Modifier.padding(it),
+                    session = session,
                 )
             }
         }

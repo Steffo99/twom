@@ -16,32 +16,28 @@ import org.matrix.android.sdk.api.session.Session
 @Composable
 fun Avatar(
     session: Session,
-    userId: String,
+    url: String,
     contentDescription: String,
 ) {
     var avatar by remember { mutableStateOf<ImageBitmap?>(null) }
-    var fetched by remember { mutableStateOf(false) }
 
-    LaunchedEffect(session, userId) GetAvatar@{
-        Log.d("Avatar", "Trying to retrieve the avatar url for $userId...")
-        val avatarUrl = session.profileService().getAvatarUrl(userId)
-        Log.d("Avatar", "Avatar URL for $userId is: $avatarUrl")
+    LaunchedEffect(session, url) GetAvatar@{
+        Log.d("Avatar", "Downloading avatar at: $url")
         val avatarFile = session.fileService().downloadFile(
             fileName = "avatar",
-            url = avatarUrl.getOrNull(),
+            url = url,
             mimeType = null,
             elementToDecrypt = null,
         )
         // TODO: Should I check the MIME type? And the size of the image?
-        Log.d("Avatar", "Avatar file for $userId is: $avatarFile")
+        Log.d("Avatar", "File for $url is: $avatarFile")
         val avatarBitmap = BitmapFactory.decodeFile(avatarFile.absolutePath)
-        Log.d("Avatar", "Avatar bitmap for $userId is: $avatarBitmap")
+        Log.d("Avatar", "Bitmap for $url is: $avatarBitmap")
         avatar = avatarBitmap.asImageBitmap()
-        fetched = true
     }
 
     Image(
-        bitmap = if (fetched && avatar != null) avatar!! else TwoMMatrix.defaultAvatar,
+        bitmap = if (avatar != null) avatar!! else TwoMMatrix.defaultAvatar,
         contentDescription = contentDescription
     )
 }
