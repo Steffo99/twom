@@ -9,19 +9,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import org.matrix.android.sdk.api.session.Session
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
+@Preview
 fun Avatar(
-    session: Session,
-    url: String,
-    contentDescription: String,
+    modifier: Modifier = Modifier,
+    url: String? = "",
+    contentDescription: String = "",
 ) {
+    val session = LocalSession.current
     var avatar by remember { mutableStateOf<ImageBitmap?>(null) }
 
     LaunchedEffect(session, url) GetAvatar@{
+        if (session == null) {
+            Log.d("Avatar", "Not doing anything, session is null.")
+            return@GetAvatar
+        }
+        if (url == null) {
+            Log.d("Avatar", "URL is null, not downloading anything.")
+            return@GetAvatar
+        }
+        if (url.isEmpty()) {
+            Log.d("Avatar", "URL is a zero-length string, not downloading anything.")
+            return@GetAvatar
+        }
         Log.d("Avatar", "Downloading avatar at: $url")
         val avatarFile = session.fileService().downloadFile(
             fileName = "avatar",
@@ -36,8 +51,16 @@ fun Avatar(
         avatar = avatarBitmap.asImageBitmap()
     }
 
-    Image(
-        bitmap = if (avatar != null) avatar!! else TwoMMatrix.defaultAvatar,
-        contentDescription = contentDescription
-    )
+    if (session == null || url == null || avatar == null) {
+        DefaultAvatar(
+            modifier = modifier,
+            contentDescription = contentDescription
+        )
+    } else {
+        Image(
+            modifier = modifier,
+            bitmap = avatar!!,
+            contentDescription = contentDescription,
+        )
+    }
 }

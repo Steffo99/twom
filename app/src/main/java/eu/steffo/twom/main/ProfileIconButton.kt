@@ -18,16 +18,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
+import eu.steffo.twom.matrix.LocalSession
 import eu.steffo.twom.matrix.UserAvatar
-import org.matrix.android.sdk.api.session.Session
 
 @Composable
 @Preview(showBackground = true)
 fun ProfileIconButton(
     modifier: Modifier = Modifier,
-    session: Session? = null,
     onClickLogout: () -> Unit = {},
 ) {
+    val session = LocalSession.current
     var expanded by remember { mutableStateOf(false) }
 
     Box {
@@ -42,7 +42,6 @@ fun ProfileIconButton(
                 )
             } else {
                 UserAvatar(
-                    session = session,
                     userId = session.myUserId,
                     contentDescription = LocalContext.current.getString(R.string.account_label),
                 )

@@ -11,12 +11,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import eu.steffo.twom.login.LoginActivity
 import eu.steffo.twom.matrix.TwoMMatrix
+import eu.steffo.twom.room.RoomActivity
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.Session
 
 
 class MainActivity : ComponentActivity() {
     private lateinit var loginLauncher: ActivityResultLauncher<Intent>
+    private lateinit var roomLauncher: ActivityResultLauncher<Intent>
 
     private var session: Session? = null
 
@@ -33,6 +35,12 @@ class MainActivity : ComponentActivity() {
             registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult(),
                 this::onLogin
+            )
+
+        roomLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult(),
+                this::onRoom
             )
 
         resetContent()
@@ -70,7 +78,8 @@ class MainActivity : ComponentActivity() {
 
     private fun onClickLogin() {
         Log.d("Main", "Clicked login, launching login activity...")
-        loginLauncher.launch(Intent(applicationContext, LoginActivity::class.java))
+        val intent = Intent(applicationContext, LoginActivity::class.java)
+        loginLauncher.launch(intent)
     }
 
     private fun onLogin(result: ActivityResult) {
@@ -102,12 +111,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun onClickRoom(roomId: String) {
+        Log.d("Main", "Clicked a room, launching room activity...")
+        val intent = Intent(applicationContext, RoomActivity::class.java)
+        intent.putExtra(RoomActivity.ROOM_ID_EXTRA, roomId)
+        loginLauncher.launch(intent)
+    }
+
+    private fun onRoom(result: ActivityResult) {
+        Log.d("Main", "Received result from room activity: $result")
+    }
+
     private fun resetContent() {
         Log.d("Main", "Recomposing...")
         setContent {
             MatrixActivityScaffold(
                 onClickLogin = this::onClickLogin,
                 onClickLogout = this::onClickLogout,
+                onClickRoom = this::onClickRoom,
                 session = session,
             )
         }
