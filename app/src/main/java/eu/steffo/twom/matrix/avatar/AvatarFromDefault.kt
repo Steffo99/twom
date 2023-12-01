@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(widthDp = 40, heightDp = 40)
 fun AvatarFromDefault(
     modifier: Modifier = Modifier,
+    fallbackText: String = "?",
     contentDescription: String = "",
 ) {
     Box(
@@ -30,7 +31,7 @@ fun AvatarFromDefault(
                     this.contentDescription = ""
                 },
             color = MaterialTheme.colorScheme.onTertiary,
-            text = "?",
+            text = fallbackText,
         )
     }
 }

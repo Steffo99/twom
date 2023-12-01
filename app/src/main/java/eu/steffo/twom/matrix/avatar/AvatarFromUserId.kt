@@ -16,6 +16,7 @@ import eu.steffo.twom.matrix.LocalSession
 fun AvatarFromUserId(
     modifier: Modifier = Modifier,
     userId: String = "",
+    fallbackText: String = "?",
     contentDescription: String = "",
 ) {
     val session = LocalSession.current
@@ -38,12 +39,14 @@ fun AvatarFromUserId(
     if (avatarUrl == null) {
         AvatarFromDefault(
             modifier = modifier,
+            fallbackText = fallbackText,
             contentDescription = contentDescription,
         )
     } else {
         AvatarFromURL(
             modifier = modifier,
             url = avatarUrl!!,
+            fallbackText = fallbackText,
             contentDescription = contentDescription,
         )
     }

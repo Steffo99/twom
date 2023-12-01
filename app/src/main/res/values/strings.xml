@@ -27,4 +27,7 @@
     <string name="main_efab_create_text">New</string>
     <string name="main_notloggedin_text_2">Log into your Matrix account by clicking the icon on the top right of the screen.</string>
     <string name="main_account_login_text">Login</string>
+    <string name="create_title">Create a new happening</string>
+    <string name="create_name_label">Name</string>
+    <string name="create_avatar_label">Select happening avatar</string>
 </resources>
