@@ -36,4 +36,6 @@ object TwoMMatrix {
         }
         return null
     }
+
+    const val ROOM_TYPE = "eu.steffo.twom.happening"
 }

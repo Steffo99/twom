@@ -1,20 +1,17 @@
 package eu.steffo.twom.main
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.LocalSession
+import eu.steffo.twom.matrix.TwoMMatrix
 import eu.steffo.twom.theme.TwoMPadding
-import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
 @Composable
@@ -23,18 +20,12 @@ fun MainActivityRoomList(
     onClickRoom: (roomId: String) -> Unit = {},
 ) {
     val session = LocalSession.current
-    var roomSummaries by remember { mutableStateOf<List<RoomSummary>?>(null) }
-
-    LaunchedEffect(session) GetRoomSummaries@{
-        if (session == null) {
-            Log.d("RoomList", "Not doing anything, session is null.")
-            return@GetRoomSummaries
+    val roomSummaries by session!!.roomService().getRoomSummariesLive(
+        roomSummaryQueryParams {
+            this.memberships = listOf(Membership.JOIN)
+            this.includeType = listOf(TwoMMatrix.ROOM_TYPE)
         }
-        Log.d("RoomList", "Getting room summaries...")
-        val queryParamsBuilder = roomSummaryQueryParams()
-        roomSummaries = session.roomService().getRoomSummaries(queryParamsBuilder)
-        Log.d("RoomList", "Obtained room summaries: $roomSummaries")
-    }
+    ).observeAsState()
 
     Column(modifier) {
         if (roomSummaries == null) {
