@@ -23,7 +23,7 @@ fun LoginActivityScaffold(
                 )
             },
             content = {
-                LoginActivityControl(
+                LoginActivityContent(
                     modifier = Modifier.padding(it),
                     onLogin = onLogin
                 )

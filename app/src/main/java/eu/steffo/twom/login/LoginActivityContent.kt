@@ -34,7 +34,7 @@ import org.matrix.android.sdk.api.session.Session
 // TODO: Localize error messages
 @Composable
 @Preview(showBackground = true)
-fun LoginActivityControl(
+fun LoginActivityContent(
     modifier: Modifier = Modifier,
     onLogin: (session: Session) -> Unit = {},
 ) {
