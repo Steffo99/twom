@@ -1,4 +1,4 @@
-package eu.steffo.twom.matrix
+package eu.steffo.twom.matrix.avatar
 
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -8,9 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import eu.steffo.twom.matrix.LocalSession
 
 @Composable
-fun UserAvatar(
+@Preview(widthDp = 40, heightDp = 40)
+fun AvatarFromUserId(
     modifier: Modifier = Modifier,
     userId: String = "",
     contentDescription: String = "",
@@ -33,12 +36,12 @@ fun UserAvatar(
     }
 
     if (avatarUrl == null) {
-        DefaultAvatar(
+        AvatarFromDefault(
             modifier = modifier,
             contentDescription = contentDescription,
         )
     } else {
-        Avatar(
+        AvatarFromURL(
             modifier = modifier,
             url = avatarUrl!!,
             contentDescription = contentDescription,

@@ -6,5 +6,4 @@ class RoomActivity : ComponentActivity() {
     companion object {
         const val ROOM_ID_EXTRA = "roomId"
     }
-
 }

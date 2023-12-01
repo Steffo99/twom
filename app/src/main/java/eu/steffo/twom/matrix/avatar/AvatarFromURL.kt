@@ -1,4 +1,4 @@
-package eu.steffo.twom.matrix
+package eu.steffo.twom.matrix.avatar
 
 import android.graphics.BitmapFactory
 import android.util.Log
@@ -13,10 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
+import eu.steffo.twom.matrix.LocalSession
 
 @Composable
-@Preview
-fun Avatar(
+@Preview(widthDp = 40, heightDp = 40)
+fun AvatarFromURL(
     modifier: Modifier = Modifier,
     url: String? = "",
     contentDescription: String = "",
@@ -52,7 +53,7 @@ fun Avatar(
     }
 
     if (session == null || url == null || avatar == null) {
-        DefaultAvatar(
+        AvatarFromDefault(
             modifier = modifier,
             contentDescription = contentDescription
         )

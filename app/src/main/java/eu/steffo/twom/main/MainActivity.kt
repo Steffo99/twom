@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import eu.steffo.twom.create.CreateActivity
 import eu.steffo.twom.login.LoginActivity
 import eu.steffo.twom.matrix.TwoMMatrix
 import eu.steffo.twom.room.RoomActivity
@@ -19,6 +20,7 @@ import org.matrix.android.sdk.api.session.Session
 class MainActivity : ComponentActivity() {
     private lateinit var loginLauncher: ActivityResultLauncher<Intent>
     private lateinit var roomLauncher: ActivityResultLauncher<Intent>
+    private lateinit var createLauncher: ActivityResultLauncher<Intent>
 
     private var session: Session? = null
 
@@ -26,7 +28,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         TwoMMatrix.ensureMatrix(applicationContext)
-        TwoMMatrix.ensureDefaultAvatar(applicationContext)
 
         fetchLastSession()
         openSession()
@@ -41,6 +42,12 @@ class MainActivity : ComponentActivity() {
             registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult(),
                 this::onRoom
+            )
+
+        createLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult(),
+                this::onCreate
             )
 
         resetContent()
@@ -115,11 +122,21 @@ class MainActivity : ComponentActivity() {
         Log.d("Main", "Clicked a room, launching room activity...")
         val intent = Intent(applicationContext, RoomActivity::class.java)
         intent.putExtra(RoomActivity.ROOM_ID_EXTRA, roomId)
-        loginLauncher.launch(intent)
+        roomLauncher.launch(intent)
     }
 
     private fun onRoom(result: ActivityResult) {
         Log.d("Main", "Received result from room activity: $result")
+    }
+
+    private fun onClickCreate() {
+        Log.d("Main", "Clicked the New button, launching create activity...")
+        val intent = Intent(applicationContext, CreateActivity::class.java)
+        loginLauncher.launch(intent)
+    }
+
+    private fun onCreate(result: ActivityResult) {
+        Log.d("Main", "Received result from create activity: $result")
     }
 
     private fun resetContent() {
@@ -129,6 +146,7 @@ class MainActivity : ComponentActivity() {
                 onClickLogin = this::onClickLogin,
                 onClickLogout = this::onClickLogout,
                 onClickRoom = this::onClickRoom,
+                onClickCreate = this::onClickCreate,
                 session = session,
             )
         }

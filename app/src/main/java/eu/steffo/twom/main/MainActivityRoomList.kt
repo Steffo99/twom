@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.LocalSession
 import eu.steffo.twom.theme.TwoMPadding
@@ -19,8 +18,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
 @Composable
-@Preview
-fun MainActivityRoomListControl(
+fun MainActivityRoomList(
     modifier: Modifier = Modifier,
     onClickRoom: (roomId: String) -> Unit = {},
 ) {
@@ -47,7 +45,7 @@ fun MainActivityRoomListControl(
         } else if (roomSummaries!!.isEmpty()) {
             Text(
                 modifier = TwoMPadding.base,
-                text = stringResource(R.string.room_list_empty_text)
+                text = stringResource(R.string.main_roomlist_empty_text)
             )
         } else {
             roomSummaries!!.forEach {

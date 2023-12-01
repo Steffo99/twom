@@ -2,8 +2,6 @@ package eu.steffo.twom.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,21 +12,16 @@ import eu.steffo.twom.theme.TwoMPadding
 
 @Composable
 @Preview(showBackground = true)
-fun MatrixActivityNotLoggedInControl(
+fun MainActivityNotLoggedIn(
     modifier: Modifier = Modifier,
     onClickLogin: () -> Unit = {},
 ) {
     Column(modifier) {
         Row(TwoMPadding.base) {
-            Text(LocalContext.current.getString(R.string.notloggedin_text))
+            Text(LocalContext.current.getString(R.string.main_notloggedin_text_1))
         }
         Row(TwoMPadding.base) {
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = onClickLogin,
-            ) {
-                Text(LocalContext.current.getString(R.string.notloggedin_login_text))
-            }
+            Text(LocalContext.current.getString(R.string.main_notloggedin_text_2))
         }
     }
 }

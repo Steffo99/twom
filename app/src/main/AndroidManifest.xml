@@ -49,6 +49,10 @@
             android:name=".room.RoomActivity"
             android:theme="@style/Theme.TwoM" />
 
+        <activity
+            android:name=".create.CreateActivity"
+            android:theme="@style/Theme.TwoM" />
+
     </application>
 
 </manifest>

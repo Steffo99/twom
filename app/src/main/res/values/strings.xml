@@ -19,11 +19,12 @@
     <string name="login_password_label">Password</string>
     <string name="password_show">Show password</string>
     <string name="password_hide">Hide password</string>
-    <string name="notloggedin_text">To use TwoM, you need to be logged into Matrix.</string>
-    <string name="notloggedin_login_text">Login</string>
-    <string name="loggedin_text">You are logged in.</string>
-    <string name="account_label">My account</string>
-    <string name="profile_logout_text">Logout</string>
-    <string name="room_list_empty_text">There are no rooms.</string>
+    <string name="main_notloggedin_text_1">To use TwoM, you need to select the Matrix account to use.</string>
+    <string name="main_account_label">My account</string>
+    <string name="main_account_logout_text">Logout</string>
+    <string name="main_roomlist_empty_text">There are no rooms.</string>
     <string name="loading">Loading...</string>
+    <string name="main_efab_create_text">New</string>
+    <string name="main_notloggedin_text_2">Log into your Matrix account by clicking the icon on the top right of the screen.</string>
+    <string name="main_account_login_text">Login</string>
 </resources>

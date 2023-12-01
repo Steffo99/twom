@@ -19,31 +19,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.LocalSession
-import eu.steffo.twom.matrix.UserAvatar
+import eu.steffo.twom.matrix.avatar.AvatarFromUserId
 
 @Composable
 @Preview(showBackground = true)
-fun ProfileIconButton(
+fun MainActivityAccountIconButton(
     modifier: Modifier = Modifier,
+    onClickLogin: () -> Unit = {},
     onClickLogout: () -> Unit = {},
 ) {
     val session = LocalSession.current
     var expanded by remember { mutableStateOf(false) }
 
-    Box {
+    Box(modifier) {
         IconButton(
-            enabled = (session != null),
             onClick = { expanded = true },
         ) {
             if (session == null) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = LocalContext.current.getString(R.string.account_label),
+                    contentDescription = LocalContext.current.getString(R.string.main_account_label),
                 )
             } else {
-                UserAvatar(
+                AvatarFromUserId(
                     userId = session.myUserId,
-                    contentDescription = LocalContext.current.getString(R.string.account_label),
+                    contentDescription = LocalContext.current.getString(R.string.main_account_label),
                 )
             }
         }
@@ -51,12 +51,25 @@ fun ProfileIconButton(
             expanded = expanded,
             onDismissRequest = { expanded = false },
         ) {
-            if (session != null) {
+            if (session == null) {
                 DropdownMenuItem(
                     text = {
-                        Text(stringResource(id = R.string.profile_logout_text))
+                        Text(stringResource(id = R.string.main_account_login_text))
                     },
-                    onClick = onClickLogout
+                    onClick = {
+                        expanded = false
+                        onClickLogin()
+                    }
+                )
+            } else {
+                DropdownMenuItem(
+                    text = {
+                        Text(stringResource(id = R.string.main_account_logout_text))
+                    },
+                    onClick = {
+                        expanded = false
+                        onClickLogout()
+                    }
                 )
             }
         }

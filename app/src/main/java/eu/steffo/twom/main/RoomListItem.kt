@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import eu.steffo.twom.matrix.Avatar
+import eu.steffo.twom.matrix.avatar.AvatarFromURL
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 
@@ -32,7 +32,7 @@ fun RoomListItem(
                     .size(40.dp)
                     .clip(MaterialTheme.shapes.medium)
             ) {
-                Avatar(
+                AvatarFromURL(
                     url = roomSummary.avatarUrl,
                 )
             }

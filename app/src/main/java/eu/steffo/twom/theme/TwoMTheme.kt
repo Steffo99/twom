@@ -19,12 +19,19 @@ fun TwoMTheme(
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
+
     val darkTheme = isSystemInDarkTheme()
-    val colorScheme = if (darkTheme) {
-        dynamicDarkColorScheme(context)
-    } else {
-        dynamicLightColorScheme(context)
+    val colorScheme = when (darkTheme) {
+        true -> dynamicDarkColorScheme(context)
+        false -> dynamicLightColorScheme(context)
     }
+    val typography = Typography()
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = typography,
+        content = content
+    )
 
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -34,12 +41,4 @@ fun TwoMTheme(
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
-
-    val typography = Typography()
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = typography,
-        content = content
-    )
 }
