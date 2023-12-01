@@ -132,7 +132,7 @@ class MainActivity : ComponentActivity() {
     private fun onClickCreate() {
         Log.d("Main", "Clicked the New button, launching create activity...")
         val intent = Intent(applicationContext, CreateActivity::class.java)
-        loginLauncher.launch(intent)
+        createLauncher.launch(intent)
     }
 
     private fun onCreate(result: ActivityResult) {
