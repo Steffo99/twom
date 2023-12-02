@@ -1,6 +1,7 @@
 package eu.steffo.twom.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -15,6 +16,8 @@ import eu.steffo.twom.matrix.TwoMMatrix
 import eu.steffo.twom.room.RoomActivity
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
+import org.matrix.android.sdk.api.session.room.model.create.CreateRoomPreset
 
 
 class MainActivity : ComponentActivity() {
@@ -137,6 +140,43 @@ class MainActivity : ComponentActivity() {
 
     private fun onCreate(result: ActivityResult) {
         Log.d("Main", "Received result from create activity: $result")
+        if (result.resultCode == RESULT_OK) {
+            val intent: Intent = result.data!!
+            val name = intent.getStringExtra(CreateActivity.NAME_EXTRA)
+            val description = intent.getStringExtra(CreateActivity.DESCRIPTION_EXTRA)
+            @Suppress("DEPRECATION") val avatarUri =
+                intent.getParcelableExtra<Uri>(CreateActivity.AVATAR_EXTRA)
+
+            if (name == null) {
+                Log.w("Main", "Result from create activity did not have `name` extra set")
+                return
+            }
+            if (description == null) {
+                Log.w("Main", "Result from create activity did not have `description` extra set")
+                return
+            }
+
+            lifecycleScope.launch {
+                val currentSession = session
+
+                val createRoomParams = CreateRoomParams()
+                createRoomParams.name = name
+                createRoomParams.topic = description
+                createRoomParams.avatarUri = avatarUri
+                createRoomParams.preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
+                createRoomParams.roomType = TwoMMatrix.ROOM_TYPE
+
+                Log.d(
+                    "Main",
+                    "Creating room '$name' with description '$description' and avatar '$avatarUri'..."
+                )
+                val roomId = currentSession!!.roomService().createRoom(createRoomParams)
+                Log.d(
+                    "Main",
+                    "Created  room '$name' with description '$description' and avatar '$avatarUri': $roomId"
+                )
+            }
+        }
     }
 
     private fun resetContent() {

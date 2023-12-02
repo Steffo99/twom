@@ -39,7 +39,7 @@ import eu.steffo.twom.theme.TwoMPadding
 @Preview
 fun CreateActivityContent(
     modifier: Modifier = Modifier,
-    onClickCreate: () -> Unit = {},
+    onClickCreate: (name: String, description: String, avatarUri: Uri?) -> Unit = { _, _, _ -> },
 ) {
     val context = LocalContext.current
 
@@ -105,7 +105,9 @@ fun CreateActivityContent(
             Button(
                 modifier = Modifier
                     .fillMaxWidth(),
-                onClick = onClickCreate,
+                onClick = {
+                    onClickCreate(name, description, avatarUri)
+                },
             ) {
                 Text(stringResource(R.string.create_complete_text))
             }

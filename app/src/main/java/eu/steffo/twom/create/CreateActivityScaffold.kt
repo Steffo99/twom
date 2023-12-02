@@ -1,5 +1,6 @@
 package eu.steffo.twom.create
 
+import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -11,7 +12,7 @@ import eu.steffo.twom.theme.TwoMTheme
 @Preview
 fun CreateActivityScaffold(
     onClickBack: () -> Unit = {},
-    onClickCreate: () -> Unit = {},
+    onClickCreate: (name: String, description: String, avatarUri: Uri?) -> Unit = { _, _, _ -> },
 ) {
     TwoMTheme {
         Scaffold(
@@ -21,6 +22,7 @@ fun CreateActivityScaffold(
             content = {
                 CreateActivityContent(
                     modifier = Modifier.padding(it),
+                    onClickCreate = onClickCreate,
                 )
             }
         )
