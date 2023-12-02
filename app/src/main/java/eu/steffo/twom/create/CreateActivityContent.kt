@@ -3,7 +3,6 @@ package eu.steffo.twom.create
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.media.ExifInterface
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -35,6 +34,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.exifinterface.media.ExifInterface
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.avatar.AvatarFromBitmap
 import eu.steffo.twom.theme.TwoMPadding
