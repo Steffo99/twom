@@ -30,4 +30,6 @@
     <string name="create_title">Create a new happening</string>
     <string name="create_name_label">Name</string>
     <string name="create_avatar_label">Select happening avatar</string>
+    <string name="create_description_label">Description</string>
+    <string name="create_complete_text">Create</string>
 </resources>
