@@ -15,10 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import eu.steffo.twom.matrix.avatar.AvatarFromBitmap
+import eu.steffo.twom.matrix.avatar.AvatarFromImageBitmap
 
 @Composable
-@Preview
+@Preview(widthDp = 40, heightDp = 40)
 fun AvatarSelector(
     modifier: Modifier = Modifier,
     onSelectAvatar: (bitmap: Bitmap) -> Unit = {},
@@ -47,7 +47,7 @@ fun AvatarSelector(
                 launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
     ) {
-        AvatarFromBitmap(
+        AvatarFromImageBitmap(
             bitmap = selection?.asImageBitmap(),
         )
     }
