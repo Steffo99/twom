@@ -24,7 +24,7 @@ fun RoomListItem(
             onClickRoom(roomSummary.roomId)
         },
         headlineContent = {
-            Text(roomSummary.name)
+            Text(roomSummary.displayName)
         },
         leadingContent = {
             Box(

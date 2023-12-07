@@ -19,16 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.avatar.AvatarFromURL
 
 @Composable
-@Preview(showBackground = true)
 fun RoomActivityRoomIconButton(
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    avatarUrl: String,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -51,7 +50,7 @@ fun RoomActivityRoomIconButton(
                 ) { expanded = true },
         ) {
             AvatarFromURL(
-                url = LocalRoom.current!!.avatarUrl,
+                url = avatarUrl,
                 contentDescription = LocalContext.current.getString(R.string.room_options_label),
             )
         }

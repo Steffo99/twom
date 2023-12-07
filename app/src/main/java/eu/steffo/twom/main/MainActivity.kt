@@ -75,6 +75,13 @@ class MainActivity : ComponentActivity() {
             Log.d("Main", "Opening session: $currentSession")
             currentSession.open()
             currentSession.syncService().startSync(true)
+            currentSession.addListener(OpenSessionListener(this::resetContent))
+        }
+    }
+
+    private class OpenSessionListener(private val resetContent: () -> Unit) : Session.Listener {
+        override fun onSessionStarted(session: Session) {
+            resetContent()
         }
     }
 
@@ -102,10 +109,8 @@ class MainActivity : ComponentActivity() {
                     "Login activity returned a successful result, trying to get session..."
                 )
                 fetchLastSession()
-                session?.open()
-                resetContent()
+                openSession()
             }
-
             else -> {
                 Log.d("Main", "Login activity was cancelled.")
             }
@@ -114,11 +119,16 @@ class MainActivity : ComponentActivity() {
 
     private fun onClickLogout() {
         lifecycleScope.launch {
-            Log.d("Main", "Clicked logout, signing out...")
-            session!!.signOutService().signOut(true)
+            val signedOutSession = session!!
+
+            Log.d("Main", "Clicked logout, recomposing...")
             session = null
-            Log.d("Main", "Done logging out, recomposing...")
             resetContent()
+
+            Log.d("Main", "Done recomposing, now signing out...")
+            signedOutSession.signOutService().signOut(true)
+
+            Log.d("Main", "Done logging out!")
         }
     }
 
