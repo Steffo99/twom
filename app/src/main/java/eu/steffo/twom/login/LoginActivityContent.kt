@@ -58,6 +58,7 @@ fun LoginActivityContent(
         Row(TwoMPadding.base) {
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
                 value = username,
                 onValueChange = { username = it },
                 label = {
@@ -74,6 +75,7 @@ fun LoginActivityContent(
         Row(TwoMPadding.base) {
             PasswordField(
                 modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
                 value = password,
                 onValueChange = { password = it },
                 label = {

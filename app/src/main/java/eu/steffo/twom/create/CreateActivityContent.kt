@@ -59,6 +59,7 @@ fun CreateActivityContent(
                     .height(60.dp)
                     .padding(start = 10.dp)
                     .fillMaxWidth(),
+                singleLine = true,
                 label = {
                     Text(stringResource(R.string.create_name_label))
                 },
