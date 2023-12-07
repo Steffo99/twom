@@ -28,14 +28,17 @@ fun AvatarFromURL(
     LaunchedEffect(session, url) GetAvatar@{
         if (session == null) {
             Log.d("Avatar", "Not doing anything, session is null.")
+            bitmap = null
             return@GetAvatar
         }
         if (url == null) {
             Log.d("Avatar", "URL is null, not downloading anything.")
+            bitmap = null
             return@GetAvatar
         }
         if (url.isEmpty()) {
             Log.d("Avatar", "URL is a zero-length string, not downloading anything.")
+            bitmap = null
             return@GetAvatar
         }
         Log.d("Avatar", "Downloading avatar at: $url")
@@ -50,7 +53,7 @@ fun AvatarFromURL(
         bitmap = BitmapFactory.decodeFile(avatarFile.absolutePath)
     }
 
-    if (session == null || url == null || bitmap == null) {
+    if (bitmap == null) {
         AvatarFromDefault(
             modifier = modifier,
             fallbackText = fallbackText,
