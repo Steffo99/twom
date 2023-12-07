@@ -18,12 +18,12 @@ import eu.steffo.twom.R
 @Preview
 fun CreateActivityTopBar(
     modifier: Modifier = Modifier,
-    onBack: () -> Unit = {},
+    onClickBack: () -> Unit = {},
 ) {
     TopAppBar(
         modifier = modifier,
         navigationIcon = {
-            IconButton(onClick = onBack) {
+            IconButton(onClick = onClickBack) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = LocalContext.current.getString(R.string.back)

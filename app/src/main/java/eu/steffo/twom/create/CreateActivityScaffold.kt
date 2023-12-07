@@ -17,7 +17,9 @@ fun CreateActivityScaffold(
     TwoMTheme {
         Scaffold(
             topBar = {
-                CreateActivityTopBar()
+                CreateActivityTopBar(
+                    onClickBack = onClickBack,
+                )
             },
             content = {
                 CreateActivityContent(
