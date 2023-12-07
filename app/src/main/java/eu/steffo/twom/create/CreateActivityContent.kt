@@ -1,11 +1,6 @@
 package eu.steffo.twom.create
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,16 +18,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
-import eu.steffo.twom.matrix.avatar.AvatarFromBitmap
 import eu.steffo.twom.theme.TwoMPadding
 
 @Composable
@@ -41,40 +32,28 @@ fun CreateActivityContent(
     modifier: Modifier = Modifier,
     onClickCreate: (name: String, description: String, avatarUri: Uri?) -> Unit = { _, _, _ -> },
 ) {
-    val context = LocalContext.current
 
     var name by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
     var avatarUri by rememberSaveable { mutableStateOf<Uri?>(null) }
-    var avatarBitmap by rememberSaveable { mutableStateOf<ImageBitmap?>(null) }
 
     // val avatarBitmap = if(avatarUri != null) BitmapFactory.decodeFile(avatarUri.toString()).asImageBitmap() else null
-    val avatarSelectLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
-            avatarUri = it
-            avatarBitmap = if (it != null) ImageHandler.uriToBitmap(context.contentResolver, it)
-                ?.asImageBitmap() else null
-        }
 
     Column(modifier) {
         Row(TwoMPadding.base) {
             val avatarContentDescription = stringResource(R.string.create_avatar_label)
-            Box(
+            AvatarSelector(
                 modifier = Modifier
                     .size(60.dp)
                     .clip(MaterialTheme.shapes.medium)
-                    .clickable {
-                        avatarSelectLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                    }
                     .semantics {
                         this.contentDescription = avatarContentDescription
-                    }
-            ) {
-                AvatarFromBitmap(
-                    bitmap = avatarBitmap,
-                )
-            }
-
+                    },
+                onSelectAvatar = SelectAvatar@{
+                    val cache = ImageHandler.bitmapToCache("createAvatar", it)
+                    avatarUri = Uri.fromFile(cache)
+                },
+            )
             TextField(
                 modifier = Modifier
                     .height(60.dp)

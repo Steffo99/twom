@@ -26,11 +26,10 @@ class CreateActivity : ComponentActivity() {
                     val resultIntent = Intent()
                     resultIntent.putExtra(NAME_EXTRA, name)
                     resultIntent.putExtra(DESCRIPTION_EXTRA, description)
+                    // Kotlin cannot use nullable types in Java interop generics
                     if (avatarUri != null) {
-                        // Kotlin cannot use nullable types in Java interop generics
                         resultIntent.putExtra(AVATAR_EXTRA, avatarUri)
                     }
-
                     setResult(RESULT_OK, resultIntent)
                     finish()
                 },

@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toFile
 import androidx.lifecycle.lifecycleScope
 import eu.steffo.twom.create.CreateActivity
 import eu.steffo.twom.login.LoginActivity
@@ -160,17 +161,42 @@ class MainActivity : ComponentActivity() {
                 val currentSession = session
 
                 val createRoomParams = CreateRoomParams()
+
                 createRoomParams.name = name
                 createRoomParams.topic = description
-                createRoomParams.avatarUri = avatarUri
                 createRoomParams.preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
                 createRoomParams.roomType = TwoMMatrix.ROOM_TYPE
+
+                when (avatarUri?.toFile()?.isFile) {
+                    false -> {
+                        Log.e(
+                            "Main",
+                            "Avatar has been deleted from cache before room could possibly be created, ignoring..."
+                        )
+                    }
+
+                    true -> {
+                        Log.d(
+                            "Main",
+                            "Avatar seems to exist at: $avatarUri"
+                        )
+                        createRoomParams.avatarUri = avatarUri
+                    }
+
+                    null -> {
+                        Log.d(
+                            "Main",
+                            "Avatar was not set, ignoring..."
+                        )
+                    }
+                }
 
                 Log.d(
                     "Main",
                     "Creating room '$name' with description '$description' and avatar '$avatarUri'..."
                 )
                 val roomId = currentSession!!.roomService().createRoom(createRoomParams)
+
                 Log.d(
                     "Main",
                     "Created  room '$name' with description '$description' and avatar '$avatarUri': $roomId"
