@@ -33,6 +33,7 @@ fun RoomListItem(
                     .clip(MaterialTheme.shapes.medium)
             ) {
                 AvatarFromURL(
+                    // FIXME: URL can appearently be set before the image is available on the homeserver
                     url = roomSummary.avatarUrl,
                 )
             }
