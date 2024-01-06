@@ -18,6 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.TwoMMatrix
@@ -44,13 +45,14 @@ fun LoginActivityContent(
     var password by rememberSaveable { mutableStateOf("") }
 
     var loginStep by rememberSaveable { mutableStateOf(LoginStep.NONE) }
-    var errorMessage by rememberSaveable { mutableStateOf<String?>(null) }
+    var errorMessageId by rememberSaveable { mutableStateOf<Int?>(null) }
+    var errorMessageString by rememberSaveable { mutableStateOf<String?>(null) }
 
     Column(modifier) {
         LinearProgressIndicator(
             modifier = Modifier.fillMaxWidth(),
             progress = loginStep.step.toFloat() / LoginStep.DONE.step.toFloat(),
-            color = if (errorMessage != null) MaterialTheme.colorScheme.error else ProgressIndicatorDefaults.linearColor
+            color = if (errorMessageId != null || errorMessageString != null) MaterialTheme.colorScheme.error else ProgressIndicatorDefaults.linearColor
         )
         Row(TwoMPadding.base) {
             Text(LocalContext.current.getString(R.string.login_text))
@@ -94,7 +96,8 @@ fun LoginActivityContent(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     scope.launch Login@{
-                        errorMessage = null
+                        errorMessageId = null
+                        errorMessageString = null
 
                         Log.d("Login", "Getting authentication service...")
                         loginStep = LoginStep.SERVICE
@@ -114,7 +117,7 @@ fun LoginActivityContent(
                                 "User seems to have input an invalid Matrix ID: $username",
                                 e
                             )
-                            errorMessage = "The input Matrix ID is invalid."
+                            errorMessageId = R.string.login_error_username_invalid
                             return@Login
                         } catch (e: Throwable) {
                             // TODO: It sure would be nice to know which exceptions can be thrown here.
@@ -123,7 +126,7 @@ fun LoginActivityContent(
                                 "Something went wrong while retrieving .well-known data for: $username",
                                 e
                             )
-                            errorMessage = e.message
+                            errorMessageString = e.toString()
                             return@Login
                         }
                         if (wellKnown !is WellknownResult.Prompt) {
@@ -131,8 +134,7 @@ fun LoginActivityContent(
                                 "Login",
                                 "Data is not .well-known for: $username"
                             )
-                            errorMessage =
-                                "Non .well-known Matrix servers are not currently supported by TwoM."
+                            errorMessageId = R.string.login_error_wellknown_missing
                             return@Login
                         }
 
@@ -153,7 +155,7 @@ fun LoginActivityContent(
                                 "Something went wrong while retrieving login flows for: ${wellKnown.homeServerUrl}",
                                 e
                             )
-                            errorMessage = e.message
+                            errorMessageString = e.message
                             return@Login
                         }
 
@@ -169,7 +171,7 @@ fun LoginActivityContent(
                                 "Something went wrong while creating the login wizard.",
                                 e
                             )
-                            errorMessage = e.message
+                            errorMessageString = e.message
                             return@Login
                         }
 
@@ -189,7 +191,7 @@ fun LoginActivityContent(
                                 "Something went wrong while logging in as: $username",
                                 e
                             )
-                            errorMessage = e.message
+                            errorMessageString = e.message
                             return@Login
                         }
 
@@ -202,14 +204,23 @@ fun LoginActivityContent(
                         onLogin(session)
                     }
                 },
-                enabled = (username != "" && (loginStep == LoginStep.NONE || errorMessage != null)),
+                enabled = (username != "" && (loginStep == LoginStep.NONE || errorMessageId != null)),
             ) {
                 Text(LocalContext.current.getString(R.string.login_complete_text))
             }
         }
-        if (errorMessage != null) {
+        if (errorMessageId != null) {
             Row(TwoMPadding.base) {
-                ErrorText(text = errorMessage ?: "Unknown error")
+                // FIXME: Can this cause an error?
+                ErrorText(
+                    text = if (errorMessageString != null) {
+                        errorMessageString!!
+                    } else if (errorMessageId != null) {
+                        stringResource(errorMessageId!!)
+                    } else {
+                        "Unknown error"
+                    }
+                )
             }
         }
     }

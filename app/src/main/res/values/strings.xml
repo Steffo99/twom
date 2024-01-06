@@ -34,4 +34,6 @@
     <string name="create_complete_text">Create</string>
     <string name="room_options_label">Room options</string>
     <string name="error">Error</string>
+    <string name="login_error_username_invalid">The entered username is not a valid Matrix ID.</string>
+    <string name="login_error_wellknown_missing">Failed to detect well-known data for the specified Matrix homeserver. The server might not exist, be offline, or not be supporting well-known lookups.</string>
 </resources>
