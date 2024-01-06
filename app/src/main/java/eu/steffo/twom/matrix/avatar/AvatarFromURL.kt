@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.matrix.LocalSession
+import org.matrix.android.sdk.api.failure.Failure
+import java.io.File
 
 @Composable
 @Preview(widthDp = 40, heightDp = 40)
@@ -41,13 +43,21 @@ fun AvatarFromURL(
             bitmap = null
             return@GetAvatar
         }
+
         Log.d("Avatar", "Downloading avatar at: $url")
-        val avatarFile = session.fileService().downloadFile(
-            fileName = "avatar",
-            url = url,
-            mimeType = null,
-            elementToDecrypt = null,
-        )
+        lateinit var avatarFile: File
+        try {
+            avatarFile = session.fileService().downloadFile(
+                fileName = "avatar",
+                url = url,
+                mimeType = null,
+                elementToDecrypt = null,
+            )
+        } catch (f: Failure.OtherServerError) {
+            Log.e("Avatar", "Unable to download avatar at: $url", f)
+            return@GetAvatar
+        }
+
         // TODO: Should I check the MIME type? And the size of the image?
         Log.d("Avatar", "File for $url is: $avatarFile")
         bitmap = BitmapFactory.decodeFile(avatarFile.absolutePath)
