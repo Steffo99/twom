@@ -36,4 +36,17 @@
     <string name="error">Error</string>
     <string name="login_error_username_invalid">The entered username is not a valid Matrix ID.</string>
     <string name="login_error_wellknown_missing">Failed to detect well-known data for the specified Matrix homeserver. The server might not exist, be offline, or not be supporting well-known lookups.</string>
+    <string name="room_invitees_title">Invitees</string>
+    <string name="room_rsvp_title">Your reply</string>
+    <string name="room_rsvp_sure_label">Sure!</string>
+    <string name="room_rsvp_later_label">I\'ll be late...</string>
+    <string name="room_rsvp_maybe_label">Maybe?</string>
+    <string name="room_rsvp_noway_label">Nope.</string>
+    <string name="room_topic_title">About this party</string>
+    <string name="user_unresolved_name">[unknown user]</string>
+    <string name="room_rsvp_sure_response">Will be there</string>
+    <string name="room_rsvp_later_response">Will arrive late</string>
+    <string name="room_rsvp_maybe_response">Will maybe partecipate</string>
+    <string name="room_rsvp_noway_response">Won\'t be there</string>
+    <string name="room_rsvp_comment_placeholder">Leave a comment...</string>
 </resources>

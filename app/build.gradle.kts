@@ -61,6 +61,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.compose.material:material-icons-extended")  // TODO: Remove stuff with ProGuard?
     implementation("org.matrix.android:matrix-android-sdk2:1.5.30")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
