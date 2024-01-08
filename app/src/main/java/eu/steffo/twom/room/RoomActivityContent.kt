@@ -1,19 +1,17 @@
 package eu.steffo.twom.room
 
+import RoomActivityUpdateButton
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
@@ -37,7 +35,7 @@ fun RoomActivityContent(
             Row(TwoMPadding.base) {
                 Text(
                     text = stringResource(R.string.room_topic_title),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.labelLarge,
                 )
             }
             Row(TwoMPadding.base) {
@@ -47,7 +45,7 @@ fun RoomActivityContent(
             Row(TwoMPadding.base) {
                 Text(
                     text = stringResource(R.string.room_rsvp_title),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.labelLarge,
                 )
             }
 
@@ -56,24 +54,25 @@ fun RoomActivityContent(
                 onChange = { rsvpAnswer = it }
             )
 
-            if (rsvpAnswer != null) {
-                Row(Modifier.padding(start = 10.dp, end = 10.dp, bottom = 10.dp)) {
-                    TextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        singleLine = true,
-                        value = rsvpComment,
-                        onValueChange = { rsvpComment = it },
-                        placeholder = {
-                            Text(LocalContext.current.getString(R.string.room_rsvp_comment_placeholder))
-                        },
-                    )
-                }
+            Row(Modifier.padding(start = 10.dp, end = 10.dp)) {
+                RoomActivityCommentField(
+                    value = rsvpComment,
+                    onValueChange = { rsvpComment = it },
+                    rsvpAnswer = rsvpAnswer,
+                )
+            }
+
+            Row(Modifier.padding(all = 10.dp)) {
+                RoomActivityUpdateButton(
+                    onClick = {},
+                    rsvpAnswer = rsvpAnswer,
+                )
             }
 
             Row(TwoMPadding.base) {
                 Text(
                     text = stringResource(R.string.room_invitees_title),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.labelLarge,
                 )
             }
 
@@ -82,11 +81,7 @@ fun RoomActivityContent(
                 MemberListItem(
                     memberId = LocalSession.current!!.myUserId,
                     rsvpAnswer = rsvpAnswer,
-                    rsvpComment = if (rsvpAnswer != null) {
-                        rsvpComment
-                    } else {
-                        ""
-                    },
+                    rsvpComment = rsvpComment,
                 )
 
                 roomSummary.otherMemberIds.forEach {

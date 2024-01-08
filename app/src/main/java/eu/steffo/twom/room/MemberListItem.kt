@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
@@ -21,10 +20,12 @@ import eu.steffo.twom.theme.colorRoleLater
 import eu.steffo.twom.theme.colorRoleMaybe
 import eu.steffo.twom.theme.colorRoleNoway
 import eu.steffo.twom.theme.colorRoleSure
+import eu.steffo.twom.theme.colorRoleUnknown
 import eu.steffo.twom.theme.iconRoleLater
 import eu.steffo.twom.theme.iconRoleMaybe
 import eu.steffo.twom.theme.iconRoleNoway
 import eu.steffo.twom.theme.iconRoleSure
+import eu.steffo.twom.theme.iconRoleUnknown
 import org.matrix.android.sdk.api.session.getUser
 
 // TODO: Check this with brain on
@@ -41,18 +42,36 @@ fun MemberListItem(
 
     val user = session?.getUser(memberId)
 
-    // TODO: These are going to get cached many times...
-    val crSure = colorRoleSure()
-    val crLater = colorRoleLater()
-    val crMaybe = colorRoleMaybe()
-    val crNoway = colorRoleNoway()
+    val colorRole = when (rsvpAnswer) {
+        RSVPAnswer.SURE -> colorRoleSure()
+        RSVPAnswer.LATER -> colorRoleLater()
+        RSVPAnswer.MAYBE -> colorRoleMaybe()
+        RSVPAnswer.NOWAY -> colorRoleNoway()
+        null -> colorRoleUnknown()
+    }
+    val iconRole = when (rsvpAnswer) {
+        RSVPAnswer.SURE -> iconRoleSure
+        RSVPAnswer.LATER -> iconRoleLater
+        RSVPAnswer.MAYBE -> iconRoleMaybe
+        RSVPAnswer.NOWAY -> iconRoleNoway
+        null -> iconRoleUnknown
+    }
+    val iconDescription = when (rsvpAnswer) {
+        RSVPAnswer.SURE -> stringResource(R.string.room_rsvp_sure_response)
+        RSVPAnswer.LATER -> stringResource(R.string.room_rsvp_later_response)
+        RSVPAnswer.MAYBE -> stringResource(R.string.room_rsvp_maybe_response)
+        RSVPAnswer.NOWAY -> stringResource(R.string.room_rsvp_noway_response)
+        null -> stringResource(R.string.room_rsvp_unknown_response)
+    }
 
     ListItem(
-        modifier = Modifier.clickable {
+        modifier = modifier.clickable {
             onClickMember(memberId)
         },
         headlineContent = {
-            Text(user?.displayName ?: stringResource(R.string.user_unresolved_name))
+            Text(
+                text = user?.displayName ?: stringResource(R.string.user_unresolved_name),
+            )
         },
         leadingContent = {
             Box(
@@ -67,53 +86,17 @@ fun MemberListItem(
             }
         },
         trailingContent = {
-            when (rsvpAnswer) {
-                RSVPAnswer.SURE -> {
-                    Icon(
-                        imageVector = iconRoleSure,
-                        contentDescription = stringResource(R.string.room_rsvp_sure_label),
-                        tint = crSure.value,
-                    )
-                }
-
-                RSVPAnswer.LATER -> {
-                    Icon(
-                        imageVector = iconRoleLater,
-                        contentDescription = stringResource(R.string.room_rsvp_later_label),
-                        tint = crLater.value,
-                    )
-                }
-
-                RSVPAnswer.MAYBE -> {
-                    Icon(
-                        imageVector = iconRoleMaybe,
-                        contentDescription = stringResource(R.string.room_rsvp_maybe_label),
-                        tint = crMaybe.value,
-                    )
-                }
-
-                RSVPAnswer.NOWAY -> {
-                    Icon(
-                        imageVector = iconRoleNoway,
-                        contentDescription = stringResource(R.string.room_rsvp_later_label),
-                        tint = crNoway.value,
-                    )
-                }
-
-                null -> {}
-            }
+            Icon(
+                imageVector = iconRole,
+                contentDescription = iconDescription,
+                tint = colorRole.value,
+            )
         },
         supportingContent = {
             if (rsvpComment != "") {
                 Text(
                     text = rsvpComment,
-                    color = when (rsvpAnswer) {
-                        RSVPAnswer.SURE -> crSure.value
-                        RSVPAnswer.LATER -> crLater.value
-                        RSVPAnswer.MAYBE -> crMaybe.value
-                        RSVPAnswer.NOWAY -> crNoway.value
-                        null -> Color.Unspecified
-                    }
+                    color = colorRole.value,
                 )
             }
         },
