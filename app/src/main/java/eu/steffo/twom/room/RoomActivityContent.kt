@@ -1,9 +1,7 @@
 package eu.steffo.twom.room
 
-import RoomActivityUpdateButton
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +11,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
 import eu.steffo.twom.matrix.LocalSession
 import eu.steffo.twom.theme.TwoMPadding
@@ -49,25 +46,14 @@ fun RoomActivityContent(
                 )
             }
 
-            RoomActivityChipSelector(
-                value = rsvpAnswer,
-                onChange = { rsvpAnswer = it }
+            RoomActivityAnswerForm(
+                currentRsvpAnswer = rsvpAnswer,
+                currentRsvpComment = rsvpComment,
+                onUpdate = { answer, comment ->
+                    rsvpAnswer = answer
+                    rsvpComment = comment
+                }
             )
-
-            Row(Modifier.padding(start = 10.dp, end = 10.dp)) {
-                RoomActivityCommentField(
-                    value = rsvpComment,
-                    onValueChange = { rsvpComment = it },
-                    rsvpAnswer = rsvpAnswer,
-                )
-            }
-
-            Row(Modifier.padding(all = 10.dp)) {
-                RoomActivityUpdateButton(
-                    onClick = {},
-                    rsvpAnswer = rsvpAnswer,
-                )
-            }
 
             Row(TwoMPadding.base) {
                 Text(

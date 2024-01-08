@@ -7,33 +7,35 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import eu.steffo.twom.theme.StaticColorRole
-import eu.steffo.twom.theme.TwoMPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RoomActivityChip(
+fun RSVPAnswerFilterChip(
+    modifier: Modifier = Modifier,
+    representing: RSVPAnswer,
     selected: Boolean = false,
     onClick: () -> Unit = {},
-    text: String,
-    imageVector: ImageVector,
-    colorRole: StaticColorRole,
 ) {
+    val icon = representing.toIcon()
+    val colorRole = representing.toStaticColorRole()
+    val labelResourceId = representing.toLabelResourceId()
+
     FilterChip(
-        modifier = TwoMPadding.chips,
+        modifier = modifier,
         selected = selected,
         onClick = onClick,
         leadingIcon = {
             Icon(
-                imageVector = imageVector,
+                imageVector = icon,
                 contentDescription = null,
             )
         },
         label = {
             Text(
-                text = text,
+                text = stringResource(labelResourceId),
                 style = MaterialTheme.typography.bodyLarge,
             )
         },
