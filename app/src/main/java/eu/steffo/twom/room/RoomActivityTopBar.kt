@@ -23,8 +23,8 @@ fun RoomActivityTopBar(
     modifier: Modifier = Modifier,
     onBack: () -> Unit = {},
 ) {
-    val isLoading = (LocalRoom.current == null)
-    val roomSummary = LocalRoom.current?.getOrNull()
+    val isLoading = (LocalRoomSummary.current == null)
+    val roomSummary = LocalRoomSummary.current?.getOrNull()
     val isError = (!isLoading && roomSummary == null)
 
     TopAppBar(

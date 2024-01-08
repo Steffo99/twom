@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import eu.steffo.twom.matrix.LocalSession
 import eu.steffo.twom.theme.TwoMTheme
 import org.matrix.android.sdk.api.session.Session
+import java.util.Optional
 
 @Composable
 fun RoomActivityScaffold(
@@ -17,23 +18,26 @@ fun RoomActivityScaffold(
     roomId: String,
     onBack: () -> Unit = {},
 ) {
+    val room = Optional.ofNullable(session.roomService().getRoom(roomId))
     val roomSummary by session.roomService().getRoomSummaryLive(roomId).observeAsState()
 
     TwoMTheme {
         CompositionLocalProvider(LocalSession provides session) {
-            CompositionLocalProvider(LocalRoom provides roomSummary) {
-                Scaffold(
-                    topBar = {
-                        RoomActivityTopBar(
-                            onBack = onBack,
-                        )
-                    },
-                    content = {
-                        RoomActivityContent(
-                            modifier = Modifier.padding(it),
-                        )
-                    },
-                )
+            CompositionLocalProvider(LocalRoom provides room) {
+                CompositionLocalProvider(LocalRoomSummary provides roomSummary) {
+                    Scaffold(
+                        topBar = {
+                            RoomActivityTopBar(
+                                onBack = onBack,
+                            )
+                        },
+                        content = {
+                            RoomActivityContent(
+                                modifier = Modifier.padding(it),
+                            )
+                        },
+                    )
+                }
             }
         }
     }

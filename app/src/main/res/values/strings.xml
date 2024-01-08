@@ -55,4 +55,7 @@
     <string name="room_rsvp_unknown_response">Hasn\'t answered yet</string>
     <string name="room_rsvp_unknown_placeholder">Leave a comment…</string>
     <string name="room_update_label">Update</string>
+    <string name="room_error_session_missing">The Matrix session context has not been initialized.</string>
+    <string name="room_error_room_notfound">Could not find the requested Matrix room.</string>
+    <string name="room_error_room_missing">The Matrix room context has not been initialized.</string>
 </resources>

@@ -14,8 +14,9 @@ import eu.steffo.twom.theme.iconMaybe
 import eu.steffo.twom.theme.iconNoway
 import eu.steffo.twom.theme.iconSure
 import eu.steffo.twom.theme.iconUnknown
+import org.matrix.android.sdk.api.util.JsonDict
 
-enum class RSVPAnswer {
+enum class RSVPAnswer : JsonDict {
     SURE,
     LATER,
     MAYBE,
