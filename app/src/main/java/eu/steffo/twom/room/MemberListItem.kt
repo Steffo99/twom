@@ -65,10 +65,12 @@ fun MemberListItem(
             )
         },
         supportingContent = {
-            Text(
-                text = rsvpComment,
-                color = colorRole.value,
-            )
+            if (rsvpComment != "") {
+                Text(
+                    text = rsvpComment,
+                    color = colorRole.value,
+                )
+            }
         },
     )
 }
