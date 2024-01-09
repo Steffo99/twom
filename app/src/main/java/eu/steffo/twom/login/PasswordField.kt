@@ -4,8 +4,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material.icons.outlined.RemoveRedEye
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -87,12 +87,11 @@ fun PasswordField(
                 }
             ) {
                 Icon(
-                    // TODO: Replace with better icons when possible
                     if(showPassword) {
-                        Icons.Filled.Favorite
+                        Icons.Filled.RemoveRedEye
                     }
                     else {
-                        Icons.Filled.FavoriteBorder
+                        Icons.Outlined.RemoveRedEye
                     },
                     if(showPassword) {
                         LocalContext.current.getString(R.string.password_hide)
