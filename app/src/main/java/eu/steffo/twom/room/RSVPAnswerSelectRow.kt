@@ -15,14 +15,14 @@ import eu.steffo.twom.theme.TwoMPadding
 @Preview
 fun RSVPAnswerSelectRow(
     modifier: Modifier = Modifier,
-    value: RSVPAnswer? = null,
-    onChange: (answer: RSVPAnswer?) -> Unit = {},
+    value: RSVPAnswer = RSVPAnswer.UNKNOWN,
+    onChange: (answer: RSVPAnswer) -> Unit = {},
 ) {
     fun toggleSwitch(representing: RSVPAnswer): () -> Unit {
         return {
             onChange(
                 when (value) {
-                    representing -> null
+                    representing -> RSVPAnswer.UNKNOWN
                     else -> representing
                 }
             )
@@ -35,7 +35,7 @@ fun RSVPAnswerSelectRow(
     ) {
         Row(
             modifier = Modifier
-                .padding(start = 10.dp, end = 10.dp)
+                .padding(start = 8.dp, end = 8.dp)
         ) {
             RSVPAnswerFilterChip(
                 modifier = TwoMPadding.chips,

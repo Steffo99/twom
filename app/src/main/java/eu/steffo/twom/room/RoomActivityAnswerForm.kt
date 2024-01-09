@@ -14,9 +14,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 @Preview
 fun RoomActivityAnswerForm(
-    currentRsvpAnswer: RSVPAnswer? = null,
+    currentRsvpAnswer: RSVPAnswer = RSVPAnswer.UNKNOWN,
     currentRsvpComment: String = "",
-    onUpdate: (rsvpAnswer: RSVPAnswer?, rsvpComment: String) -> Unit = { _, _ -> },
+    onUpdate: (rsvpAnswer: RSVPAnswer, rsvpComment: String) -> Unit = { _, _ -> },
+    isUpdating: Boolean = false,
 ) {
     var rsvpAnswer by rememberSaveable { mutableStateOf(currentRsvpAnswer) }
     var rsvpComment by rememberSaveable { mutableStateOf(currentRsvpComment) }
@@ -33,14 +34,14 @@ fun RoomActivityAnswerForm(
             .fillMaxWidth(),
         value = rsvpComment,
         onChange = { rsvpComment = it },
-        currentRsvpAnswer = rsvpAnswer,
+        rsvpAnswer = rsvpAnswer,
     )
     RSVPUpdateButton(
         modifier = Modifier
             .padding(start = 10.dp, end = 10.dp, top = 4.dp, bottom = 4.dp)
             .fillMaxWidth(),
         onClick = { onUpdate(rsvpAnswer, rsvpComment) },
-        enabled = hasChanged,
-        currentRsvpAnswer = rsvpAnswer,
+        enabled = hasChanged && !isUpdating,
+        rsvpAnswer = rsvpAnswer,
     )
 }

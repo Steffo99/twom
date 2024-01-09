@@ -16,9 +16,9 @@ fun RSVPUpdateButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
-    currentRsvpAnswer: RSVPAnswer? = null,
+    rsvpAnswer: RSVPAnswer = RSVPAnswer.UNKNOWN,
 ) {
-    val colorRole = currentRsvpAnswer.toStaticColorRole()
+    val colorRole = rsvpAnswer.toStaticColorRole()
 
     Button(
         modifier = modifier,

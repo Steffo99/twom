@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomPreset
+import org.matrix.android.sdk.api.session.room.model.create.CreateRoomStateEvent
 
 
 class MainActivity : ComponentActivity() {
@@ -176,6 +177,52 @@ class MainActivity : ComponentActivity() {
                 createRoomParams.topic = description
                 createRoomParams.preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
                 createRoomParams.roomType = TwoMMatrix.ROOM_TYPE
+                createRoomParams.initialStates = mutableListOf(
+                    CreateRoomStateEvent(
+                        type = "m.room.power_levels",
+                        content = mapOf(
+                            // Users start with a power level of 0
+                            "users_default" to 0,
+                            // Allow only the party creator to send arbitrary events
+                            "events_default" to 100,
+                            // Allow only the party creator to send arbitrary states
+                            "state_default" to 100,
+
+                            // Allow only party officers to send invites
+                            "invite" to 50,
+                            // Allow only party officers to kick invitees
+                            "kick" to 50,
+                            // Allow only party officers to ban invitees
+                            "ban" to 50,
+                            // Allow only party officers to redact other people's events
+                            "redact" to 50,
+
+                            "notifications" to mapOf(
+                                // Allow only party officers to ping the room
+                                "room" to 50,
+                            ),
+
+                            "events" to mapOf(
+                                // Allow party officers to rename the room
+                                "m.room.name" to 50,
+                                // Allow party officers to change the room avatar
+                                "m.room.avatar" to 50,
+                                // Allow party officers to change the room topic
+                                "m.room.topic" to 50,
+                                // Allow everyone to redact their own states
+                                "m.room.redaction" to 0,
+                                // Allow everyone to set RSVPs
+                                // FIXME: Do we really want everyone to set RSVPs? Maybe we should use m.room.member instead?
+                                "eu.steffo.twom.rsvp" to 0,
+                            ),
+
+                            "users" to mapOf(
+                                // Give ourselves admin permissions
+                                session!!.myUserId to 100,
+                            )
+                        )
+                    )
+                )
 
                 when (avatarUri?.toFile()?.isFile) {
                     false -> {

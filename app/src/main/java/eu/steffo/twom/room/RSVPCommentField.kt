@@ -1,6 +1,5 @@
 package eu.steffo.twom.room
 
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -16,9 +15,9 @@ fun RSVPCommentField(
     modifier: Modifier = Modifier,
     value: String = "",
     onChange: (value: String) -> Unit = {},
-    currentRsvpAnswer: RSVPAnswer? = null,
+    rsvpAnswer: RSVPAnswer = RSVPAnswer.UNKNOWN,
 ) {
-    val colorRole = currentRsvpAnswer.toStaticColorRole()
+    val colorRole = rsvpAnswer.toStaticColorRole()
 
     OutlinedTextField(
         modifier = modifier,
@@ -28,24 +27,17 @@ fun RSVPCommentField(
         shape = MaterialTheme.shapes.small,
         placeholder = {
             Text(
-                text = stringResource(currentRsvpAnswer.toPlaceholderResourceId())
+                text = stringResource(rsvpAnswer.toPlaceholderResourceId())
             )
         },
-        colors = if (currentRsvpAnswer != null) {
-            OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = colorRole.valueContainer,
-                unfocusedContainerColor = colorRole.valueContainer,
-                focusedTextColor = colorRole.onValueContainer,
-                unfocusedTextColor = colorRole.onValueContainer,
-                focusedBorderColor = colorRole.onValueContainer,
-                unfocusedBorderColor = colorRole.onValueContainer.copy(alpha = 0.3f),
-                cursorColor = colorRole.onValueContainer,
-            )
-        } else {
-            OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = LocalContentColor.current,
-                unfocusedBorderColor = MaterialTheme.colorScheme.surfaceVariant,
-            )
-        },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = colorRole.valueContainer,
+            unfocusedContainerColor = colorRole.valueContainer,
+            focusedTextColor = colorRole.onValueContainer,
+            unfocusedTextColor = colorRole.onValueContainer,
+            focusedBorderColor = colorRole.onValueContainer,
+            unfocusedBorderColor = colorRole.onValueContainer.copy(alpha = 0.3f),
+            cursorColor = colorRole.onValueContainer,
+        )
     )
 }

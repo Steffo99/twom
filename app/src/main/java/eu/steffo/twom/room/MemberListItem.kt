@@ -25,8 +25,8 @@ fun MemberListItem(
     modifier: Modifier = Modifier,
     memberId: String,
     onClickMember: (memberId: String) -> Unit = {},
-    rsvpAnswer: RSVPAnswer? = null,
-    rsvpComment: String = "",
+    rsvpAnswer: RSVPAnswer,
+    rsvpComment: String,
 ) {
     val session = LocalSession.current
 

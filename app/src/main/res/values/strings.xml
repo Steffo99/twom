@@ -58,4 +58,7 @@
     <string name="room_error_session_missing">The Matrix session context has not been initialized.</string>
     <string name="room_error_room_notfound">Could not find the requested Matrix room.</string>
     <string name="room_error_room_missing">The Matrix room context has not been initialized.</string>
+    <string name="room_rsvp_unknown_label">No answer</string>
+    <string name="room_error_roomsummary_missing">The Matrix room summary context has not been initialized.</string>
+    <string name="room_error_roomsummary_notfound">Could not find the requested Matrix room summary.</string>
 </resources>

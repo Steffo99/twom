@@ -8,7 +8,7 @@ fun colorRoleUnknown(): StaticColorRole {
     return StaticColorRole(
         value = MaterialTheme.colorScheme.inverseSurface,
         onValue = MaterialTheme.colorScheme.inverseOnSurface,
-        valueContainer = MaterialTheme.colorScheme.surfaceVariant,
-        onValueContainer = MaterialTheme.colorScheme.onSurfaceVariant,
+        valueContainer = MaterialTheme.colorScheme.surface,
+        onValueContainer = MaterialTheme.colorScheme.onSurface,
     )
 }
