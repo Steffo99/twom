@@ -1,5 +1,11 @@
 package eu.steffo.twom.room
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Circle
+import androidx.compose.material.icons.outlined.Help
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
@@ -11,11 +17,6 @@ import eu.steffo.twom.theme.colorRoleMaybe
 import eu.steffo.twom.theme.colorRoleNoway
 import eu.steffo.twom.theme.colorRoleSure
 import eu.steffo.twom.theme.colorRoleUnknown
-import eu.steffo.twom.theme.iconLater
-import eu.steffo.twom.theme.iconMaybe
-import eu.steffo.twom.theme.iconNoway
-import eu.steffo.twom.theme.iconSure
-import eu.steffo.twom.theme.iconUnknown
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.room.Room
@@ -42,11 +43,11 @@ fun RSVPAnswer.toStaticColorRole(): StaticColorRole {
 
 fun RSVPAnswer.toIcon(): ImageVector {
     return when (this) {
-        RSVPAnswer.SURE -> iconSure
-        RSVPAnswer.LATER -> iconLater
-        RSVPAnswer.MAYBE -> iconMaybe
-        RSVPAnswer.NOWAY -> iconNoway
-        RSVPAnswer.UNKNOWN -> iconUnknown
+        RSVPAnswer.SURE -> Icons.Outlined.CheckCircle
+        RSVPAnswer.LATER -> Icons.Outlined.Schedule
+        RSVPAnswer.MAYBE -> Icons.Outlined.Help
+        RSVPAnswer.NOWAY -> Icons.Outlined.Cancel
+        RSVPAnswer.UNKNOWN -> Icons.Outlined.Circle
     }
 }
 
@@ -80,16 +81,6 @@ fun RSVPAnswer.toPlaceholderResourceId(): Int {
     }
 }
 
-fun RSVPAnswer.toEmoji(): String {
-    return when (this) {
-        RSVPAnswer.SURE -> "✅"
-        RSVPAnswer.LATER -> "\uD83D\uDD52️"
-        RSVPAnswer.MAYBE -> "❔"
-        RSVPAnswer.NOWAY -> "⛔️"
-        RSVPAnswer.UNKNOWN -> "ℹ️"
-    }
-}
-
 fun makeRSVP(request: State<Optional<Event>?>?): Triple<Event, RSVPAnswer, String>? {
     val event = request?.value?.getOrNull() ?: return null
     val content = event.content ?: return null
@@ -118,10 +109,10 @@ fun makeRSVP(request: State<Optional<Event>?>?): Triple<Event, RSVPAnswer, Strin
 
 @Composable
 fun observeRsvpAsLiveState(room: Room, userId: String): Triple<Event, RSVPAnswer, String>? {
-    val request = room.stateService().getStateEventLive(
+    val stateRequest = room.stateService().getStateEventLive(
         eventType = "eu.steffo.twom.rsvp",
         stateKey = QueryStringValue.Equals(userId),
     ).observeAsState()
 
-    return makeRSVP(request)
+    return makeRSVP(stateRequest)
 }

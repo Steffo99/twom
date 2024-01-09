@@ -1,8 +1,12 @@
 package eu.steffo.twom.room
 
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +23,6 @@ import eu.steffo.twom.matrix.LocalSession
 import eu.steffo.twom.theme.ErrorText
 import eu.steffo.twom.theme.TwoMPadding
 import kotlinx.coroutines.launch
-import org.matrix.android.sdk.api.failure.Failure
 import kotlin.jvm.optionals.getOrNull
 
 
@@ -77,115 +80,178 @@ fun RoomActivityContent(
         roomSummary.otherMemberIds.map { it to observeRsvpAsLiveState(room = room, userId = it) }
 
     var isUpdatingMyRsvp by rememberSaveable { mutableStateOf(false) }
-    var errorMyRsvp by rememberSaveable { mutableStateOf<Failure.ServerError?>(null) }
+    var errorMyRsvp by rememberSaveable { mutableStateOf<Throwable?>(null) }
+    var isSendingInvite by rememberSaveable { mutableStateOf(false) }
+    var errorInvite by rememberSaveable { mutableStateOf<Throwable?>(null) }
 
-    Column(modifier) {
-        Row(TwoMPadding.base) {
-            Text(
-                text = stringResource(R.string.room_topic_title),
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
-        Row(TwoMPadding.base) {
-            Text(roomSummary.topic)
-        }
-
-        Row(TwoMPadding.base) {
-            Text(
-                text = stringResource(R.string.room_rsvp_title),
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
-
-        RoomActivityAnswerForm(
-            // FIXME: This always set the request to UNKNOWN
-            currentRsvpAnswer = myRsvpRequest?.second ?: RSVPAnswer.UNKNOWN,
-            currentRsvpComment = myRsvpRequest?.third ?: "",
-            onUpdate = { answer, comment ->
-                isUpdatingMyRsvp = true
-                errorMyRsvp = null
-
-                scope.launch SendRSVP@{
-                    Log.d(
-                        "Room",
-                        "Updating eu.steffo.twom.rsvp with answer `$answer` and comment `$comment`..."
+    Box(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+    ) {
+        Column(
+            modifier = Modifier.fillMaxHeight()
+        ) {
+            if (roomSummary.topic != "") {
+                Row(TwoMPadding.base) {
+                    Text(
+                        text = stringResource(R.string.room_topic_title),
+                        style = MaterialTheme.typography.labelLarge,
                     )
-                    try {
-                        room.stateService().sendStateEvent(
-                            eventType = "eu.steffo.twom.rsvp",
-                            stateKey = session.myUserId,
-                            body = mapOf(
-                                pairs = arrayOf(
-                                    "answer" to answer.toString(),
-                                    "comment" to comment,
-                                )
-                            ),
-                        )
-                    } catch (error: Failure.ServerError) {
-                        Log.e("Room", "Failed to update eu.steffo.twom.rsvp: $error")
-                        errorMyRsvp = error
-                        isUpdatingMyRsvp = false
-                        return@SendRSVP
-                    }
-                    Log.d(
-                        "Room",
-                        "Updated eu.steffo.twom.rsvp with answer `$answer` and comment `$comment`!"
-                    )
+                }
+                Row(TwoMPadding.base) {
+                    Text(roomSummary.topic)
+                }
+            }
 
-                    if (myRsvpRequest != null) {
-                        val myRsvpRequestEventId = myRsvpRequest.first.eventId
+            Row(TwoMPadding.base) {
+                Text(
+                    text = stringResource(R.string.room_rsvp_title),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+            }
+
+            RoomActivityAnswerForm(
+                // FIXME: This always set the request to UNKNOWN
+                currentRsvpAnswer = myRsvpRequest?.second ?: RSVPAnswer.UNKNOWN,
+                currentRsvpComment = myRsvpRequest?.third ?: "",
+                onUpdate = { answer, comment ->
+                    isUpdatingMyRsvp = true
+                    errorMyRsvp = null
+
+                    scope.launch SendRSVP@{
                         Log.d(
                             "Room",
-                            "Attempting to redact old eu.steffo.twom.rsvp event `${myRsvpRequestEventId}`..."
+                            "Updating eu.steffo.twom.rsvp with answer `$answer` and comment `$comment`..."
                         )
                         try {
-                            room.sendService()
-                                .redactEvent(myRsvpRequest.first, "Replaced with new information")
-                        } catch (error: Failure.ServerError) {
-                            Log.e("Room", "Failed to redact the old eu.steffo.twom.rsvp: $error")
+                            room.stateService().sendStateEvent(
+                                eventType = "eu.steffo.twom.rsvp",
+                                stateKey = session.myUserId,
+                                body = mapOf(
+                                    pairs = arrayOf(
+                                        "answer" to answer.toString(),
+                                        "comment" to comment,
+                                    )
+                                ),
+                            )
+                        } catch (error: Exception) {
+                            Log.e("Room", "Failed to update eu.steffo.twom.rsvp: $error")
                             errorMyRsvp = error
                             isUpdatingMyRsvp = false
                             return@SendRSVP
                         }
-                    } else {
-                        Log.d("Room", "Not doing anything else; there isn't anything to redact.")
+                        Log.d(
+                            "Room",
+                            "Updated eu.steffo.twom.rsvp with answer `$answer` and comment `$comment`!"
+                        )
+
+                        if (myRsvpRequest != null) {
+                            val myRsvpRequestEventId = myRsvpRequest.first.eventId
+                            Log.d(
+                                "Room",
+                                "Attempting to redact old eu.steffo.twom.rsvp event `${myRsvpRequestEventId}`..."
+                            )
+                            try {
+                                room.sendService()
+                                    .redactEvent(
+                                        myRsvpRequest.first,
+                                        "Replaced with new information"
+                                    )
+                            } catch (error: Throwable) {
+                                Log.e(
+                                    "Room",
+                                    "Failed to redact the old eu.steffo.twom.rsvp: $error"
+                                )
+                                errorMyRsvp = error
+                                isUpdatingMyRsvp = false
+                                return@SendRSVP
+                            }
+                        } else {
+                            Log.d(
+                                "Room",
+                                "Not doing anything else; there isn't anything to redact."
+                            )
+                        }
+
+                        isUpdatingMyRsvp = false
                     }
+                },
+                isUpdating = isUpdatingMyRsvp,
+            )
 
-                    isUpdatingMyRsvp = false
+            if (errorMyRsvp != null) {
+                // TODO: Maybe add an human-friendly error message?
+                Row(TwoMPadding.base) {
+                    ErrorText(
+                        errorMyRsvp.toString()
+                    )
                 }
-            },
-            isUpdating = isUpdatingMyRsvp,
-        )
+            }
 
-        if (errorMyRsvp != null) {
-            // TODO: Maybe add an human-friendly error message?
             Row(TwoMPadding.base) {
-                ErrorText(
-                    errorMyRsvp.toString()
+                Text(
+                    text = stringResource(R.string.room_invitees_title),
+                    style = MaterialTheme.typography.labelLarge,
                 )
             }
-        }
 
-        Row(TwoMPadding.base) {
-            Text(
-                text = stringResource(R.string.room_invitees_title),
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
-
-        Column(TwoMPadding.base) {
-            MemberListItem(
-                memberId = LocalSession.current!!.myUserId,
-                rsvpAnswer = myRsvpRequest?.second ?: RSVPAnswer.UNKNOWN,
-                rsvpComment = myRsvpRequest?.third ?: "",
-            )
-
-            otherRsvpRequests.forEach {
+            Column(TwoMPadding.base) {
                 MemberListItem(
-                    memberId = it.first,
-                    rsvpAnswer = it.second?.second ?: RSVPAnswer.UNKNOWN,
-                    rsvpComment = it.second?.third ?: "",
+                    memberId = LocalSession.current!!.myUserId,
+                    rsvpAnswer = myRsvpRequest?.second ?: RSVPAnswer.UNKNOWN,
+                    rsvpComment = myRsvpRequest?.third ?: "",
                 )
+
+                // FIXME: This also displays invited members!
+                otherRsvpRequests.forEach {
+                    MemberListItem(
+                        memberId = it.first,
+                        rsvpAnswer = it.second?.second ?: RSVPAnswer.UNKNOWN,
+                        rsvpComment = it.second?.third ?: "",
+                    )
+                }
+            }
+
+            Row(TwoMPadding.base) {
+                Text(
+                    text = stringResource(R.string.room_invite_title),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+            }
+
+            Row(TwoMPadding.base) {
+                RoomActivityInviteForm(
+                    busy = isSendingInvite,
+                    onSend = {
+                        scope.launch SendInvite@{
+                            isSendingInvite = true
+                            errorInvite = null
+
+                            Log.d("Room", "Sending invite to `$it`...")
+
+                            try {
+                                room.membershipService().invite(it)
+                            } catch (error: Throwable) {
+                                Log.e("Room", "Failed to send invite to `$it`: $error")
+                                errorInvite = error
+                                isSendingInvite = false
+                                return@SendInvite
+                            }
+
+                            Log.d("Room", "Successfully sent invite to `$it`!")
+                            isSendingInvite = false
+                        }
+                    }
+                )
+            }
+
+            if (errorInvite != null) {
+                // TODO: Maybe add an human-friendly error message?
+                Row(TwoMPadding.base) {
+                    ErrorText(
+                        errorInvite.toString()
+                    )
+                }
             }
         }
     }

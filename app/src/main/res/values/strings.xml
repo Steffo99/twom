@@ -61,4 +61,11 @@
     <string name="room_rsvp_unknown_label">No answer</string>
     <string name="room_error_roomsummary_missing">The Matrix room summary context has not been initialized.</string>
     <string name="room_error_roomsummary_notfound">Could not find the requested Matrix room summary.</string>
+    <string name="room_invite_username_placeholder">\@steffotwo:candy.steffo.eu</string>
+    <string name="room_invite_username_label">Username</string>
+    <string name="room_rsvp_comment_label">Reason</string>
+    <string name="room_invite_button_label">Invite</string>
+    <string name="room_invite_title">Send an invite</string>
+    <string name="room_rsvp_invited_label">Not opened</string>
+    <string name="room_rsvp_invited_response">Hasn\'t opened the invite yet</string>
 </resources>
