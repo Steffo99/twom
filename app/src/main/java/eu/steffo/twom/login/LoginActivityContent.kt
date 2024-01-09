@@ -182,8 +182,7 @@ fun LoginActivityContent(
                             session = wizard.login(
                                 login = username,
                                 password = password,
-                                initialDeviceName = "Garasauto",  // TODO: Set a proper device name
-                                deviceId = "Garasauto",  // TODO: Set a proper device id
+                                initialDeviceName = "TwoM (Android)",
                             )
                         } catch (e: Throwable) {
                             Log.e(
