@@ -51,7 +51,6 @@ class ImageHandler {
             // Create a transformation matrix to rotate the bitmap based on the orientation
             val transformationMatrix = Matrix()
 
-            // TODO: Make sure all these transformations are valid
             when (orientation) {
                 ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> {
                     transformationMatrix.postScale(-1f, 1f)
@@ -66,7 +65,14 @@ class ImageHandler {
                 }
 
                 ExifInterface.ORIENTATION_TRANSPOSE -> {
-                    /* TODO: Transpose the image Matrix */
+                    // Untested.
+                    transformationMatrix.setValues(FloatArray(16) {
+                        if (it == 0 || it == 6 || it == 9 || it == 15) {
+                            1f
+                        } else {
+                            0f
+                        }
+                    })
                 }
 
                 ExifInterface.ORIENTATION_ROTATE_90 -> {
@@ -74,7 +80,14 @@ class ImageHandler {
                 }
 
                 ExifInterface.ORIENTATION_TRANSVERSE -> {
-                    /* TODO: Flip horizontally the image Matrix, then transpose it */
+                    // Untested.
+                    transformationMatrix.setValues(FloatArray(16) {
+                        if (it == 3 || it == 5 || it == 10 || it == 12) {
+                            1f
+                        } else {
+                            0f
+                        }
+                    })
                 }
 
                 ExifInterface.ORIENTATION_ROTATE_270 -> {
