@@ -34,7 +34,6 @@ fun RoomActivityRoomIconButton(
     Box(modifier) {
         // Mostly copied from IconButton's source
         // TODO: Make sure accessibility works right
-        // FIXME: This will need changes when Material 4 is released
         Box(
             modifier = Modifier
                 .minimumInteractiveComponentSize()
