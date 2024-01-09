@@ -68,4 +68,5 @@
     <string name="room_invite_title">Send an invite</string>
     <string name="room_rsvp_invited_label">Not opened</string>
     <string name="room_rsvp_invited_response">Hasn\'t opened the invite yet</string>
+    <string name="main_room_leave_label">Leave party</string>
 </resources>
