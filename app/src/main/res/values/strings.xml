@@ -55,7 +55,7 @@
     <string name="room_rsvp_unknown_response">Hasn\'t answered yet</string>
     <string name="room_rsvp_unknown_placeholder">Leave a comment…</string>
     <string name="room_update_label">Update</string>
-    <string name="room_error_session_missing">The Matrix session context has not been initialized.</string>
+    <string name="error_session_missing">The Matrix session context has not been initialized.</string>
     <string name="room_error_room_notfound">Could not find the requested Matrix room.</string>
     <string name="room_error_room_missing">The Matrix room context has not been initialized.</string>
     <string name="room_rsvp_unknown_label">No answer</string>
@@ -69,4 +69,9 @@
     <string name="room_rsvp_invited_label">Not opened</string>
     <string name="room_rsvp_invited_response">Hasn\'t opened the invite yet</string>
     <string name="main_room_leave_label">Leave party</string>
+    <string name="login_error_wellknown_generic">Something went wrong while retrieving .well-known data: %1$s</string>
+    <string name="login_error_flows_generic">Something went wrong while retrieving login flows: %1$s</string>
+    <string name="login_error_wizard_generic">Something went wrong while setting up the login wizard: %1$s</string>
+    <string name="login_error_login_generic">Something went wrong while logging in: %1$s</string>
+    <string name="main_error_leave_generic">Something went wrong while leaving the room: %1$s</string>
 </resources>

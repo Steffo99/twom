@@ -34,7 +34,7 @@ fun RoomActivityContent(
 
     val session = LocalSession.current
     if (session == null) {
-        ErrorText(stringResource(R.string.room_error_session_missing))
+        ErrorText(stringResource(R.string.error_session_missing))
         return
     }
 
