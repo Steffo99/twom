@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import eu.steffo.twom.matrix.avatar.AvatarFromImageBitmap
 import eu.steffo.twom.utils.BitmapUtilities
 
 @Composable
@@ -49,7 +48,7 @@ fun AvatarPicker(
                 launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
     ) {
-        AvatarFromImageBitmap(
+        AvatarImage(
             bitmap = selection?.asImageBitmap(),
             fallbackText = fallbackText,
         )

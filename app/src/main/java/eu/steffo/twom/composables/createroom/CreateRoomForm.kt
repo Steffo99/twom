@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
 import eu.steffo.twom.composables.avatar.AvatarPicker
-import eu.steffo.twom.theme.TwoMPadding
+import eu.steffo.twom.composables.theme.basePadding
 import eu.steffo.twom.utils.BitmapUtilities
 
 @Composable
@@ -39,7 +39,7 @@ fun CreateRoomForm(
     var avatarUri by rememberSaveable { mutableStateOf<Uri?>(null) }
 
     Column(modifier) {
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             val avatarContentDescription = stringResource(R.string.create_avatar_label)
             AvatarPicker(
                 modifier = Modifier
@@ -67,7 +67,7 @@ fun CreateRoomForm(
             )
         }
 
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             TextField(
                 modifier = Modifier
                     .height(180.dp)
@@ -80,7 +80,7 @@ fun CreateRoomForm(
             )
         }
 
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             Button(
                 modifier = Modifier
                     .fillMaxWidth(),

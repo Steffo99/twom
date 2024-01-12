@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.main
+package eu.steffo.twom.composables.viewroom
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.launch
@@ -12,18 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
-import eu.steffo.twom.activities.CreateRoomActivity
+import eu.steffo.twom.activities.InviteUserActivity
 
 @Composable
 @Preview
-fun CreateRoomFAB(
+fun InviteFAB(
     modifier: Modifier = Modifier,
-    onCreateParamsSelected: (name: String, description: String, avatarUri: String?) -> Unit = { _, _, _ -> },
+    onUserSelected: (userId: String) -> Unit = {},
 ) {
     val launcher =
-        rememberLauncherForActivityResult(CreateRoomActivity.Contract()) {
+        rememberLauncherForActivityResult(InviteUserActivity.Contract()) {
             if (it != null) {
-                onCreateParamsSelected(it.name, it.description, it.avatarUri)
+                onUserSelected(it)
             }
         }
 
@@ -37,7 +37,7 @@ fun CreateRoomFAB(
             )
         },
         text = {
-            Text(stringResource(R.string.main_efab_create_text))
+            Text(stringResource(R.string.room_invite_button_label))
         }
     )
 }

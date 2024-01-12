@@ -7,12 +7,10 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.lifecycle.lifecycleScope
 import eu.steffo.twom.composables.main.MainScaffold
-import eu.steffo.twom.matrix.TwoMMatrix
+import eu.steffo.twom.utils.TwoMGlobals
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
@@ -21,38 +19,15 @@ import org.matrix.android.sdk.api.session.room.model.create.CreateRoomStateEvent
 
 
 class MainActivity : ComponentActivity() {
-    private lateinit var loginLauncher: ActivityResultLauncher<Intent>
-    private lateinit var roomLauncher: ActivityResultLauncher<Intent>
-    private lateinit var createLauncher: ActivityResultLauncher<Intent>
-
     private var session: Session? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        TwoMMatrix.ensureMatrix(applicationContext)
+        TwoMGlobals.ensureMatrix(applicationContext)
 
         fetchLastSession()
         openSession()
-
-        loginLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.StartActivityForResult(),
-                this::onLogin
-            )
-
-        roomLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.StartActivityForResult(),
-                this::onRoom
-            )
-
-        createLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.StartActivityForResult(),
-                this::onCreate
-            )
-
         resetContent()
     }
 
@@ -64,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
     private fun fetchLastSession() {
         Log.d("Main", "Fetching the last successfully authenticated session...")
-        session = TwoMMatrix.matrix.authenticationService().getLastAuthenticatedSession()
+        session = TwoMGlobals.matrix.authenticationService().getLastAuthenticatedSession()
     }
 
     private fun openSession() {
@@ -99,27 +74,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun destroySession() {
-
-    }
-
-    private fun onClickRoom(roomId: String) {
-        Log.d("Main", "Clicked a room, launching room activity...")
-        val intent = Intent(applicationContext, RoomActivity::class.java)
-        intent.putExtra(RoomActivity.ROOM_ID_EXTRA, roomId)
-        roomLauncher.launch(intent)
-    }
-
-    private fun onRoom(result: ActivityResult) {
-        Log.d("Main", "Received result from room activity: $result")
-    }
-
-    private fun onClickCreate() {
-        Log.d("Main", "Clicked the New button, launching create activity...")
-        val intent = Intent(applicationContext, CreateRoomActivity::class.java)
-        createLauncher.launch(intent)
-    }
-
     private fun onCreate(result: ActivityResult) {
         Log.d("Main", "Received result from create activity: $result")
         if (result.resultCode == RESULT_OK) {
@@ -146,7 +100,7 @@ class MainActivity : ComponentActivity() {
                 createRoomParams.name = name
                 createRoomParams.topic = description
                 createRoomParams.preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
-                createRoomParams.roomType = TwoMMatrix.ROOM_TYPE
+                createRoomParams.roomType = TwoMGlobals.ROOM_TYPE
                 createRoomParams.initialStates = mutableListOf(
                     CreateRoomStateEvent(
                         type = "m.room.power_levels",

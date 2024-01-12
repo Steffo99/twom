@@ -52,13 +52,10 @@
     <string name="room_rsvp_later_placeholder">Why will you be late?</string>
     <string name="room_rsvp_maybe_placeholder">What will determine your partecipation?</string>
     <string name="room_rsvp_noway_placeholder">Why won\'t you partecipate?</string>
-    <string name="room_rsvp_unknown_response">Hasn\'t answered yet</string>
-    <string name="room_rsvp_unknown_placeholder">Leave a comment…</string>
-    <string name="room_update_label">Update</string>
+    <string name="room_rsvp_update_label">Update</string>
     <string name="error_session_missing">The Matrix session context has not been initialized.</string>
     <string name="room_error_room_notfound">Could not find the requested Matrix room.</string>
     <string name="room_error_room_missing">The Matrix room context has not been initialized.</string>
-    <string name="room_rsvp_unknown_label">No answer</string>
     <string name="room_error_roomsummary_missing">The Matrix room summary context has not been initialized.</string>
     <string name="room_error_roomsummary_notfound">Could not find the requested Matrix room summary.</string>
     <string name="room_invite_username_placeholder">\@steffotwo:candy.steffo.eu</string>
@@ -74,4 +71,15 @@
     <string name="login_error_wizard_generic">Something went wrong while setting up the login wizard: %1$s</string>
     <string name="login_error_login_generic">Something went wrong while logging in: %1$s</string>
     <string name="main_error_leave_generic">Something went wrong while leaving the room: %1$s</string>
+    <string name="close">Close</string>
+    <string name="room_options_edit_text">Edit party</string>
+    <string name="room_options_zoom_text">Zoom on avatar</string>
+    <string name="room_error_members_notfound">Could not retrieve the list of room members.</string>
+    <string name="room_rsvp_nullish_placeholder">Leave a comment...</string>
+    <string name="room_rsvp_unknown_response">Has given an unsupported response</string>
+    <string name="room_rsvp_none_response">Hasn\'t responded yet</string>
+    <string name="room_rsvp_pending_response">Hasn\'t opened the invite yet</string>
+    <string name="room_uninvite_label">Uninvite</string>
+    <string name="room_error_publish_generic">Something went wrong while updating your RSVP: %1$s</string>
+    <string name="room_error_redact_generic">Your response has been updated, but something went wrong while attempting to remove your previous one: %1$s</string>
 </resources>

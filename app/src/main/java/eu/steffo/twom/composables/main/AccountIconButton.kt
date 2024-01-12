@@ -21,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.activities.LoginActivity
-import eu.steffo.twom.matrix.LocalSession
-import eu.steffo.twom.matrix.avatar.AvatarFromUserId
+import eu.steffo.twom.composables.avatar.AvatarUserId
+import eu.steffo.twom.composables.matrix.LocalSession
 
 @Composable
 @Preview(showBackground = true)
@@ -35,7 +35,11 @@ fun AccountIconButton(
     var expanded by remember { mutableStateOf(false) }
 
     val loginLauncher =
-        rememberLauncherForActivityResult(LoginActivity.Contract()) { processLogin() }
+        rememberLauncherForActivityResult(LoginActivity.Contract()) {
+            if (it != null) {
+                processLogin()
+            }
+        }
 
     Box(modifier) {
         IconButton(
@@ -47,7 +51,7 @@ fun AccountIconButton(
                     contentDescription = LocalContext.current.getString(R.string.main_account_label),
                 )
             } else {
-                AvatarFromUserId(
+                AvatarUserId(
                     userId = session.myUserId,
                     contentDescription = LocalContext.current.getString(R.string.main_account_label),
                 )
@@ -60,7 +64,7 @@ fun AccountIconButton(
             if (session == null) {
                 DropdownMenuItem(
                     text = {
-                        Text(stringResource(id = R.string.main_account_login_text))
+                        Text(stringResource(R.string.main_account_login_text))
                     },
                     onClick = {
                         expanded = false
@@ -70,7 +74,7 @@ fun AccountIconButton(
             } else {
                 DropdownMenuItem(
                     text = {
-                        Text(stringResource(id = R.string.main_account_logout_text))
+                        Text(stringResource(R.string.main_account_logout_text))
                     },
                     onClick = {
                         expanded = false
@@ -80,5 +84,4 @@ fun AccountIconButton(
             }
         }
     }
-
 }

@@ -24,8 +24,8 @@ import eu.steffo.twom.R
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.errorhandling.LocalizableError
 import eu.steffo.twom.composables.fields.PasswordField
-import eu.steffo.twom.matrix.TwoMMatrix
-import eu.steffo.twom.theme.TwoMPadding
+import eu.steffo.twom.composables.theme.basePadding
+import eu.steffo.twom.utils.TwoMGlobals
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 import org.matrix.android.sdk.api.auth.data.LoginFlowResult
@@ -66,7 +66,7 @@ fun LoginForm(
 
         Log.d("Login", "Getting authentication service...")
         loginStep = LoginStep.SERVICE
-        val auth = TwoMMatrix.matrix.authenticationService()
+        val auth = TwoMGlobals.matrix.authenticationService()
 
         Log.d("Login", "Resetting authentication service...")
         auth.reset()
@@ -174,10 +174,10 @@ fun LoginForm(
             progress = loginStep.step.toFloat() / LoginStep.DONE.step.toFloat(),
             color = if (error.occurred()) MaterialTheme.colorScheme.error else ProgressIndicatorDefaults.linearColor
         )
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             Text(LocalContext.current.getString(R.string.login_text))
         }
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -194,7 +194,7 @@ fun LoginForm(
                 },
             )
         }
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             PasswordField(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -211,7 +211,7 @@ fun LoginForm(
                 },
             )
         }
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = (username != "" && (loginStep == LoginStep.NONE || error.occurred())),
@@ -223,7 +223,7 @@ fun LoginForm(
             }
         }
         error.Show {
-            Row(TwoMPadding.base) {
+            Row(Modifier.basePadding()) {
                 ErrorText(it)
             }
         }

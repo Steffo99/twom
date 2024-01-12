@@ -36,7 +36,6 @@
             android:theme="@style/Theme.TwoM">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,12 +45,16 @@
             android:theme="@style/Theme.TwoM" />
 
         <activity
-            android:name=".activities.RoomActivity"
+            android:name=".activities.ViewRoomActivity"
             android:theme="@style/Theme.TwoM" />
 
         <activity
             android:name=".activities.CreateRoomActivity"
             android:theme="@style/Theme.TwoM" />
+
+        <activity
+            android:name=".activities.InviteUserActivity"
+            android:theme="@style/Theme.TwoM.BottomSheetDialog" />
 
     </application>
 

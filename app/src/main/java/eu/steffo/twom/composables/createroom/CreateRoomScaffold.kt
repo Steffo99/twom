@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.activities.CreateRoomActivity
-import eu.steffo.twom.theme.TwoMTheme
+import eu.steffo.twom.composables.theme.TwoMTheme
 
 @Composable
 @Preview

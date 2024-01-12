@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import eu.steffo.twom.matrix.LocalSession
-import eu.steffo.twom.theme.TwoMTheme
+import eu.steffo.twom.composables.matrix.LocalSession
+import eu.steffo.twom.composables.theme.TwoMTheme
 import org.matrix.android.sdk.api.session.Session
 
 @Composable
@@ -15,6 +15,7 @@ import org.matrix.android.sdk.api.session.Session
 fun MainScaffold(
     processLogin: () -> Unit = {},
     processLogout: () -> Unit = {},
+    processCreate: (name: String, description: String, avatarUri: String?) -> Unit = { _, _, _ -> },
     session: Session? = null,
 ) {
     TwoMTheme {
@@ -27,7 +28,9 @@ fun MainScaffold(
                     )
                 },
                 floatingActionButton = {
-                    CreateRoomFAB()
+                    CreateRoomFAB(
+                        onCreateParamsSelected = processCreate,
+                    )
                 },
                 content = {
                     if (session == null) {

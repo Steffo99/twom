@@ -9,12 +9,17 @@ import eu.steffo.twom.composables.login.LoginScaffold
 
 
 class LoginActivity : ComponentActivity() {
-    class Contract : ActivityResultContract<Unit, Unit>() {
+    class Contract : ActivityResultContract<Unit, Unit?>() {
         override fun createIntent(context: Context, input: Unit): Intent {
             return Intent(context, LoginActivity::class.java)
         }
 
-        override fun parseResult(resultCode: Int, intent: Intent?) {}
+        override fun parseResult(resultCode: Int, intent: Intent?): Unit? {
+            return when (resultCode) {
+                RESULT_OK -> Unit
+                else -> null
+            }
+        }
     }
 
     override fun onStart() {

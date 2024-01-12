@@ -3,6 +3,6 @@
 
     <style name="Theme.TwoM" parent="@style/Theme.Material3.DayNight" />
 
-    <style name="Theme.TwoM.Dialog" parent="@style/Theme.Material3.DayNight.Dialog" />
+    <style name="Theme.TwoM.BottomSheetDialog" parent="@style/Theme.Material3.DayNight.BottomSheetDialog" />
 
 </resources>

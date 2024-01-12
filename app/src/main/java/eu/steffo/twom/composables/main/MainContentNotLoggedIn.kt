@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
-import eu.steffo.twom.theme.TwoMPadding
+import eu.steffo.twom.composables.theme.basePadding
 
 @Composable
 @Preview(showBackground = true)
@@ -17,10 +17,10 @@ fun MainContentNotLoggedIn(
     onClickLogin: () -> Unit = {},
 ) {
     Column(modifier) {
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             Text(LocalContext.current.getString(R.string.main_notloggedin_text_1))
         }
-        Row(TwoMPadding.base) {
+        Row(Modifier.basePadding()) {
             Text(LocalContext.current.getString(R.string.main_notloggedin_text_2))
         }
     }
