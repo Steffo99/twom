@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContract
-import eu.steffo.twom.composables.createroom.CreateRoomScaffold
+import eu.steffo.twom.composables.configureroom.CreateRoomScaffold
 
 
 class ConfigureRoomActivity : ComponentActivity() {

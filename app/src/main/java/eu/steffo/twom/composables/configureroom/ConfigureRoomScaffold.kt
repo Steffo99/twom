@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.createroom
+package eu.steffo.twom.composables.configureroom
 
 import android.app.Activity
 import android.content.Intent
@@ -37,7 +37,7 @@ fun CreateRoomScaffold() {
                 CreateActivityTopBar()
             },
             content = {
-                CreateRoomForm(
+                ConfigureRoomForm(
                     modifier = Modifier.padding(it),
                     onSubmit = { name: String, description: String, avatarUri: Uri? ->
                         submitActivity(name, description, avatarUri)

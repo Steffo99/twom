@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.createroom
+package eu.steffo.twom.composables.configureroom
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text

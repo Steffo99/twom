@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.createroom
+package eu.steffo.twom.composables.configureroom
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
@@ -30,7 +30,7 @@ import eu.steffo.twom.utils.BitmapUtilities
 
 @Composable
 @Preview(showBackground = true)
-fun CreateRoomForm(
+fun ConfigureRoomForm(
     modifier: Modifier = Modifier,
     onSubmit: (name: String, description: String, avatarUri: Uri?) -> Unit = { _, _, _ -> },
 ) {
