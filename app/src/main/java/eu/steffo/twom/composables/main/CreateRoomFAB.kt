@@ -1,5 +1,6 @@
 package eu.steffo.twom.composables.main
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.launch
 import androidx.compose.material.icons.Icons
@@ -12,16 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
-import eu.steffo.twom.activities.CreateRoomActivity
+import eu.steffo.twom.activities.ConfigureRoomActivity
 
 @Composable
 @Preview
 fun CreateRoomFAB(
     modifier: Modifier = Modifier,
-    onCreateParamsSelected: (name: String, description: String, avatarUri: String?) -> Unit = { _, _, _ -> },
+    onCreateParamsSelected: (name: String, description: String, avatarUri: Uri?) -> Unit = { _, _, _ -> },
 ) {
     val launcher =
-        rememberLauncherForActivityResult(CreateRoomActivity.Contract()) {
+        rememberLauncherForActivityResult(ConfigureRoomActivity.Contract()) {
             if (it != null) {
                 onCreateParamsSelected(it.name, it.description, it.avatarUri)
             }

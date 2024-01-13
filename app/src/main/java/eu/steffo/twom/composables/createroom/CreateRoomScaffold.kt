@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import eu.steffo.twom.activities.CreateRoomActivity
+import eu.steffo.twom.activities.ConfigureRoomActivity
 import eu.steffo.twom.composables.theme.TwoMTheme
 
 @Composable
@@ -21,11 +21,11 @@ fun CreateRoomScaffold() {
 
     fun submitActivity(name: String, description: String, avatarUri: Uri?) {
         val resultIntent = Intent()
-        resultIntent.putExtra(CreateRoomActivity.NAME_EXTRA, name)
-        resultIntent.putExtra(CreateRoomActivity.DESCRIPTION_EXTRA, description)
+        resultIntent.putExtra(ConfigureRoomActivity.NAME_EXTRA, name)
+        resultIntent.putExtra(ConfigureRoomActivity.DESCRIPTION_EXTRA, description)
         // Kotlin cannot use nullable types in Java interop generics
         if (avatarUri != null) {
-            resultIntent.putExtra(CreateRoomActivity.AVATAR_EXTRA, avatarUri)
+            resultIntent.putExtra(ConfigureRoomActivity.AVATAR_EXTRA, avatarUri)
         }
         activity.setResult(ComponentActivity.RESULT_OK, resultIntent)
         activity.finish()

@@ -16,14 +16,14 @@ import eu.steffo.twom.utils.RSVPAnswer
 @Preview
 fun RSVPChipRow(
     modifier: Modifier = Modifier,
-    value: RSVPAnswer = RSVPAnswer.UNKNOWN,
+    value: RSVPAnswer = RSVPAnswer.LOADING,
     onChange: (answer: RSVPAnswer) -> Unit = {},
 ) {
     fun toggleSwitch(representing: RSVPAnswer): () -> Unit {
         return {
             onChange(
                 when (value) {
-                    representing -> RSVPAnswer.UNKNOWN
+                    representing -> RSVPAnswer.NONE
                     else -> representing
                 }
             )

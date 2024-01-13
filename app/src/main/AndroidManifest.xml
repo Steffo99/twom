@@ -49,7 +49,7 @@
             android:theme="@style/Theme.TwoM" />
 
         <activity
-            android:name=".activities.CreateRoomActivity"
+            android:name=".activities.ConfigureRoomActivity"
             android:theme="@style/Theme.TwoM" />
 
         <activity

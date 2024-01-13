@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.composables.errorhandling.ErrorIconButton
+import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.errorhandling.LocalizableError
 import eu.steffo.twom.composables.navigation.BackIconButton
 
@@ -26,6 +27,16 @@ fun ViewRoomTopBar(
     isLoading: Boolean = false,
     error: LocalizableError? = null,
 ) {
+
+    val roomSummaryRequest = LocalRoomSummary.current
+    val isLoading = (roomSummaryRequest == null)
+
+    val roomSummary = roomSummaryRequest.getOrNull()
+    if (roomSummary == null) {
+        ErrorText(stringResource(R.string.room_error_roomsummary_notfound))
+        return
+    }
+
     TopAppBar(
         modifier = modifier,
         navigationIcon = {

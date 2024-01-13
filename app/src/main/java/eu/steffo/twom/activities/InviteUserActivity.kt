@@ -16,7 +16,7 @@ class InviteUserActivity : ComponentActivity() {
 
     class Contract : ActivityResultContract<Unit, String?>() {
         override fun createIntent(context: Context, input: Unit): Intent {
-            return Intent(context, CreateRoomActivity::class.java)
+            return Intent(context, ConfigureRoomActivity::class.java)
         }
 
         override fun parseResult(resultCode: Int, intent: Intent?): String? {

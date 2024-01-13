@@ -65,7 +65,7 @@ fun observeRSVP(room: Room, member: RoomMemberSummary): RSVP {
     val answerField = content[TwoMGlobals.RSVP_STATE_ANSWER_FIELD]
         ?: return RSVP(
             event = event,
-            answer = RSVPAnswer.UNKNOWN,
+            answer = RSVPAnswer.NONE,
             comment = comment,
         )
 
@@ -81,6 +81,7 @@ fun observeRSVP(room: Room, member: RoomMemberSummary): RSVP {
         RSVPAnswer.LATER.value -> RSVPAnswer.LATER
         RSVPAnswer.MAYBE.value -> RSVPAnswer.MAYBE
         RSVPAnswer.NOWAY.value -> RSVPAnswer.NOWAY
+        RSVPAnswer.NONE.value -> RSVPAnswer.NONE
         else -> RSVPAnswer.UNKNOWN
     }
 

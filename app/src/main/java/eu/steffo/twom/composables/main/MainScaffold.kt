@@ -1,5 +1,6 @@
 package eu.steffo.twom.composables.main
 
+import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,7 +16,7 @@ import org.matrix.android.sdk.api.session.Session
 fun MainScaffold(
     processLogin: () -> Unit = {},
     processLogout: () -> Unit = {},
-    processCreate: (name: String, description: String, avatarUri: String?) -> Unit = { _, _, _ -> },
+    processCreate: (name: String, description: String, avatarUri: Uri?) -> Unit = { _, _, _ -> },
     session: Session? = null,
 ) {
     TwoMTheme {

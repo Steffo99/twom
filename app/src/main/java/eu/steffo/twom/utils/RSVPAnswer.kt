@@ -119,8 +119,8 @@ enum class RSVPAnswer {
 
     // An option differing from the previous ones.
     UNKNOWN {
-        override val value: String?
-            get() = null
+        override val value: String
+            get() = ""
 
         override val staticColorRole: StaticColorRole
             get() = NullishColorRole
@@ -143,8 +143,8 @@ enum class RSVPAnswer {
 
     // The answer is still being loaded.
     LOADING {
-        override val value: String?
-            get() = null
+        override val value: String
+            get() = ""
 
         override val staticColorRole: StaticColorRole
             get() = NullishColorRole
@@ -166,8 +166,8 @@ enum class RSVPAnswer {
 
     // No answer has been provided yet.
     NONE {
-        override val value: String?
-            get() = null
+        override val value: String
+            get() = ""
 
         override val staticColorRole: StaticColorRole
             get() = NullishColorRole
@@ -190,8 +190,8 @@ enum class RSVPAnswer {
 
     // Has been invited, but has not accepted yet.
     PENDING {
-        override val value: String?
-            get() = null
+        override val value: String
+            get() = ""
 
         override val staticColorRole: StaticColorRole
             get() = NullishColorRole
@@ -212,7 +212,7 @@ enum class RSVPAnswer {
             stringResource(R.string.room_rsvp_nullish_placeholder)
     };
 
-    abstract val value: String?
+    abstract val value: String
     abstract val staticColorRole: StaticColorRole
     abstract val icon: ImageVector
 
