@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-@Preview(widthDp = 40, heightDp = 40)
+@Preview(name = "Regular", widthDp = 40, heightDp = 40)
+@Preview(name = "Double font scale", widthDp = 40, heightDp = 40, fontScale = 2f)
+@Preview(name = "Quadruple font scale", widthDp = 40, heightDp = 40, fontScale = 4f)
 fun AvatarEmpty(
     modifier: Modifier = Modifier,
     text: String? = null,
