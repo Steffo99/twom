@@ -29,9 +29,11 @@ fun MainScaffold(
                     )
                 },
                 floatingActionButton = {
-                    CreateRoomFAB(
-                        onCreateParamsSelected = processCreate,
-                    )
+                    if (session != null) {
+                        CreateRoomFAB(
+                            onCreateParamsSelected = processCreate,
+                        )
+                    }
                 },
                 content = {
                     if (session == null) {
