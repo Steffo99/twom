@@ -1,5 +1,6 @@
 package eu.steffo.twom.composables.viewroom
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,6 +27,8 @@ fun observeRSVP(room: Room, member: RoomMemberSummary): RSVP {
         stateKey = QueryStringValue.Equals(member.userId),
     ).observeAsState()
 
+    Log.v("observeRSVP", "$request")
+
     if (request == null) {
         return RSVP(
             event = null,
@@ -47,6 +50,15 @@ fun observeRSVP(room: Room, member: RoomMemberSummary): RSVP {
             answer = RSVPAnswer.UNKNOWN,
             comment = "",
         )
+
+    // Redactions
+    if (content.isEmpty()) {
+        return RSVP(
+            event = event,
+            answer = RSVPAnswer.NONE,
+            comment = "",
+        )
+    }
 
     val commentField = content[TwoMGlobals.RSVP_STATE_COMMENT_FIELD]
         ?: return RSVP(

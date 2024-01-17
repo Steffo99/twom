@@ -21,7 +21,9 @@ fun MainContentLoggedIn(
 ) {
     val session = LocalSession.current
     if (session == null) {
-        ErrorText(stringResource(R.string.error_session_missing))
+        ErrorText(
+            text = stringResource(R.string.error_session_missing)
+        )
         return
     }
 

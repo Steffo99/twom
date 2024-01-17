@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import eu.steffo.twom.R
 import eu.steffo.twom.composables.errorhandling.ErrorText
+import eu.steffo.twom.composables.errorhandling.LoadingText
 import eu.steffo.twom.composables.errorhandling.LocalizableError
 import eu.steffo.twom.composables.matrix.LocalSession
 import eu.steffo.twom.composables.theme.basePadding
@@ -23,30 +24,50 @@ import kotlin.jvm.optionals.getOrNull
 
 @Composable
 fun ViewRoomForm() {
+    Row(Modifier.basePadding()) {
+        Text(
+            text = stringResource(R.string.room_rsvp_title),
+            style = MaterialTheme.typography.labelLarge,
+        )
+    }
+
     val scope = rememberCoroutineScope()
 
     val session = LocalSession.current
     if (session == null) {
-        ErrorText(stringResource(R.string.error_session_missing))
+        Row(Modifier.basePadding()) {
+            ErrorText(
+                text = stringResource(R.string.error_session_missing)
+            )
+        }
         return
     }
 
     val roomRequest = LocalRoom.current
     if (roomRequest == null) {
-        ErrorText(stringResource(R.string.room_error_room_missing))
+        Row(Modifier.basePadding()) {
+            LoadingText()
+        }
         return
     }
 
     val room = roomRequest.getOrNull()
     if (room == null) {
-        ErrorText(stringResource(R.string.room_error_room_notfound))
+        Row(Modifier.basePadding()) {
+            ErrorText(
+                text = stringResource(R.string.room_error_room_notfound)
+            )
+        }
         return
     }
 
-    // FIXME: This breaks if the member is kicked from the chat
     val member = room.membershipService().getRoomMember(session.myUserId)
     if (member == null) {
-        ErrorText(stringResource(R.string.room_error_members_notfound))
+        Row(Modifier.basePadding()) {
+            ErrorText(
+                text = stringResource(R.string.room_error_self_notfound)
+            )
+        }
         return
     }
 
@@ -55,12 +76,6 @@ fun ViewRoomForm() {
     var isPublishRunning by rememberSaveable { mutableStateOf(false) }
     val publishError by remember { mutableStateOf(LocalizableError()) }
 
-    Row(Modifier.basePadding()) {
-        Text(
-            text = stringResource(R.string.room_rsvp_title),
-            style = MaterialTheme.typography.labelLarge,
-        )
-    }
     RSVPForm(
         published = published,
         onRequestPublish = { answer, comment ->
@@ -121,7 +136,12 @@ fun ViewRoomForm() {
         },
         isPublishRunning = isPublishRunning,
     )
+
     publishError.Show {
-        ErrorText(it)
+        Row(Modifier.basePadding()) {
+            ErrorText(
+                text = it
+            )
+        }
     }
 }

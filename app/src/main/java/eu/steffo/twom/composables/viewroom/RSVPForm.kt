@@ -1,5 +1,6 @@
 package eu.steffo.twom.composables.viewroom
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -9,6 +10,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import eu.steffo.twom.composables.errorhandling.LoadingText
+import eu.steffo.twom.composables.theme.basePadding
 import eu.steffo.twom.utils.RSVP
 import eu.steffo.twom.utils.RSVPAnswer
 
@@ -18,6 +21,13 @@ fun RSVPForm(
     onRequestPublish: (newAnswer: RSVPAnswer, newComment: String) -> Unit = { _, _ -> },
     isPublishRunning: Boolean = false,
 ) {
+    if (published.answer == RSVPAnswer.LOADING) {
+        Row(Modifier.basePadding()) {
+            LoadingText()
+        }
+        return
+    }
+
     var currentAnswer by rememberSaveable { mutableStateOf(published.answer) }
     var currentComment by rememberSaveable { mutableStateOf(published.comment) }
 

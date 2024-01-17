@@ -9,23 +9,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.composables.errorhandling.ErrorText
+import eu.steffo.twom.composables.errorhandling.LoadingText
 import eu.steffo.twom.composables.theme.basePadding
 
 @Composable
 @Preview
 fun ViewRoomTopic() {
-    val roomSummaryRequest = LocalRoomSummary.current
-    if (roomSummaryRequest == null) {
-        ErrorText(stringResource(R.string.room_error_roomsummary_missing))
-        return
-    }
-
-    val roomSummary = roomSummaryRequest.getOrNull()
-    if (roomSummary == null) {
-        ErrorText(stringResource(R.string.room_error_roomsummary_notfound))
-        return
-    }
-
     Row(Modifier.basePadding()) {
         Text(
             text = stringResource(R.string.room_topic_title),
@@ -33,7 +22,20 @@ fun ViewRoomTopic() {
         )
     }
 
+    val roomSummaryRequest = LocalRoomSummary.current
+    val roomSummary = roomSummaryRequest?.getOrNull()
+
     Row(Modifier.basePadding()) {
-        Text(roomSummary.topic)
+        if (roomSummaryRequest == null) {
+            LoadingText()
+        } else if (roomSummary == null) {
+            ErrorText(
+                text = stringResource(R.string.room_error_roomsummary_notfound)
+            )
+        } else {
+            Text(
+                text = roomSummary.topic,
+            )
+        }
     }
 }

@@ -39,19 +39,25 @@ fun MemberListItem(
 ) {
     val session = LocalSession.current
     if (session == null) {
-        ErrorText(stringResource(R.string.error_session_missing))
+        ErrorText(
+            text = stringResource(R.string.error_session_missing)
+        )
         return
     }
 
     val roomRequest = LocalRoom.current
     if (roomRequest == null) {
-        ErrorText(stringResource(R.string.room_error_room_missing))
+        ErrorText(
+            text = stringResource(R.string.room_error_room_missing)
+        )
         return
     }
 
     val room = roomRequest.getOrNull()
     if (room == null) {
-        ErrorText(stringResource(R.string.room_error_room_notfound))
+        ErrorText(
+            text = stringResource(R.string.room_error_room_notfound)
+        )
         return
     }
 

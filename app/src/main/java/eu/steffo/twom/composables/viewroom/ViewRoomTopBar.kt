@@ -2,7 +2,6 @@ package eu.steffo.twom.composables.viewroom
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -13,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.composables.errorhandling.ErrorIconButton
 import eu.steffo.twom.composables.errorhandling.ErrorText
-import eu.steffo.twom.composables.errorhandling.LocalizableError
+import eu.steffo.twom.composables.errorhandling.LoadingText
 import eu.steffo.twom.composables.navigation.BackIconButton
 
 
@@ -22,20 +21,9 @@ import eu.steffo.twom.composables.navigation.BackIconButton
 @Preview
 fun ViewRoomTopBar(
     modifier: Modifier = Modifier,
-    roomName: String? = null,
-    roomAvatarUrl: String? = null,
-    isLoading: Boolean = false,
-    error: LocalizableError? = null,
 ) {
-
     val roomSummaryRequest = LocalRoomSummary.current
-    val isLoading = (roomSummaryRequest == null)
-
-    val roomSummary = roomSummaryRequest.getOrNull()
-    if (roomSummary == null) {
-        ErrorText(stringResource(R.string.room_error_roomsummary_notfound))
-        return
-    }
+    val roomSummary = roomSummaryRequest?.getOrNull()
 
     TopAppBar(
         modifier = modifier,
@@ -43,29 +31,31 @@ fun ViewRoomTopBar(
             BackIconButton()
         },
         title = {
-            if (roomName != null) {
-                Text(
-                    text = roomName,
+            if (roomSummaryRequest == null) {
+                LoadingText(
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            } else if (roomSummary == null) {
+                ErrorText(
                     style = MaterialTheme.typography.titleLarge,
                 )
             } else {
                 Text(
-                    text = stringResource(R.string.loading),
+                    text = roomSummary.displayName,
                     style = MaterialTheme.typography.titleLarge,
-                    color = LocalContentColor.current.copy(0.4f)
                 )
             }
         },
         actions = {
-            if (isLoading) {
+            if (roomSummaryRequest == null) {
                 CircularProgressIndicator()
-            } else if (error != null && error.occurred()) {
+            } else if (roomSummary == null) {
                 ErrorIconButton(
-                    message = error.renderString()!!
+                    message = stringResource(R.string.room_error_roomsummary_notfound)
                 )
             } else {
                 RoomIconButton(
-                    avatarUrl = roomAvatarUrl,
+                    avatarUrl = roomSummary.avatarUrl,
                 )
             }
         },

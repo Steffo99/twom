@@ -82,4 +82,5 @@
     <string name="room_uninvite_label">Uninvite</string>
     <string name="room_error_publish_generic">Something went wrong while updating your RSVP: %1$s</string>
     <string name="room_error_redact_generic">Your response has been updated, but something went wrong while attempting to remove your previous one: %1$s</string>
+    <string name="room_error_self_notfound">You have been removed from the room.</string>
 </resources>

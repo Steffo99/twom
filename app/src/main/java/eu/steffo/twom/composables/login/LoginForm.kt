@@ -224,7 +224,9 @@ fun LoginForm(
         }
         error.Show {
             Row(Modifier.basePadding()) {
-                ErrorText(it)
+                ErrorText(
+                    text = it
+                )
             }
         }
     }
