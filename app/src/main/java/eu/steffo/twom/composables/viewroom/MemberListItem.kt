@@ -84,78 +84,82 @@ fun MemberListItem(
     val alpha = if (rsvp.answer == RSVPAnswer.PENDING) 0.4f else 1.0f
     val color = rsvp.answer.staticColorRole.color().copy(alpha)
 
-    ListItem(
-        modifier = modifier
-            .combinedClickable(
-                onClick = {},
-                onLongClick = { expanded = true },
-            ),
-        headlineContent = {
-            Text(
-                text = user?.displayName ?: stringResource(R.string.user_unresolved_name),
-                color = color,
-                style = MaterialTheme.typography.titleMedium,
-            )
-        },
-        leadingContent = {
-            Box(
-                Modifier
-                    .padding(end = 10.dp)
-                    .size(40.dp)
-                    .clip(MaterialTheme.shapes.extraLarge)
-            ) {
-                AvatarUser(
-                    user = user,
-                    alpha = alpha,
-                )
-            }
-        },
-        trailingContent = {
-            Icon(
-                imageVector = rsvp.answer.icon,
-                contentDescription = rsvp.answer.toResponse(),
-                tint = color,
-            )
-        },
-        supportingContent = {
-            if (rsvp.comment != "") {
+    // A parent layout is needed for the Dropdown to display in the correct position
+    Box {
+
+        ListItem(
+            modifier = modifier
+                .combinedClickable(
+                    onClick = {},
+                    onLongClick = { expanded = true },
+                ),
+            headlineContent = {
                 Text(
-                    text = rsvp.comment,
+                    text = user?.displayName ?: stringResource(R.string.user_unresolved_name),
                     color = color,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            },
+            leadingContent = {
+                Box(
+                    Modifier
+                        .padding(end = 10.dp)
+                        .size(40.dp)
+                        .clip(MaterialTheme.shapes.extraLarge)
+                ) {
+                    AvatarUser(
+                        user = user,
+                        alpha = alpha,
+                    )
+                }
+            },
+            trailingContent = {
+                Icon(
+                    imageVector = rsvp.answer.icon,
+                    contentDescription = rsvp.answer.toResponse(),
+                    tint = color,
+                )
+            },
+            supportingContent = {
+                if (rsvp.comment != "") {
+                    Text(
+                        text = rsvp.comment,
+                        color = color,
+                    )
+                }
+            },
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            if (member.userId != session.myUserId) {
+                DropdownMenuItem(
+                    text = {
+                        Text(stringResource(R.string.room_uninvite_label))
+                    },
+                    onClick = {
+                        expanded = false
+
+                        scope.launch SendUninvite@{
+                            val userId = member.userId
+
+                            Log.d("Room", "Uninviting `$userId`...")
+
+                            // FIXME: Errors for this aren't displayed as I don't have any idea of where to place the relevant text on the UI, but also are so unlikely to occour that it should be ok to disregard it
+                            try {
+                                room.membershipService().remove(userId)
+                            } catch (e: Throwable) {
+                                Log.e("Room", "Failed to uninvite `$userId`: $e")
+                                return@SendUninvite
+                            }
+
+                            Log.d("Room", "Successfully uninvited `$userId`!")
+                        }
+                    },
                 )
             }
-        },
-    )
-
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-    ) {
-        if (member.userId != session.myUserId) {
-            DropdownMenuItem(
-                text = {
-                    Text(stringResource(R.string.room_uninvite_label))
-                },
-                onClick = {
-                    expanded = false
-
-                    scope.launch SendUninvite@{
-                        val userId = member.userId
-
-                        Log.d("Room", "Uninviting `$userId`...")
-
-                        // FIXME: Errors for this aren't displayed as I don't have any idea of where to place the relevant text on the UI, but also are so unlikely to occour that it should be ok to disregard it
-                        try {
-                            room.membershipService().remove(userId)
-                        } catch (e: Throwable) {
-                            Log.e("Room", "Failed to uninvite `$userId`: $e")
-                            return@SendUninvite
-                        }
-
-                        Log.d("Room", "Successfully uninvited `$userId`!")
-                    }
-                },
-            )
         }
     }
 }
