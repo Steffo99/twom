@@ -1,6 +1,9 @@
 package eu.steffo.twom.composables.configureroom
 
+import android.app.Activity
+import android.graphics.Bitmap
 import android.net.Uri
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,16 +17,19 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
+import eu.steffo.twom.activities.ConfigureRoomActivity
 import eu.steffo.twom.composables.avatar.AvatarPicker
 import eu.steffo.twom.composables.theme.basePadding
 import eu.steffo.twom.utils.BitmapUtilities
@@ -32,11 +38,16 @@ import eu.steffo.twom.utils.BitmapUtilities
 @Preview(showBackground = true)
 fun ConfigureRoomForm(
     modifier: Modifier = Modifier,
-    onSubmit: (name: String, description: String, avatarUri: String?) -> Unit = { _, _, _ -> },
+    initialConfiguration: ConfigureRoomActivity.Configuration? = null,
+    onSubmit: (ConfigureRoomActivity.Configuration) -> Unit = {},
 ) {
-    var name by rememberSaveable { mutableStateOf("") }
-    var description by rememberSaveable { mutableStateOf("") }
-    var avatarUri by rememberSaveable { mutableStateOf<Uri?>(null) }
+    var name by rememberSaveable { mutableStateOf(initialConfiguration?.name ?: "") }
+    var description by rememberSaveable { mutableStateOf(initialConfiguration?.description ?: "") }
+    // TODO: How to load the original avatar from the URL?
+    var avatarBitmap by remember { mutableStateOf<Bitmap?>(null) }
+
+    val context = LocalContext.current
+    val activity = context as Activity
 
     Column(modifier) {
         Row(Modifier.basePadding()) {
@@ -48,10 +59,8 @@ fun ConfigureRoomForm(
                     .semantics {
                         this.contentDescription = avatarContentDescription
                     },
-                onPick = {
-                    val cache = BitmapUtilities.bitmapToCache("createAvatar", it)
-                    avatarUri = Uri.fromFile(cache)
-                },
+                value = avatarBitmap,
+                onPick = { avatarBitmap = it },
             )
             TextField(
                 modifier = Modifier
@@ -85,7 +94,19 @@ fun ConfigureRoomForm(
                 modifier = Modifier
                     .fillMaxWidth(),
                 onClick = {
-                    onSubmit(name, description, avatarUri.toString())
+                    val result = ConfigureRoomActivity.Configuration(
+                        name = name,
+                        description = description,
+                        avatarUri = if (avatarBitmap != null) {
+                            Uri.fromFile(
+                                BitmapUtilities.bitmapToCache("createAvatar", avatarBitmap!!)
+                            )
+                        } else {
+                            null
+                        },
+                    )
+                    activity.setResult(ComponentActivity.RESULT_OK, result.toIntent())
+                    activity.finish()
                 },
             ) {
                 Text(stringResource(R.string.create_complete_text))

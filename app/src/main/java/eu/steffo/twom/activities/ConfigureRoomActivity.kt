@@ -17,32 +17,68 @@ class ConfigureRoomActivity : ComponentActivity() {
         const val AVATAR_EXTRA = "avatar"
     }
 
-    data class Result(
+    data class Configuration(
         val name: String,
         val description: String,
         val avatarUri: Uri?,
-    )
+    ) {
+        fun toIntent(): Intent {
+            val intent = Intent()
+            intent.putExtra(NAME_EXTRA, this.name)
+            intent.putExtra(DESCRIPTION_EXTRA, this.description)
+            if (this.avatarUri != null) {
+                intent.putExtra(AVATAR_EXTRA, this.avatarUri.toString())
+            }
+            return intent
+        }
 
-    class Contract : ActivityResultContract<Unit, Result?>() {
+        fun <A> toIntent(context: Context, klass: Class<A>): Intent {
+            val intent = Intent(context, klass)
+            intent.putExtra(NAME_EXTRA, this.name)
+            intent.putExtra(DESCRIPTION_EXTRA, this.description)
+            if (this.avatarUri != null) {
+                intent.putExtra(AVATAR_EXTRA, this.avatarUri.toString())
+            }
+            return intent
+        }
+
+        companion object {
+            fun fromIntent(intent: Intent): Configuration? {
+                val name = intent.getStringExtra(NAME_EXTRA) ?: return null
+                val description = intent.getStringExtra(DESCRIPTION_EXTRA) ?: return null
+                val avatarString = intent.getStringExtra(AVATAR_EXTRA)
+                val avatarUri = if (avatarString != null) Uri.parse(avatarString) else null
+
+                return Configuration(
+                    name = name,
+                    description = description,
+                    avatarUri = avatarUri,
+                )
+            }
+        }
+    }
+
+    class CreateContract : ActivityResultContract<Unit, Configuration?>() {
         override fun createIntent(context: Context, input: Unit): Intent {
             return Intent(context, ConfigureRoomActivity::class.java)
         }
 
-        override fun parseResult(resultCode: Int, intent: Intent?): Result? {
+        override fun parseResult(resultCode: Int, intent: Intent?): Configuration? {
             return when (resultCode) {
-                RESULT_OK -> {
-                    intent!!
-                    val name = intent.getStringExtra(NAME_EXTRA)!!
-                    val description = intent.getStringExtra(DESCRIPTION_EXTRA)!!
-                    val avatar = intent.getStringExtra(AVATAR_EXTRA)
+                RESULT_OK -> Configuration.fromIntent(intent!!)
+                else -> null
+            }
+        }
+    }
 
-                    Result(
-                        name = name,
-                        description = description,
-                        avatarUri = if (avatar != null) Uri.parse(avatar) else null,
-                    )
-                }
+    class EditContract : ActivityResultContract<Configuration, Configuration?>() {
+        override fun createIntent(context: Context, input: Configuration): Intent {
+            return input.toIntent(context, ConfigureRoomActivity::class.java)
+        }
 
+        override fun parseResult(resultCode: Int, intent: Intent?): Configuration? {
+            return when (resultCode) {
+                RESULT_OK -> Configuration.fromIntent(intent!!)
                 else -> null
             }
         }
@@ -51,6 +87,12 @@ class ConfigureRoomActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent { ConfigureRoomScaffold() }
+        val configuration = Configuration.fromIntent(intent)
+
+        setContent {
+            ConfigureRoomScaffold(
+                initialConfiguration = configuration,
+            )
+        }
     }
 }

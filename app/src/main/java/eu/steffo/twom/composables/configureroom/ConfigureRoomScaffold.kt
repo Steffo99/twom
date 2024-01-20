@@ -1,46 +1,29 @@
 package eu.steffo.twom.composables.configureroom
 
-import android.app.Activity
-import android.content.Intent
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.activities.ConfigureRoomActivity
 import eu.steffo.twom.composables.theme.TwoMTheme
 
 @Composable
 @Preview
-fun ConfigureRoomScaffold() {
-    val context = LocalContext.current
-    val activity = context as Activity
-
-    fun submitActivity(name: String, description: String, avatarUri: String?) {
-        val resultIntent = Intent()
-        resultIntent.putExtra(ConfigureRoomActivity.NAME_EXTRA, name)
-        resultIntent.putExtra(ConfigureRoomActivity.DESCRIPTION_EXTRA, description)
-        // Kotlin cannot use nullable types in Java interop generics
-        if (avatarUri != null) {
-            resultIntent.putExtra(ConfigureRoomActivity.AVATAR_EXTRA, avatarUri)
-        }
-        activity.setResult(ComponentActivity.RESULT_OK, resultIntent)
-        activity.finish()
-    }
-
+fun ConfigureRoomScaffold(
+    initialConfiguration: ConfigureRoomActivity.Configuration? = null,
+) {
     TwoMTheme {
         Scaffold(
             topBar = {
-                ConfigureActivityTopBar()
+                ConfigureActivityTopBar(
+                    initialName = initialConfiguration?.name,
+                )
             },
             content = {
                 ConfigureRoomForm(
                     modifier = Modifier.padding(it),
-                    onSubmit = { name: String, description: String, avatarUri: String? ->
-                        submitActivity(name, description, avatarUri)
-                    }
+                    initialConfiguration = initialConfiguration,
                 )
             }
         )

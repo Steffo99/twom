@@ -4,31 +4,28 @@ import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.utils.BitmapUtilities
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview(widthDp = 40, heightDp = 40)
 fun AvatarPicker(
     modifier: Modifier = Modifier,
     fallbackText: String = "?",
-    onPick: (bitmap: Bitmap) -> Unit = {},
+    value: Bitmap? = null,
+    onPick: (bitmap: Bitmap?) -> Unit = {},
     alpha: Float = 1.0f,
 ) {
     val context = LocalContext.current
     val resolver = context.contentResolver
-
-    var selection by remember { mutableStateOf<Bitmap?>(null) }
 
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) ImageSelect@{
@@ -39,18 +36,18 @@ fun AvatarPicker(
 
             val correctedBitmap = BitmapUtilities.squareAndOrient(rawBitmap, orientation)
 
-            selection = correctedBitmap
             onPick(correctedBitmap)
         }
 
     Box(
         modifier = modifier
-            .clickable {
-                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            }
+            .combinedClickable(
+                onClick = { launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                onLongClick = { onPick(null) },
+            )
     ) {
         AvatarImage(
-            bitmap = selection?.asImageBitmap(),
+            bitmap = value?.asImageBitmap(),
             fallbackText = fallbackText,
             alpha = alpha,
         )

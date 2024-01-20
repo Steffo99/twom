@@ -100,8 +100,12 @@ class MainActivity : ComponentActivity() {
 
                     Log.d("Main", "Done logging out!")
                 },
-                processCreate = { name, description, avatarUri ->
+                processCreate = {
                     lifecycleScope.launch {
+                        val name = it.name
+                        val description = it.description
+                        val avatarUri = it.avatarUri
+
                         val currentSession = session
 
                         val createRoomParams = CreateRoomParams()
