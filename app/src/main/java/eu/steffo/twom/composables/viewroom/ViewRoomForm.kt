@@ -20,6 +20,7 @@ import eu.steffo.twom.composables.errorhandling.LocalizableError
 import eu.steffo.twom.composables.matrix.LocalSession
 import eu.steffo.twom.composables.theme.basePadding
 import kotlinx.coroutines.launch
+import org.matrix.android.sdk.api.session.room.model.Membership
 import kotlin.jvm.optionals.getOrNull
 
 @Composable
@@ -62,7 +63,7 @@ fun ViewRoomForm() {
     }
 
     val member = room.membershipService().getRoomMember(session.myUserId)
-    if (member == null) {
+    if (member == null || member.membership != Membership.JOIN) {
         Row(Modifier.basePadding()) {
             ErrorText(
                 text = stringResource(R.string.room_error_self_notfound)
@@ -71,7 +72,8 @@ fun ViewRoomForm() {
         return
     }
 
-    val published = observeRSVP(room = room, member = member)
+    // JOIN status is checked above
+    val published = observeRSVP(room = room, member = member)!!
 
     var isPublishRunning by rememberSaveable { mutableStateOf(false) }
     val publishError by remember { mutableStateOf(LocalizableError()) }

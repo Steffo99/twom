@@ -17,6 +17,7 @@ fun AvatarImage(
     bitmap: ImageBitmap? = null,
     fallbackText: String? = null,
     contentDescription: String = "",
+    alpha: Float = 1.0f,
 ) {
     if (bitmap == null) {
         AvatarEmpty(
@@ -25,6 +26,7 @@ fun AvatarImage(
                     this.contentDescription = contentDescription
                 },
             text = fallbackText,
+            alpha = alpha,
         )
     } else {
         Image(
@@ -33,6 +35,7 @@ fun AvatarImage(
             contentDescription = contentDescription,
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center,
+            alpha = alpha,
         )
     }
 }

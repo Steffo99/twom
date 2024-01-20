@@ -2,7 +2,6 @@ package eu.steffo.twom.composables.configureroom
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -15,11 +14,11 @@ import eu.steffo.twom.composables.theme.TwoMTheme
 
 @Composable
 @Preview
-fun CreateRoomScaffold() {
+fun ConfigureRoomScaffold() {
     val context = LocalContext.current
     val activity = context as Activity
 
-    fun submitActivity(name: String, description: String, avatarUri: Uri?) {
+    fun submitActivity(name: String, description: String, avatarUri: String?) {
         val resultIntent = Intent()
         resultIntent.putExtra(ConfigureRoomActivity.NAME_EXTRA, name)
         resultIntent.putExtra(ConfigureRoomActivity.DESCRIPTION_EXTRA, description)
@@ -34,12 +33,12 @@ fun CreateRoomScaffold() {
     TwoMTheme {
         Scaffold(
             topBar = {
-                CreateActivityTopBar()
+                ConfigureActivityTopBar()
             },
             content = {
                 ConfigureRoomForm(
                     modifier = Modifier.padding(it),
-                    onSubmit = { name: String, description: String, avatarUri: Uri? ->
+                    onSubmit = { name: String, description: String, avatarUri: String? ->
                         submitActivity(name, description, avatarUri)
                     }
                 )

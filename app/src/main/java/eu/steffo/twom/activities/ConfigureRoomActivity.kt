@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContract
-import eu.steffo.twom.composables.configureroom.CreateRoomScaffold
+import eu.steffo.twom.composables.configureroom.ConfigureRoomScaffold
 
 
 class ConfigureRoomActivity : ComponentActivity() {
@@ -51,6 +51,6 @@ class ConfigureRoomActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent { CreateRoomScaffold() }
+        setContent { ConfigureRoomScaffold() }
     }
 }

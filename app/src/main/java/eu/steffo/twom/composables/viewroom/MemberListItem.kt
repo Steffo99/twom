@@ -27,6 +27,7 @@ import eu.steffo.twom.R
 import eu.steffo.twom.composables.avatar.AvatarUser
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.matrix.LocalSession
+import eu.steffo.twom.utils.RSVPAnswer
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.user.model.User
 import kotlin.jvm.optionals.getOrNull
@@ -72,18 +73,24 @@ fun MemberListItem(
         Log.d("UserListItem", "Resolved user: $memberId")
     }
 
-    val rsvp = observeRSVP(room = room, member = member)
+    val rsvp = observeRSVP(room = room, member = member) ?: return
 
     var expanded by rememberSaveable { mutableStateOf(false) }
 
+    val alpha = if (rsvp.answer == RSVPAnswer.PENDING) 0.4f else 1.0f
+    val color = rsvp.answer.staticColorRole.color().copy(alpha)
+
     ListItem(
-        modifier = modifier.combinedClickable(
-            onClick = {},
-            onLongClick = { expanded = true },
-        ),
+        modifier = modifier
+            .combinedClickable(
+                onClick = {},
+                onLongClick = { expanded = true },
+            ),
         headlineContent = {
             Text(
                 text = user?.displayName ?: stringResource(R.string.user_unresolved_name),
+                color = color,
+                style = MaterialTheme.typography.titleMedium,
             )
         },
         leadingContent = {
@@ -95,6 +102,7 @@ fun MemberListItem(
             ) {
                 AvatarUser(
                     user = user,
+                    alpha = alpha,
                 )
             }
         },
@@ -102,14 +110,14 @@ fun MemberListItem(
             Icon(
                 imageVector = rsvp.answer.icon,
                 contentDescription = rsvp.answer.toResponse(),
-                tint = rsvp.answer.staticColorRole.color(),
+                tint = color,
             )
         },
         supportingContent = {
             if (rsvp.comment != "") {
                 Text(
                     text = rsvp.comment,
-                    color = rsvp.answer.staticColorRole.color(),
+                    color = color,
                 )
             }
         },
@@ -119,11 +127,13 @@ fun MemberListItem(
         expanded = expanded,
         onDismissRequest = { expanded = false }
     ) {
-        DropdownMenuItem(
-            text = {
-                Text(stringResource(R.string.room_uninvite_label))
-            },
-            onClick = { expanded = false }
-        )
+        if (member.userId != session.myUserId) {
+            DropdownMenuItem(
+                text = {
+                    Text(stringResource(R.string.room_uninvite_label))
+                },
+                onClick = { expanded = false },
+            )
+        }
     }
 }

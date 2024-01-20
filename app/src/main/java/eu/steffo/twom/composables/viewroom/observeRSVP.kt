@@ -12,13 +12,18 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 
 @Composable
-fun observeRSVP(room: Room, member: RoomMemberSummary): RSVP {
+fun observeRSVP(room: Room, member: RoomMemberSummary): RSVP? {
     if (member.membership == Membership.INVITE) {
         return RSVP(
             event = null,
             answer = RSVPAnswer.PENDING,
             comment = "",
         )
+    }
+
+    // TODO: Add a DECLINED variant?
+    if (member.membership == Membership.LEAVE || member.membership == Membership.BAN) {
+        return null
     }
 
     val request by room.stateService().getStateEventLive(

@@ -22,6 +22,7 @@ fun AvatarURL(
     url: String? = "",
     fallbackText: String? = null,
     contentDescription: String = "",
+    alpha: Float = 1.0f,
 ) {
     val session = LocalSession.current
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
@@ -67,5 +68,6 @@ fun AvatarURL(
         bitmap = bitmap?.asImageBitmap(),
         fallbackText = fallbackText,
         contentDescription = contentDescription,
+        alpha = alpha,
     )
 }

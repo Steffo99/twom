@@ -13,7 +13,7 @@ import eu.steffo.twom.composables.navigation.BackIconButton
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun CreateActivityTopBar(
+fun ConfigureActivityTopBar(
     modifier: Modifier = Modifier,
 ) {
     TopAppBar(

@@ -23,6 +23,7 @@ fun AvatarPicker(
     modifier: Modifier = Modifier,
     fallbackText: String = "?",
     onPick: (bitmap: Bitmap) -> Unit = {},
+    alpha: Float = 1.0f,
 ) {
     val context = LocalContext.current
     val resolver = context.contentResolver
@@ -51,6 +52,7 @@ fun AvatarPicker(
         AvatarImage(
             bitmap = selection?.asImageBitmap(),
             fallbackText = fallbackText,
+            alpha = alpha,
         )
     }
 }

@@ -18,6 +18,7 @@ fun AvatarUserId(
     userId: String = "",
     fallbackText: String = "?",
     contentDescription: String = "",
+    alpha: Float = 1.0f,
 ) {
     val session = LocalSession.current
     var avatarUrl by rememberSaveable { mutableStateOf<String?>(null) }
@@ -43,5 +44,6 @@ fun AvatarUserId(
         url = avatarUrl,
         fallbackText = fallbackText,
         contentDescription = contentDescription,
+        alpha = alpha,
     )
 }

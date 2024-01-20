@@ -17,16 +17,17 @@ import androidx.compose.ui.tooling.preview.Preview
 fun AvatarEmpty(
     modifier: Modifier = Modifier,
     text: String? = null,
+    alpha: Float = 1.0f,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.tertiary),
+            .background(MaterialTheme.colorScheme.tertiary.copy(alpha = alpha)),
     ) {
         Text(
             modifier = Modifier
                 .align(Alignment.Center),
-            color = MaterialTheme.colorScheme.onTertiary,
+            color = MaterialTheme.colorScheme.onTertiary.copy(alpha = alpha),
             text = text ?: "?",
         )
     }

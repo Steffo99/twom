@@ -13,11 +13,13 @@ fun AvatarUser(
     user: User? = null,
     fallbackText: String? = null,
     contentDescription: String = "",
+    alpha: Float = 1.0f,
 ) {
     AvatarURL(
         modifier = modifier,
         url = user?.avatarUrl,
         fallbackText = user?.toMatrixItem()?.firstLetterOfDisplayName(),
         contentDescription = contentDescription,
+        alpha = alpha,
     )
 }

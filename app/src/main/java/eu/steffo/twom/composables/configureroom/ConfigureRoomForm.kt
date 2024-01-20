@@ -32,7 +32,7 @@ import eu.steffo.twom.utils.BitmapUtilities
 @Preview(showBackground = true)
 fun ConfigureRoomForm(
     modifier: Modifier = Modifier,
-    onSubmit: (name: String, description: String, avatarUri: Uri?) -> Unit = { _, _, _ -> },
+    onSubmit: (name: String, description: String, avatarUri: String?) -> Unit = { _, _, _ -> },
 ) {
     var name by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
@@ -85,7 +85,7 @@ fun ConfigureRoomForm(
                 modifier = Modifier
                     .fillMaxWidth(),
                 onClick = {
-                    onSubmit(name, description, avatarUri)
+                    onSubmit(name, description, avatarUri.toString())
                 },
             ) {
                 Text(stringResource(R.string.create_complete_text))
