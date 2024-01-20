@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -28,6 +29,7 @@ import eu.steffo.twom.composables.avatar.AvatarUser
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.matrix.LocalSession
 import eu.steffo.twom.utils.RSVPAnswer
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.user.model.User
 import kotlin.jvm.optionals.getOrNull
@@ -72,6 +74,8 @@ fun MemberListItem(
         user = session.userService().resolveUser(memberId)
         Log.d("UserListItem", "Resolved user: $memberId")
     }
+
+    val scope = rememberCoroutineScope()
 
     val rsvp = observeRSVP(room = room, member = member) ?: return
 
@@ -132,7 +136,25 @@ fun MemberListItem(
                 text = {
                     Text(stringResource(R.string.room_uninvite_label))
                 },
-                onClick = { expanded = false },
+                onClick = {
+                    expanded = false
+
+                    scope.launch SendUninvite@{
+                        val userId = member.userId
+
+                        Log.d("Room", "Uninviting `$userId`...")
+
+                        // FIXME: Errors for this aren't displayed as I don't have any idea of where to place the relevant text on the UI, but also are so unlikely to occour that it should be ok to disregard it
+                        try {
+                            room.membershipService().remove(userId)
+                        } catch (e: Throwable) {
+                            Log.e("Room", "Failed to uninvite `$userId`: $e")
+                            return@SendUninvite
+                        }
+
+                        Log.d("Room", "Successfully uninvited `$userId`!")
+                    }
+                },
             )
         }
     }
