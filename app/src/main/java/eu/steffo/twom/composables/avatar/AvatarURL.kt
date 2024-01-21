@@ -59,6 +59,7 @@ fun AvatarURL(
         }
 
         // TODO: Should I check the MIME type? And the size of the image?
+        // FIXME: I feel this might be a race condition...
         Log.d("AvatarURL", "File for $url is: $avatarFile")
         bitmap = BitmapFactory.decodeFile(avatarFile.absolutePath)
     }
