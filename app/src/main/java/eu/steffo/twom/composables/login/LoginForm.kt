@@ -130,7 +130,6 @@ fun LoginForm(
         try {
             wizard = auth.getLoginWizard()  // Why is this stateful? Aargh.
         } catch (e: Throwable) {
-            // TODO: It sure would be nice to know which exceptions can be thrown here.
             Log.e(
                 "Login",
                 "Something went wrong while setting up the login wizard.",
