@@ -96,7 +96,11 @@ fun RoomListItem(
             supportingContent = {
                 val count = roomSummary.joinedMembersCount
                 if (count != null) {
-                    Text(stringResource(R.string.main_partecipants, count))
+                    if (count != 1) {
+                        Text(stringResource(R.string.main_partecipants, count))
+                    } else {
+                        Text(stringResource(R.string.main_partecipant, count))
+                    }
                 }
             },
         )

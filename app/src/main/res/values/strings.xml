@@ -86,4 +86,5 @@
     <string name="room_error_invite_generic">Something went wrong while sending the invite: %1$s</string>
     <string name="edit_title">Editing %1$s</string>
     <string name="main_partecipants">%1$d partecipants</string>
+    <string name="main_partecipant">%1$d partecipant</string>
 </resources>
