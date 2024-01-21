@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TwoM</string>
-    <string name="room_name_fallback_members_0">Partying with myself</string>
+    <string name="room_name_fallback_members_0">A brand new party</string>
     <string name="room_name_fallback_members_1">Partying with %1$s</string>
     <string name="room_name_fallback_members_2">Partying with %1$s and %2$s</string>
     <string name="room_name_fallback_members_3">Partying with %1$s, %2$s, and %3$s</string>
@@ -87,4 +87,6 @@
     <string name="edit_title">Editing %1$s</string>
     <string name="main_partecipants">%1$d partecipants</string>
     <string name="main_partecipant">%1$d partecipant</string>
+    <string name="main_room_reject_label">Reject invite</string>
+    <string name="main_error_join_generic">Something went wrong while opening the invite: %1$s</string>
 </resources>

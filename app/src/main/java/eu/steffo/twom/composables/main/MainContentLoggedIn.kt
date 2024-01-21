@@ -29,7 +29,7 @@ fun MainContentLoggedIn(
 
     val roomSummaries by session.roomService().getRoomSummariesLive(
         roomSummaryQueryParams {
-            this.memberships = listOf(Membership.JOIN)
+            this.memberships = listOf(Membership.JOIN, Membership.INVITE)
             this.includeType = listOf(TwoMGlobals.ROOM_TYPE)
         }
     ).observeAsState()
