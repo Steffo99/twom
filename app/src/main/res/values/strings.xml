@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">TwoM</string>
-    <string name="room_name_fallback_members_0">Is this even a party?</string>
-    <string name="room_name_fallback_members_1">%1$s\'s party</string>
-    <string name="room_name_fallback_members_2">%1$s and %2$s\'s party</string>
-    <string name="room_name_fallback_members_3">%1$s, %2$s, and %3$s\'s party</string>
-    <string name="room_name_fallback_members_4">%1$s, %2$s, %3$s, %4$s\'s party</string>
-    <string name="room_name_fallback_members_more">%1$s, %2$s, %3$s and %4$d others\' party</string>
+    <string name="room_name_fallback_members_0">Partying with myself</string>
+    <string name="room_name_fallback_members_1">Partying with %1$s</string>
+    <string name="room_name_fallback_members_2">Partying with %1$s and %2$s</string>
+    <string name="room_name_fallback_members_3">Partying with %1$s, %2$s, and %3$s</string>
+    <string name="room_name_fallback_members_4">Partying with %1$s, %2$s, %3$s, and %4$s</string>
+    <string name="room_name_fallback_members_more">Partying with %1$s, %2$s, %3$s and %4$d others</string>
     <string name="room_name_fallback_invite">Party invite</string>
     <string name="login_title">Log into Matrix</string>
     <string name="back">Go back</string>
