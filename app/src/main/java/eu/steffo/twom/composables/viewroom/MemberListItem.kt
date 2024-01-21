@@ -134,6 +134,7 @@ fun MemberListItem(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
+            // TODO: Also hide if unprivileged
             if (member.userId != session.myUserId) {
                 DropdownMenuItem(
                     text = {

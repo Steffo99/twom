@@ -18,6 +18,7 @@ fun InviteFAB(
     onClick: () -> Unit = {},
     onUserSelected: (userId: String) -> Unit = {},
 ) {
+    // TODO: Hide if unprivileged
     ExtendedFloatingActionButton(
         modifier = modifier,
         onClick = { onClick() },

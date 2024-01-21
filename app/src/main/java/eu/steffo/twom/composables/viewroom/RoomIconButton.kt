@@ -117,6 +117,7 @@ fun RoomIconButton(
         }
 
     Box(modifier) {
+        // TODO: Figure out a way to clip this with a different shape
         IconButton(
             onClick = { expanded = true },
         ) {
