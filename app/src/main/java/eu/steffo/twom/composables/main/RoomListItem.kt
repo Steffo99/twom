@@ -71,48 +71,52 @@ fun RoomListItem(
         Log.d("Main", "Successfully left room `$roomId`!")
     }
 
-    ListItem(
-        modifier = Modifier.combinedClickable(
-            onClick = { openRoom() },
-            onLongClick = { expanded = true }
-        ),
-        headlineContent = {
-            Text(roomSummary.displayName)
-        },
-        leadingContent = {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(MaterialTheme.shapes.medium)
-            ) {
-                AvatarURL(
-                    // FIXME: URL can appearently be set before the image is available on the homeserver
-                    url = roomSummary.avatarUrl,
-                )
-            }
-        },
-        supportingContent = {
-            // TODO: Display rsvpComment instead of alias
-            val canonicalAlias = roomSummary.canonicalAlias
-            if (canonicalAlias != null) {
-                Text(canonicalAlias)
-            }
-        },
-    )
+    Box {
 
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-    ) {
-        // TODO: Align me to the right
-        DropdownMenuItem(
-            text = {
-                Text(stringResource(id = R.string.main_room_leave_label))
+        ListItem(
+            modifier = Modifier.combinedClickable(
+                onClick = { openRoom() },
+                onLongClick = { expanded = true }
+            ),
+            headlineContent = {
+                Text(roomSummary.displayName)
             },
-            onClick = {
-                expanded = false
-                scope.launch { leaveRoom() }
-            }
+            leadingContent = {
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(MaterialTheme.shapes.medium)
+                ) {
+                    AvatarURL(
+                        // FIXME: URL can appearently be set before the image is available on the homeserver
+                        url = roomSummary.avatarUrl,
+                    )
+                }
+            },
+            supportingContent = {
+                // TODO: Display rsvpComment instead of alias
+                val canonicalAlias = roomSummary.canonicalAlias
+                if (canonicalAlias != null) {
+                    Text(canonicalAlias)
+                }
+            },
         )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            // TODO: Align me to the right
+            DropdownMenuItem(
+                text = {
+                    Text(stringResource(id = R.string.main_room_leave_label))
+                },
+                onClick = {
+                    expanded = false
+                    scope.launch { leaveRoom() }
+                }
+            )
+        }
+
     }
 }
