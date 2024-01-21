@@ -94,10 +94,9 @@ fun RoomListItem(
                 }
             },
             supportingContent = {
-                // TODO: Display rsvpComment instead of alias
-                val canonicalAlias = roomSummary.canonicalAlias
-                if (canonicalAlias != null) {
-                    Text(canonicalAlias)
+                val count = roomSummary.joinedMembersCount
+                if (count != null) {
+                    Text(stringResource(R.string.main_partecipants, count))
                 }
             },
         )
