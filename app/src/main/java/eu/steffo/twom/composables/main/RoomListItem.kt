@@ -137,7 +137,6 @@ fun RoomListItem(
             expanded = expanded,
             onDismissRequest = { expanded = false },
         ) {
-            // TODO: Align me to the right
             DropdownMenuItem(
                 text = {
                     Text(
