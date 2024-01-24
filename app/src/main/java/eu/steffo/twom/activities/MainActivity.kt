@@ -149,7 +149,7 @@ class MainActivity : ComponentActivity() {
                                         // Allow everyone to redact their own states
                                         "m.room.redaction" to 0,
                                         // Allow everyone to set RSVPs
-                                        // FIXME: Do we really want everyone to set RSVPs? Maybe we should use m.room.member instead?
+                                        // Do we really want everyone to set RSVPs? Maybe m.room.member could be used instead...?
                                         "eu.steffo.twom.rsvp" to 0,
                                     ),
 
