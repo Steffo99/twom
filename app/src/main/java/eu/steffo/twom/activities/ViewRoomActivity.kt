@@ -49,7 +49,7 @@ class ViewRoomActivity : ComponentActivity() {
         setContent {
             ViewRoomScaffold(
                 session = session,
-                roomId = roomId!!,  // FIXME: Again, this should be set. Should.
+                roomId = roomId!!,
             )
         }
     }
