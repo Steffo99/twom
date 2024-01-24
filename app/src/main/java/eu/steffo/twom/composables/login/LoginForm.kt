@@ -196,7 +196,6 @@ fun LoginForm(
         Row(Modifier.basePadding()) {
             PasswordField(
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
                 value = password,
                 onValueChange = { password = it },
                 label = {
