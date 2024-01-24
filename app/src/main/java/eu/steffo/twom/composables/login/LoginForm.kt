@@ -46,7 +46,6 @@ enum class LoginStep(val step: Int) {
 }
 
 
-// TODO: Localize error messages
 @Composable
 @Preview(showBackground = true)
 fun LoginForm(
