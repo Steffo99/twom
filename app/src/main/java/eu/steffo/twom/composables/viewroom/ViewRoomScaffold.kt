@@ -1,7 +1,6 @@
 package eu.steffo.twom.composables.viewroom
 
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -45,8 +44,6 @@ fun ViewRoomScaffold(
                             )
                             if (inviteDialogExpanded) {
                                 InviteSheet(
-                                    // FIXME: Does this work?
-                                    modifier = Modifier.consumeWindowInsets(it),
                                     sheetState = inviteDialogState,
                                     onDismissed = { inviteDialogExpanded = false },
                                     onCompleted = { inviteDialogExpanded = false },
