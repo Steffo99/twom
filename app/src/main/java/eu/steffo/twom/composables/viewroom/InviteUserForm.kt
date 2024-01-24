@@ -73,7 +73,7 @@ fun InviteUserForm(
         modifier = Modifier
             .basePadding()
             .fillMaxWidth(),
-        // FIXME: Maybe I should validate usernames with a regex
+        // A cool thing to do would be resolving the userId exists on the server side, and display the avatar if it does resolve successfully...
         enabled = (!busy && userId.contains("@") && userId.contains(":")),
         onClick = {
             scope.launch SendInvite@{
