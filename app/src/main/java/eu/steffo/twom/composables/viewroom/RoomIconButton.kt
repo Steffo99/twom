@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.net.toFile
 import eu.steffo.twom.R
 import eu.steffo.twom.activities.ConfigureRoomActivity
@@ -117,9 +119,9 @@ fun RoomIconButton(
             }
         }
 
-    Box(modifier) {
+    // This padding is needed to prevent the UnclippedIconButtonLike from sticking to the side of the screen
+    Box(modifier.padding(5.dp)) {
         UnclippedIconButtonlike(
-            // FIXME: Seems like the end padding is off by a couple dp...
             modifier = modifier
                 .clip(MaterialTheme.shapes.medium),
             onClick = { expanded = true },
