@@ -21,7 +21,6 @@ fun observeRSVP(room: Room, member: RoomMemberSummary): RSVP? {
         )
     }
 
-    // TODO: Add a DECLINED variant?
     if (member.membership == Membership.LEAVE || member.membership == Membership.BAN) {
         return null
     }
