@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toFile
 import eu.steffo.twom.R
 import eu.steffo.twom.activities.ConfigureRoomActivity
-import eu.steffo.twom.composables.avatar.AvatarURL
+import eu.steffo.twom.composables.avatar.components.AvatarURL
 import eu.steffo.twom.composables.errorhandling.ErrorIconButton
 import eu.steffo.twom.composables.matrix.LocalSession
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.avatar
+package eu.steffo.twom.composables.avatar.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

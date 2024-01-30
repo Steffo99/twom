@@ -22,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -30,7 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
 import eu.steffo.twom.activities.ConfigureRoomActivity
-import eu.steffo.twom.composables.avatar.AvatarPicker
+import eu.steffo.twom.composables.avatar.components.AvatarImage
+import eu.steffo.twom.composables.avatar.components.AvatarURL
+import eu.steffo.twom.composables.avatar.picker.AvatarPickerWrapbox
 import eu.steffo.twom.composables.theme.basePadding
 import eu.steffo.twom.utils.BitmapUtilities
 
@@ -46,22 +49,39 @@ fun ConfigureRoomForm(
     // TODO: How to load the original avatar from the URL?
     var avatarBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
+    val fallbackText = if (name.isEmpty()) {
+        null
+    } else {
+        name[0].toString()
+    }
+
     val context = LocalContext.current
     val activity = context as Activity
 
     Column(modifier) {
         Row(Modifier.basePadding()) {
             val avatarContentDescription = stringResource(R.string.create_avatar_label)
-            AvatarPicker(
+            AvatarPickerWrapbox(
                 modifier = Modifier
                     .size(60.dp)
                     .clip(MaterialTheme.shapes.medium)
                     .semantics {
                         this.contentDescription = avatarContentDescription
                     },
-                value = avatarBitmap,
                 onPick = { avatarBitmap = it },
-            )
+            ) {
+                if (avatarBitmap == null) {
+                    AvatarURL(
+                        url = initialConfiguration?.avatarUri?.toString(),
+                        fallbackText = fallbackText,
+                    )
+                } else {
+                    AvatarImage(
+                        bitmap = avatarBitmap?.asImageBitmap(),
+                        fallbackText = fallbackText,
+                    )
+                }
+            }
             TextField(
                 modifier = Modifier
                     .height(60.dp)

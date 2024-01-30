@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.avatar
+package eu.steffo.twom.composables.avatar.effects
 
 import android.graphics.Bitmap
 import android.util.Log
@@ -48,9 +48,9 @@ fun bitmapFromMatrixFile(url: String? = null): Bitmap? {
         }
 
         Log.i(TAG, "Downloading file at: $url")
-        lateinit var avatarFile: File
+        lateinit var file: File
         try {
-            avatarFile = session.fileService().downloadFile(
+            file = session.fileService().downloadFile(
                 fileName = url.md5(),
                 url = url,
                 mimeType = null,
@@ -67,9 +67,9 @@ fun bitmapFromMatrixFile(url: String? = null): Bitmap? {
             return@Fetch
         }
 
-        Log.d(TAG, "File for $url is: $avatarFile")
+        Log.d(TAG, "File for $url is: $file")
 
-        bitmap = BitmapUtilities.getCorrectedBitmap(resolver, avatarFile.toUri())
+        bitmap = BitmapUtilities.getCorrectedBitmap(resolver, file.toUri())
     }
 
     return bitmap

@@ -25,7 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
-import eu.steffo.twom.composables.avatar.AvatarUser
+import eu.steffo.twom.composables.avatar.components.AvatarUser
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.matrix.LocalSession
 import eu.steffo.twom.utils.RSVPAnswer

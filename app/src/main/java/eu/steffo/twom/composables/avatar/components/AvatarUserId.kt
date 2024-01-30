@@ -1,26 +1,25 @@
-package eu.steffo.twom.composables.avatar
+package eu.steffo.twom.composables.avatar.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import org.matrix.android.sdk.api.session.user.model.User
-import org.matrix.android.sdk.api.util.toMatrixItem
+import eu.steffo.twom.composables.avatar.effects.avatarUrlFromUserId
 
 @Composable
 @Preview(name = "Regular", widthDp = 40, heightDp = 40)
 @Preview(name = "Double font scale", widthDp = 40, heightDp = 40, fontScale = 2f)
 @Preview(name = "Quadruple font scale", widthDp = 40, heightDp = 40, fontScale = 4f)
-fun AvatarUser(
+fun AvatarUserId(
     modifier: Modifier = Modifier,
-    user: User? = null,
-    fallbackText: String? = null,
+    userId: String = "",
+    fallbackText: String = "?",
     contentDescription: String = "",
     alpha: Float = 1.0f,
 ) {
     AvatarURL(
         modifier = modifier,
-        url = user?.avatarUrl,
-        fallbackText = user?.toMatrixItem()?.firstLetterOfDisplayName(),
+        url = avatarUrlFromUserId(userId),
+        fallbackText = fallbackText,
         contentDescription = contentDescription,
         alpha = alpha,
     )

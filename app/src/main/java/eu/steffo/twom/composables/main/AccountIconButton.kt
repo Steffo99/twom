@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.activities.LoginActivity
-import eu.steffo.twom.composables.avatar.AvatarUserId
+import eu.steffo.twom.composables.avatar.components.AvatarUserId
 import eu.steffo.twom.composables.matrix.LocalSession
 
 @Composable

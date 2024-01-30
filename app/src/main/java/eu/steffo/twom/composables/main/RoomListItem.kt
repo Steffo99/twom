@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import eu.steffo.twom.R
 import eu.steffo.twom.activities.ViewRoomActivity
-import eu.steffo.twom.composables.avatar.AvatarURL
+import eu.steffo.twom.composables.avatar.components.AvatarURL
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.errorhandling.LocalizableError
 import eu.steffo.twom.composables.matrix.LocalSession

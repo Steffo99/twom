@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.avatar
+package eu.steffo.twom.composables.avatar.effects
 
 import android.util.Log
 import androidx.compose.runtime.Composable
