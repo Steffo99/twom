@@ -7,7 +7,9 @@ import org.matrix.android.sdk.api.session.user.model.User
 import org.matrix.android.sdk.api.util.toMatrixItem
 
 @Composable
-@Preview(widthDp = 40, heightDp = 40)
+@Preview(name = "Regular", widthDp = 40, heightDp = 40)
+@Preview(name = "Double font scale", widthDp = 40, heightDp = 40, fontScale = 2f)
+@Preview(name = "Quadruple font scale", widthDp = 40, heightDp = 40, fontScale = 4f)
 fun AvatarUser(
     modifier: Modifier = Modifier,
     user: User? = null,

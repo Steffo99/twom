@@ -11,7 +11,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-@Preview(widthDp = 40, heightDp = 40)
+@Preview(name = "Regular", widthDp = 40, heightDp = 40)
+@Preview(name = "Double font scale", widthDp = 40, heightDp = 40, fontScale = 2f)
+@Preview(name = "Quadruple font scale", widthDp = 40, heightDp = 40, fontScale = 4f)
 fun AvatarImage(
     modifier: Modifier = Modifier,
     bitmap: ImageBitmap? = null,

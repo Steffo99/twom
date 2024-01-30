@@ -16,7 +16,9 @@ import eu.steffo.twom.utils.BitmapUtilities
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-@Preview(widthDp = 40, heightDp = 40)
+@Preview(name = "Regular", widthDp = 40, heightDp = 40)
+@Preview(name = "Double font scale", widthDp = 40, heightDp = 40, fontScale = 2f)
+@Preview(name = "Quadruple font scale", widthDp = 40, heightDp = 40, fontScale = 4f)
 fun AvatarPicker(
     modifier: Modifier = Modifier,
     fallbackText: String = "?",
@@ -31,10 +33,7 @@ fun AvatarPicker(
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) ImageSelect@{
             it ?: return@ImageSelect
 
-            val rawBitmap = BitmapUtilities.getRawBitmap(resolver, it) ?: return@ImageSelect
-            val orientation = BitmapUtilities.getOrientation(resolver, it) ?: return@ImageSelect
-
-            val correctedBitmap = BitmapUtilities.squareAndOrient(rawBitmap, orientation)
+            val correctedBitmap = BitmapUtilities.getCorrectedBitmap(resolver, it)
 
             onPick(correctedBitmap)
         }

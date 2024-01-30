@@ -106,6 +106,12 @@ class BitmapUtilities {
             )
         }
 
+        fun getCorrectedBitmap(resolver: ContentResolver, uri: Uri): Bitmap? {
+            val rawBitmap = getRawBitmap(resolver, uri) ?: return null
+            val orientation = getOrientation(resolver, uri) ?: return null
+            return squareAndOrient(rawBitmap, orientation)
+        }
+
         fun bitmapToCache(id: String, bitmap: Bitmap): File {
             val file = File.createTempFile("bitmap_$id", ".jpg")
             file.outputStream().use {
