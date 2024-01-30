@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
+import eu.steffo.twom.composables.errorhandling.Display
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.errorhandling.LocalizableError
 import eu.steffo.twom.composables.fields.PasswordField
@@ -58,10 +59,10 @@ fun LoginForm(
     var password by rememberSaveable { mutableStateOf("") }
 
     var loginStep by rememberSaveable { mutableStateOf(LoginStep.NONE) }
-    val error by remember { mutableStateOf(LocalizableError()) }
+    var error by remember { mutableStateOf<LocalizableError?>(null) }
 
     suspend fun doLogin() {
-        error.clear()
+        error = null
 
         Log.d("Login", "Getting authentication service...")
         loginStep = LoginStep.SERVICE
@@ -81,7 +82,7 @@ fun LoginForm(
                 "User seems to have input an invalid Matrix ID: $username",
                 e
             )
-            error.set(R.string.login_error_username_invalid)
+            error = LocalizableError(R.string.login_error_username_invalid)
             return
         } catch (e: Throwable) {
             Log.e(
@@ -89,7 +90,7 @@ fun LoginForm(
                 "Something went wrong while retrieving .well-known data for: $username",
                 e
             )
-            error.set(R.string.login_error_wellknown_generic, e)
+            error = LocalizableError(R.string.login_error_wellknown_generic, e)
             return
         }
         if (wellKnown !is WellknownResult.Prompt) {
@@ -97,7 +98,7 @@ fun LoginForm(
                 "Login",
                 "Data is not .well-known for: $username"
             )
-            error.set(R.string.login_error_wellknown_missing)
+            error = LocalizableError(R.string.login_error_wellknown_missing)
             return
         }
 
@@ -119,7 +120,7 @@ fun LoginForm(
                 "Something went wrong while retrieving login flows for: ${wellKnown.homeServerUrl}",
                 e
             )
-            error.set(R.string.login_error_flows_generic, e)
+            error = LocalizableError(R.string.login_error_flows_generic, e)
             return
         }
 
@@ -134,7 +135,7 @@ fun LoginForm(
                 "Something went wrong while setting up the login wizard.",
                 e
             )
-            error.set(R.string.login_error_wizard_generic, e)
+            error = LocalizableError(R.string.login_error_wizard_generic, e)
             return
         }
 
@@ -153,7 +154,7 @@ fun LoginForm(
                 "Something went wrong while logging in as: $username",
                 e
             )
-            error.set(R.string.login_error_login_generic, e)
+            error = LocalizableError(R.string.login_error_login_generic, e)
             return
         }
 
@@ -170,7 +171,7 @@ fun LoginForm(
         LinearProgressIndicator(
             modifier = Modifier.fillMaxWidth(),
             progress = loginStep.step.toFloat() / LoginStep.DONE.step.toFloat(),
-            color = if (error.occurred()) MaterialTheme.colorScheme.error else ProgressIndicatorDefaults.linearColor
+            color = if (error != null) MaterialTheme.colorScheme.error else ProgressIndicatorDefaults.linearColor
         )
         Row(Modifier.basePadding()) {
             Text(LocalContext.current.getString(R.string.login_text))
@@ -211,7 +212,7 @@ fun LoginForm(
         Row(Modifier.basePadding()) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                enabled = (username != "" && (loginStep == LoginStep.NONE || error.occurred())),
+                enabled = (username != "" && (loginStep == LoginStep.NONE || error != null)),
                 onClick = {
                     scope.launch { doLogin() }
                 },
@@ -219,7 +220,7 @@ fun LoginForm(
                 Text(LocalContext.current.getString(R.string.login_complete_text))
             }
         }
-        error.Show {
+        error.Display {
             Row(Modifier.basePadding()) {
                 ErrorText(
                     text = it

@@ -4,53 +4,24 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
-class LocalizableError {
-    @StringRes
-    var stringResourceId: Int? = null
-        private set
+data class LocalizableError(
+    @StringRes val stringResourceId: Int,
+    val throwable: Throwable? = null,
+)
 
-    var throwable: Throwable? = null
-        private set
-
-    fun set(stringResourceId: Int) {
-        this.stringResourceId = stringResourceId
-        this.throwable = null
+@Composable
+fun LocalizableError?.render(): String? {
+    return if (this == null) {
+        null
+    } else if (this.throwable == null) {
+        stringResource(stringResourceId)
+    } else {
+        stringResource(stringResourceId, throwable.toString())
     }
+}
 
-    fun set(stringResourceId: Int, throwable: Throwable) {
-        this.stringResourceId = stringResourceId
-        this.throwable = throwable
-    }
-
-    fun clear() {
-        this.stringResourceId = null
-        this.throwable = null
-    }
-
-    fun occurred(): Boolean {
-        return stringResourceId != null
-    }
-
-    @Composable
-    fun renderString(): String? {
-        val stringResourceId = this.stringResourceId
-        val throwable = this.throwable
-
-        return if (stringResourceId == null) {
-            null
-        } else if (throwable == null) {
-            stringResource(stringResourceId)
-        } else {
-            stringResource(stringResourceId, throwable.toString())
-        }
-    }
-
-    @Composable
-    fun Show(contents: @Composable (rendered: String) -> Unit) {
-        val rendered = renderString()
-
-        if (rendered != null) {
-            contents(rendered)
-        }
-    }
+@Composable
+fun LocalizableError?.Display(contents: @Composable (rendered: String) -> Unit) {
+    val rendered = this.render() ?: return
+    contents(rendered)
 }

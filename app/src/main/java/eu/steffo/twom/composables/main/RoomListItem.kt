@@ -52,7 +52,7 @@ fun RoomListItem(
     }
 
     var expanded by rememberSaveable { mutableStateOf(false) }
-    val error by remember { mutableStateOf(LocalizableError()) }
+    var error by remember { mutableStateOf<LocalizableError?>(null) }
 
     // TODO: Display a running indicator
 
@@ -65,7 +65,7 @@ fun RoomListItem(
                 session.roomService().joinRoom(roomId, "Opened the invite")
             } catch (e: Throwable) {
                 Log.e("Main", "Failed to open invite to room `$roomId`: $error")
-                error.set(R.string.main_error_join_generic, e)
+                error = LocalizableError(R.string.main_error_join_generic, e)
                 return
             }
             Log.d("Main", "Successfully opened invite to room `$roomId`!")
@@ -81,7 +81,7 @@ fun RoomListItem(
             session.roomService().leaveRoom(roomId, "Decided to leave the room")
         } catch (e: Throwable) {
             Log.e("Main", "Failed to leave room `$roomId`: $error")
-            error.set(R.string.main_error_leave_generic, e)
+            error = LocalizableError(R.string.main_error_leave_generic, e)
             return
         }
         Log.d("Main", "Successfully left room `$roomId`!")

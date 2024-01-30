@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import eu.steffo.twom.R
+import eu.steffo.twom.composables.errorhandling.Display
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.errorhandling.LoadingText
 import eu.steffo.twom.composables.errorhandling.LocalizableError
@@ -76,13 +77,13 @@ fun ViewRoomForm() {
     val published = observeRSVP(room = room, member = member)!!
 
     var isPublishRunning by rememberSaveable { mutableStateOf(false) }
-    val publishError by remember { mutableStateOf(LocalizableError()) }
+    var publishError by remember { mutableStateOf<LocalizableError?>(null) }
 
     RSVPForm(
         published = published,
         onRequestPublish = { answer, comment ->
             isPublishRunning = true
-            publishError.clear()
+            publishError = null
 
             scope.launch Publish@{
                 Log.d(
@@ -100,7 +101,7 @@ fun ViewRoomForm() {
                     )
                 } catch (e: Throwable) {
                     Log.e("Room", "Failed to update eu.steffo.twom.rsvp: $publishError")
-                    publishError.set(R.string.room_error_publish_generic, e)
+                    publishError = LocalizableError(R.string.room_error_publish_generic, e)
                     isPublishRunning = false
                     return@Publish
                 }
@@ -122,7 +123,7 @@ fun ViewRoomForm() {
                             "Room",
                             "Failed to redact old RSVP: $publishError"
                         )
-                        publishError.set(R.string.room_error_redact_generic, e)
+                        publishError = LocalizableError(R.string.room_error_redact_generic, e)
                         isPublishRunning = false
                         return@Publish
                     }
@@ -139,7 +140,7 @@ fun ViewRoomForm() {
         isPublishRunning = isPublishRunning,
     )
 
-    publishError.Show {
+    publishError.Display {
         Row(Modifier.basePadding()) {
             ErrorText(
                 text = it

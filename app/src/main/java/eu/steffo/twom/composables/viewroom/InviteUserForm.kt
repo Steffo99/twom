@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import eu.steffo.twom.R
+import eu.steffo.twom.composables.errorhandling.Display
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.errorhandling.LoadingText
 import eu.steffo.twom.composables.errorhandling.LocalizableError
@@ -67,7 +68,7 @@ fun InviteUserForm(
     )
 
     var busy by rememberSaveable { mutableStateOf(false) }
-    val error by remember { mutableStateOf(LocalizableError()) }
+    var error by remember { mutableStateOf<LocalizableError?>(null) }
 
     Button(
         modifier = Modifier
@@ -78,7 +79,7 @@ fun InviteUserForm(
         onClick = {
             scope.launch SendInvite@{
                 busy = true
-                error.clear()
+                error = null
 
                 Log.d("Room", "Sending invite to `$userId`...")
 
@@ -86,7 +87,7 @@ fun InviteUserForm(
                     room.membershipService().invite(userId)
                 } catch (e: Throwable) {
                     Log.e("Room", "Failed to send invite to `$userId`: $error")
-                    error.set(R.string.room_error_invite_generic, e)
+                    error = LocalizableError(R.string.room_error_invite_generic, e)
                     busy = false
                     return@SendInvite
                 }
@@ -103,7 +104,7 @@ fun InviteUserForm(
         )
     }
 
-    error.Show {
+    error.Display {
         ErrorText(
             modifier = Modifier
                 .basePadding()
