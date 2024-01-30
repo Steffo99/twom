@@ -16,7 +16,7 @@ import kotlinx.coroutines.CancellationException
 import org.matrix.android.sdk.api.util.md5
 import java.io.File
 
-const val TAG = "bitmapFromMatrixFile"
+private const val TAG = "bitmapFromMatrixFile"
 
 @Composable
 fun bitmapFromMatrixFile(url: String? = null): Bitmap? {
