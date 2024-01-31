@@ -13,10 +13,8 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -28,10 +26,10 @@ import eu.steffo.twom.R
 import eu.steffo.twom.composables.avatar.components.AvatarUser
 import eu.steffo.twom.composables.errorhandling.ErrorText
 import eu.steffo.twom.composables.matrix.LocalSession
+import eu.steffo.twom.composables.viewroom.effects.resolveUser
 import eu.steffo.twom.utils.RSVPAnswer
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
-import org.matrix.android.sdk.api.session.user.model.User
 import kotlin.jvm.optionals.getOrNull
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -64,16 +62,8 @@ fun MemberListItem(
         return
     }
 
-    // TODO: Is this necessary?
-
-    var user by remember { mutableStateOf<User?>(null) }
-
-    LaunchedEffect(session, member.userId) {
-        val memberId = member.userId
-        Log.d("UserListItem", "Resolving user: $memberId")
-        user = session.userService().resolveUser(memberId)
-        Log.d("UserListItem", "Resolved user: $memberId")
-    }
+    // This might not be necessary; I'm not sure when the internal Matrix client resolves users
+    val user = resolveUser(member.userId)
 
     val scope = rememberCoroutineScope()
 
