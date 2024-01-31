@@ -34,7 +34,7 @@ fun avatarUrlFromUserId(userId: String): String? {
         try {
             url = session.profileService().getAvatarUrl(userId).getOrNull()
         } catch (e: CancellationException) {
-            Log.i(TAG, "Cancelled retrieval of avatar URL of: $userId", e)
+            Log.d(TAG, "Cancelled retrieval of avatar URL of: $userId", e)
             url = null
             return@Fetch
         } catch (e: Throwable) {

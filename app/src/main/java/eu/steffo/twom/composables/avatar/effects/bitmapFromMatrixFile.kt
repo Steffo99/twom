@@ -58,7 +58,7 @@ fun bitmapFromMatrixFile(url: String? = null): Bitmap? {
             )
         } catch (e: CancellationException) {
             // This makes sure no corrupt image is displayed, at least
-            Log.i(TAG, "Cancelled download of file at: $url", e)
+            Log.d(TAG, "Cancelled download of file at: $url", e)
             bitmap = null
             return@Fetch
         } catch (e: Throwable) {
