@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContract
-import eu.steffo.twom.composables.login.LoginScaffold
+import eu.steffo.twom.composables.login.components.LoginScaffold
 
 
 class LoginActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.login
+package eu.steffo.twom.composables.login.components
 
 import android.app.Activity
 import android.content.Intent

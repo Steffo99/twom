@@ -1,4 +1,4 @@
-package eu.steffo.twom.composables.login
+package eu.steffo.twom.composables.login.components
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
