@@ -46,7 +46,6 @@ fun ConfigureRoomForm(
 ) {
     var name by rememberSaveable { mutableStateOf(initialConfiguration?.name ?: "") }
     var description by rememberSaveable { mutableStateOf(initialConfiguration?.description ?: "") }
-    // TODO: How to load the original avatar from the URL?
     var avatarBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
     val fallbackText = if (name.isEmpty()) {
