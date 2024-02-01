@@ -4,6 +4,9 @@ import android.content.Context
 import android.util.Log
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
+import org.matrix.android.sdk.api.session.Session
+
+private const val TAG = "TwoMMatrix"
 
 /**
  * Object containing the global state of the application.
@@ -23,7 +26,7 @@ object TwoMMatrix {
      */
     fun ensureMatrix(context: Context): Matrix? {
         if (!this::matrix.isInitialized) {
-            Log.d("Matrix", "Initializing Matrix...")
+            Log.i(TAG, "Initializing Matrix...")
             matrix = Matrix(
                 context = context.applicationContext,
                 matrixConfiguration = MatrixConfiguration(
@@ -34,6 +37,45 @@ object TwoMMatrix {
             return matrix
         }
         return null
+    }
+
+    val session: Session?
+        get() = matrix.authenticationService().getLastAuthenticatedSession()
+
+    fun setupSession() {
+        Log.d(TAG, "Attempting to setup session...")
+        val session = this.session
+
+        if (session == null) {
+            Log.d(TAG, "Session is null, nothing to setup.")
+            return
+        }
+
+        Log.d(TAG, "Session is: $session")
+
+        Log.i(TAG, "Opening session: $session")
+        session.open()
+
+        Log.i(TAG, "Starting to sync with session: $session")
+        session.syncService().startSync(true)
+    }
+
+    fun teardownSession() {
+        Log.d(TAG, "Attempting to teardown session...")
+        val session = this.session
+
+        if (session == null) {
+            Log.d(TAG, "Session is null, nothing to teardown.")
+            return
+        }
+
+        Log.d(TAG, "Session is: $session")
+
+        Log.i(TAG, "Stopping to sync with session: $session")
+        session.syncService().stopSync()
+
+        Log.i(TAG, "Closing session: $session")
+        session.close()
     }
 
     const val ROOM_TYPE = "eu.steffo.twom.happening"
