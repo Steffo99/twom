@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.CancellationException
 
@@ -29,6 +30,16 @@ fun LocalizableError?.render(): String? {
 fun LocalizableError?.Display(contents: @Composable (rendered: String) -> Unit) {
     val rendered = this.render() ?: return
     contents(rendered)
+}
+
+@Composable
+fun LocalizableError?.DisplayErrorText(modifier: Modifier = Modifier) {
+    this.Display {
+        ErrorText(
+            modifier = modifier,
+            text = it,
+        )
+    }
 }
 
 suspend fun MutableState<LocalizableError?>.capture(
