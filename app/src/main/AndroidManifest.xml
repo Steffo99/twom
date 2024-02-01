@@ -31,7 +31,7 @@
         </provider>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".main.activities.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.TwoM">
             <intent-filter>
@@ -41,15 +41,15 @@
         </activity>
 
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".login.activities.LoginActivity"
             android:theme="@style/Theme.TwoM" />
 
         <activity
-            android:name=".activities.ViewRoomActivity"
+            android:name=".viewroom.activities.ViewRoomActivity"
             android:theme="@style/Theme.TwoM" />
 
         <activity
-            android:name=".activities.ConfigureRoomActivity"
+            android:name=".configureroom.activities.ConfigureRoomActivity"
             android:theme="@style/Theme.TwoM" />
 
         <activity
