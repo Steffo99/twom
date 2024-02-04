@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
         TwoMMatrix.ensureMatrix(applicationContext)
         TwoMMatrix.setupSession()
         TwoMMatrix.session?.addListener(SessionChangeListener { resetContent() })
+        resetContent()  // In case the session is not set up
     }
 
     private fun deinitSession() {
