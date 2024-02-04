@@ -6,6 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ListItem
@@ -51,23 +52,27 @@ fun RoomListItem(
         return
     }
 
+    var running by rememberSaveable { mutableStateOf(false) }
     var expanded by rememberSaveable { mutableStateOf(false) }
     var error by remember { mutableStateOf<LocalizableError?>(null) }
-
-    // TODO: Display a running indicator
 
     val viewRoomActivityLauncher = rememberLauncherForActivityResult(ViewRoomActivity.Contract()) {}
 
     suspend fun openRoom() {
         if (roomSummary.membership == Membership.INVITE) {
             Log.i("Main", "Opening invite `$roomId`...")
+            running = true
+
             try {
                 session.roomService().joinRoom(roomId, "Opened the invite")
             } catch (e: Throwable) {
                 Log.e("Main", "Failed to open invite to room `$roomId`: $error")
                 error = LocalizableError(R.string.main_error_join_generic, e)
                 return
+            } finally {
+                running = false
             }
+
             Log.d("Main", "Successfully opened invite to room `$roomId`!")
         }
 
@@ -77,13 +82,18 @@ fun RoomListItem(
 
     suspend fun leaveRoom() {
         Log.i("Main", "Leaving room `$roomId`...")
+        running = true
+
         try {
             session.roomService().leaveRoom(roomId, "Decided to leave the room")
         } catch (e: Throwable) {
             Log.e("Main", "Failed to leave room `$roomId`: $error")
             error = LocalizableError(R.string.main_error_leave_generic, e)
             return
+        } finally {
+            running = false
         }
+
         Log.d("Main", "Successfully left room `$roomId`!")
     }
 
@@ -93,6 +103,7 @@ fun RoomListItem(
 
         ListItem(
             modifier = Modifier.combinedClickable(
+                enabled = !running,
                 onClick = { scope.launch { openRoom() } },
                 onLongClick = { expanded = true }
             ),
@@ -108,11 +119,15 @@ fun RoomListItem(
                         .size(40.dp)
                         .clip(MaterialTheme.shapes.medium)
                 ) {
-                    AvatarURL(
-                        // FIXME: URL can appearently be set before the image is available on the homeserver
-                        url = roomSummary.avatarUrl,
-                        alpha = alpha,
-                    )
+                    if (running) {
+                        CircularProgressIndicator()
+                    } else {
+                        AvatarURL(
+                            // FIXME: URL can appearently be set before the image is available on the homeserver
+                            url = roomSummary.avatarUrl,
+                            alpha = alpha,
+                        )
+                    }
                 }
             },
             supportingContent = {
