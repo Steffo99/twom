@@ -6,6 +6,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -71,6 +72,7 @@ fun MemberListItem(
 
     val rsvp = observeRSVP(room = room, member = member) ?: return
 
+    var running by rememberSaveable { mutableStateOf(false) }
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     val alpha = if (rsvp.answer == RSVPAnswer.PENDING) 0.4f else 1.0f
@@ -99,10 +101,14 @@ fun MemberListItem(
                         .size(40.dp)
                         .clip(MaterialTheme.shapes.extraLarge)
                 ) {
-                    AvatarUser(
-                        user = user,
-                        alpha = alpha,
-                    )
+                    if (running) {
+                        CircularProgressIndicator()
+                    } else {
+                        AvatarUser(
+                            user = user,
+                            alpha = alpha,
+                        )
+                    }
                 }
             },
             trailingContent = {
@@ -139,13 +145,15 @@ fun MemberListItem(
                             val userId = member.userId
 
                             Log.d("Room", "Uninviting `$userId`...")
+                            running = true
 
-                            // FIXME: Errors for this aren't displayed as I don't have any idea of where to place the relevant text on the UI, but also are so unlikely to occour that it should be ok to disregard it
                             try {
                                 room.membershipService().remove(userId)
                             } catch (e: Throwable) {
                                 Log.e("Room", "Failed to uninvite `$userId`: $e")
                                 return@SendUninvite
+                            } finally {
+                                running = false
                             }
 
                             Log.d("Room", "Successfully uninvited `$userId`!")
