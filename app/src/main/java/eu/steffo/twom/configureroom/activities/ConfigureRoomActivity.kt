@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContract
 import eu.steffo.twom.configureroom.components.ConfigureRoomScaffold
+import eu.steffo.twom.matrix.utils.TwoMMatrix
 
 
 class ConfigureRoomActivity : ComponentActivity() {
@@ -91,6 +92,7 @@ class ConfigureRoomActivity : ComponentActivity() {
 
         setContent {
             ConfigureRoomScaffold(
+                session = TwoMMatrix.session!!,
                 initialConfiguration = configuration,
             )
         }
