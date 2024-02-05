@@ -52,10 +52,6 @@
             android:name=".configureroom.activities.ConfigureRoomActivity"
             android:theme="@style/Theme.TwoM" />
 
-        <activity
-            android:name=".activities.InviteUserActivity"
-            android:theme="@style/Theme.TwoM.BottomSheetDialog" />
-
     </application>
 
 </manifest>
