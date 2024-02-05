@@ -67,7 +67,7 @@
     <string name="login_error_login_generic">Something went wrong while logging in: %1$s</string>
     <string name="main_error_leave_generic">Something went wrong while leaving the party: %1$s</string>
     <string name="close">Close</string>
-    <string name="room_options_edit_text">Edit party</string>
+    <string name="roommenu_edit_label">Edit party</string>
     <string name="room_error_members_notfound">Could not retrieve the list of party partecipants.</string>
     <string name="rsvp_nullish_placeholder">Leave a comment...</string>
     <string name="rsvp_unknown_response">Has given an unsupported response</string>
@@ -86,4 +86,6 @@
     <string name="avatar_empty_placeholder" translatable="false">\?</string>
     <string name="rsvp_nolabel">[unlabeled]</string>
     <string name="configure_submit_label_update">Update</string>
+    <string name="room_rsvp_update_label">Update</string>
+    <string name="roommenu_label">Room menu</string>
 </resources>

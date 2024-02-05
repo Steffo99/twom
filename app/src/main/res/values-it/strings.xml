@@ -64,7 +64,7 @@
     <string name="login_error_login_generic">Qualcosa è andato storto durante il login: %1$s</string>
     <string name="main_error_leave_generic">Qualcosa è andato storto durante l\'abbandono della festa: %1$s</string>
     <string name="close">Chiudi</string>
-    <string name="room_options_edit_text">Modifica festa</string>
+    <string name="roommenu_edit_label">Modifica festa</string>
     <string name="room_error_members_notfound">È stato impossibile recuperare la lista dei partecipanti alla festa.</string>
     <string name="rsvp_nullish_placeholder">Lascia un commento...</string>
     <string name="rsvp_unknown_response">Ha dato una risposta non supportata</string>
@@ -82,4 +82,6 @@
     <string name="main_error_join_generic">Qualcosa è andato storto durante l\'apertura dell\'invito: %1$s</string>
     <string name="rsvp_nolabel">[nessun testo]</string>
     <string name="configure_submit_label_update">Aggiorna</string>
+    <string name="room_rsvp_update_label">Aggiorna</string>
+    <string name="roommenu_label">Menu stanza</string>
 </resources>

@@ -130,7 +130,7 @@ fun RoomIconButton(
         ) {
             AvatarURL(
                 url = roomSummary.avatarUrl,
-                contentDescription = LocalContext.current.getString(R.string.room_options_label),
+                contentDescription = LocalContext.current.getString(R.string.roommenu_label),
             )
         }
         DropdownMenu(
@@ -140,7 +140,7 @@ fun RoomIconButton(
             if (canEdit) {
                 DropdownMenuItem(
                     text = {
-                        Text(stringResource(R.string.room_options_edit_text))
+                        Text(stringResource(R.string.roommenu_edit_label))
                     },
                     onClick = {
                         expanded = false

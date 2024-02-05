@@ -139,7 +139,7 @@ fun CreateRoomFAB(
             )
         },
         text = {
-            Text(stringResource(R.string.createroom_label))
+            Text(stringResource(R.string.configure_submit_label_create))
         }
     )
 }
