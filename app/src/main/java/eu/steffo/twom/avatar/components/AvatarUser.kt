@@ -13,7 +13,6 @@ import org.matrix.android.sdk.api.util.toMatrixItem
 fun AvatarUser(
     modifier: Modifier = Modifier,
     user: User? = null,
-    fallbackText: String? = null,
     contentDescription: String = "",
     alpha: Float = 1.0f,
 ) {

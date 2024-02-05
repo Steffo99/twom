@@ -10,14 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.theme.components.TwoMTheme
-import org.matrix.android.sdk.api.session.Session
 
 
 @Composable
 @Preview
-fun LoginScaffold(
-    onLogin: (session: Session) -> Unit = {},
-) {
+fun LoginScaffold() {
     val context = LocalContext.current
     val activity = context as Activity
 
