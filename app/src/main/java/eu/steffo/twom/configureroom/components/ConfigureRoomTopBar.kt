@@ -23,9 +23,9 @@ fun ConfigureActivityTopBar(
         title = {
             Text(
                 text = if (initialName == null) {
-                    stringResource(R.string.create_title)
+                    stringResource(R.string.configure_title_create)
                 } else {
-                    stringResource(R.string.edit_title, initialName)
+                    stringResource(R.string.configure_title_edit, initialName)
                 }
             )
         }

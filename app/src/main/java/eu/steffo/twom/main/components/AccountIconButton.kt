@@ -16,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
@@ -48,12 +47,12 @@ fun AccountIconButton(
             if (session == null) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = LocalContext.current.getString(R.string.main_account_label),
+                    contentDescription = stringResource(R.string.accountmenu_label),
                 )
             } else {
                 AvatarUserId(
                     userId = session.myUserId,
-                    contentDescription = LocalContext.current.getString(R.string.main_account_label),
+                    contentDescription = stringResource(R.string.accountmenu_label),
                 )
             }
         }
@@ -64,7 +63,7 @@ fun AccountIconButton(
             if (session == null) {
                 DropdownMenuItem(
                     text = {
-                        Text(stringResource(R.string.main_account_login_text))
+                        Text(stringResource(R.string.accountmenu_login_label))
                     },
                     onClick = {
                         expanded = false
@@ -74,7 +73,7 @@ fun AccountIconButton(
             } else {
                 DropdownMenuItem(
                     text = {
-                        Text(stringResource(R.string.main_account_logout_text))
+                        Text(stringResource(R.string.accountmenu_logout_label))
                     },
                     onClick = {
                         expanded = false

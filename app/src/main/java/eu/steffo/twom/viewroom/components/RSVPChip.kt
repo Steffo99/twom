@@ -33,7 +33,7 @@ fun RSVPChip(
         },
         label = {
             Text(
-                text = representedAnswer.toLabel() ?: "[missing label]",
+                text = representedAnswer.toLabel(),
                 style = MaterialTheme.typography.bodyLarge,
             )
         },

@@ -136,9 +136,9 @@ fun RoomListItem(
                     Text(
                         text = stringResource(
                             id = if (count != 1) {
-                                R.string.main_partecipants
+                                R.string.main_partecipantcount_text_plural
                             } else {
-                                R.string.main_partecipant
+                                R.string.main_partecipantcount_text_singular
                             },
                             count,
                         ),

@@ -34,15 +34,15 @@ enum class RSVPAnswer {
 
         @Composable
         override fun toLabel(): String =
-            stringResource(R.string.room_rsvp_sure_label)
+            stringResource(R.string.rsvp_sure_label)
 
         @Composable
         override fun toResponse(): String =
-            stringResource(R.string.room_rsvp_sure_response)
+            stringResource(R.string.rsvp_sure_response)
 
         @Composable
         override fun toCommentPlaceholder(): String =
-            stringResource(R.string.room_rsvp_sure_placeholder)
+            stringResource(R.string.rsvp_sure_placeholder)
     },
 
     // Will be there, but later!
@@ -58,15 +58,15 @@ enum class RSVPAnswer {
 
         @Composable
         override fun toLabel(): String =
-            stringResource(R.string.room_rsvp_later_label)
+            stringResource(R.string.rsvp_later_label)
 
         @Composable
         override fun toResponse(): String =
-            stringResource(R.string.room_rsvp_later_response)
+            stringResource(R.string.rsvp_later_response)
 
         @Composable
         override fun toCommentPlaceholder(): String =
-            stringResource(R.string.room_rsvp_later_placeholder)
+            stringResource(R.string.rsvp_later_placeholder)
     },
 
     // Might be there...
@@ -82,15 +82,15 @@ enum class RSVPAnswer {
 
         @Composable
         override fun toLabel(): String =
-            stringResource(R.string.room_rsvp_maybe_label)
+            stringResource(R.string.rsvp_maybe_label)
 
         @Composable
         override fun toResponse(): String =
-            stringResource(R.string.room_rsvp_maybe_response)
+            stringResource(R.string.rsvp_maybe_response)
 
         @Composable
         override fun toCommentPlaceholder(): String =
-            stringResource(R.string.room_rsvp_maybe_placeholder)
+            stringResource(R.string.rsvp_maybe_placeholder)
     },
 
     // Won't be there.
@@ -106,15 +106,15 @@ enum class RSVPAnswer {
 
         @Composable
         override fun toLabel(): String =
-            stringResource(R.string.room_rsvp_noway_label)
+            stringResource(R.string.rsvp_noway_label)
 
         @Composable
         override fun toResponse(): String =
-            stringResource(R.string.room_rsvp_noway_response)
+            stringResource(R.string.rsvp_noway_response)
 
         @Composable
         override fun toCommentPlaceholder(): String =
-            stringResource(R.string.room_rsvp_noway_placeholder)
+            stringResource(R.string.rsvp_noway_placeholder)
     },
 
     // An option differing from the previous ones.
@@ -129,16 +129,16 @@ enum class RSVPAnswer {
             get() = Icons.Outlined.BuildCircle
 
         @Composable
-        override fun toLabel(): String? =
-            null
+        override fun toLabel(): String =
+            stringResource(R.string.rsvp_nolabel)
 
         @Composable
         override fun toResponse(): String =
-            stringResource(R.string.room_rsvp_unknown_response)
+            stringResource(R.string.rsvp_unknown_response)
 
         @Composable
         override fun toCommentPlaceholder(): String =
-            stringResource(R.string.room_rsvp_nullish_placeholder)
+            stringResource(R.string.rsvp_nullish_placeholder)
     },
 
     // The answer is still being loaded.
@@ -153,7 +153,8 @@ enum class RSVPAnswer {
             get() = Icons.Outlined.HourglassEmpty
 
         @Composable
-        override fun toLabel(): String? = null
+        override fun toLabel(): String =
+            stringResource(R.string.rsvp_nolabel)
 
         @Composable
         override fun toResponse(): String =
@@ -161,7 +162,7 @@ enum class RSVPAnswer {
 
         @Composable
         override fun toCommentPlaceholder(): String =
-            stringResource(R.string.room_rsvp_nullish_placeholder)
+            stringResource(R.string.rsvp_nullish_placeholder)
     },
 
     // No answer has been provided yet.
@@ -176,16 +177,16 @@ enum class RSVPAnswer {
             get() = Icons.Outlined.Circle
 
         @Composable
-        override fun toLabel(): String? =
-            null
+        override fun toLabel(): String =
+            stringResource(R.string.rsvp_nolabel)
 
         @Composable
         override fun toResponse(): String =
-            stringResource(R.string.room_rsvp_none_response)
+            stringResource(R.string.rsvp_none_response)
 
         @Composable
         override fun toCommentPlaceholder(): String =
-            stringResource(R.string.room_rsvp_nullish_placeholder)
+            stringResource(R.string.rsvp_nullish_placeholder)
     },
 
     // Has been invited, but has not accepted yet.
@@ -200,16 +201,16 @@ enum class RSVPAnswer {
             get() = Icons.Outlined.MoreHoriz
 
         @Composable
-        override fun toLabel(): String? =
-            null
+        override fun toLabel(): String =
+            stringResource(R.string.rsvp_nolabel)
 
         @Composable
         override fun toResponse(): String =
-            stringResource(R.string.room_rsvp_pending_response)
+            stringResource(R.string.rsvp_pending_response)
 
         @Composable
         override fun toCommentPlaceholder(): String =
-            stringResource(R.string.room_rsvp_nullish_placeholder)
+            stringResource(R.string.rsvp_nullish_placeholder)
     };
 
     abstract val value: String
@@ -217,7 +218,7 @@ enum class RSVPAnswer {
     abstract val icon: ImageVector
 
     @Composable
-    abstract fun toLabel(): String?
+    abstract fun toLabel(): String
 
     @Composable
     abstract fun toResponse(): String

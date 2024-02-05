@@ -16,7 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
 import eu.steffo.twom.errorhandling.components.ErrorText
@@ -52,7 +52,7 @@ fun LoginForm(
             }
         )
         Row(Modifier.basePadding()) {
-            Text(LocalContext.current.getString(R.string.login_text))
+            Text(stringResource(R.string.login_intro_text))
         }
         Row(Modifier.basePadding()) {
             TextField(
@@ -61,13 +61,13 @@ fun LoginForm(
                 value = username,
                 onValueChange = { username = it },
                 label = {
-                    Text(LocalContext.current.getString(R.string.login_username_label))
+                    Text(stringResource(R.string.login_username_label))
                 },
                 placeholder = {
-                    Text(LocalContext.current.getString(R.string.login_username_placeholder))
+                    Text(stringResource(R.string.login_username_placeholder))
                 },
                 supportingText = {
-                    Text(LocalContext.current.getString(R.string.login_username_supporting))
+                    Text(stringResource(R.string.login_username_supporting))
                 },
             )
         }
@@ -77,13 +77,13 @@ fun LoginForm(
                 value = password,
                 onValueChange = { password = it },
                 label = {
-                    Text(LocalContext.current.getString(R.string.login_password_label))
+                    Text(stringResource(R.string.login_password_label))
                 },
                 placeholder = {
-                    Text(LocalContext.current.getString(R.string.login_password_placeholder))
+                    Text(stringResource(R.string.login_password_placeholder))
                 },
                 supportingText = {
-                    Text(LocalContext.current.getString(R.string.login_password_supporting))
+                    Text(stringResource(R.string.login_password_supporting))
                 },
             )
         }
@@ -98,7 +98,7 @@ fun LoginForm(
                     }
                 },
             ) {
-                Text(LocalContext.current.getString(R.string.login_complete_text))
+                Text(stringResource(R.string.login_submit_text))
             }
         }
         manager.error.Display {

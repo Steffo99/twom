@@ -58,7 +58,7 @@ fun ConfigureRoomForm(
 
     Column(modifier) {
         Row(Modifier.basePadding()) {
-            val avatarContentDescription = stringResource(R.string.create_avatar_label)
+            val avatarContentDescription = stringResource(R.string.configure_avatarpicker_label)
             AvatarPickerWrapbox(
                 modifier = Modifier
                     .size(60.dp)
@@ -87,7 +87,7 @@ fun ConfigureRoomForm(
                     .fillMaxWidth(),
                 singleLine = true,
                 label = {
-                    Text(stringResource(R.string.create_name_label))
+                    Text(stringResource(R.string.configure_namepicker_label))
                 },
                 value = name,
                 onValueChange = { name = it }
@@ -100,7 +100,7 @@ fun ConfigureRoomForm(
                     .height(180.dp)
                     .fillMaxWidth(),
                 label = {
-                    Text(stringResource(R.string.create_description_label))
+                    Text(stringResource(R.string.configure_descriptionpicker_label))
                 },
                 value = description,
                 onValueChange = { description = it }
@@ -127,7 +127,15 @@ fun ConfigureRoomForm(
                     activity.finish()
                 },
             ) {
-                Text(stringResource(R.string.create_complete_text))
+                Text(
+                    stringResource(
+                        if (initialConfiguration != null) {
+                            R.string.configure_submit_label_update
+                        } else {
+                            R.string.configure_submit_label_create
+                        }
+                    )
+                )
             }
         }
     }

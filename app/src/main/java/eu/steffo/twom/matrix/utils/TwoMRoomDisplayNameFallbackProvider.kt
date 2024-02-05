@@ -10,15 +10,15 @@ class TwoMRoomDisplayNameFallbackProvider(
 ) : RoomDisplayNameFallbackProvider {
 
     override fun getNameFor1member(name: String): String {
-        return context.getString(R.string.room_name_fallback_members_1).format(name)
+        return context.getString(R.string.matrix_fallback_members_1).format(name)
     }
 
     override fun getNameFor2members(name1: String, name2: String): String {
-        return context.getString(R.string.room_name_fallback_members_2).format(name1, name2)
+        return context.getString(R.string.matrix_fallback_members_2).format(name1, name2)
     }
 
     override fun getNameFor3members(name1: String, name2: String, name3: String): String {
-        return context.getString(R.string.room_name_fallback_members_3).format(name1, name2, name3)
+        return context.getString(R.string.matrix_fallback_members_3).format(name1, name2, name3)
     }
 
     override fun getNameFor4members(
@@ -27,7 +27,8 @@ class TwoMRoomDisplayNameFallbackProvider(
         name3: String,
         name4: String
     ): String {
-        return context.getString(R.string.room_name_fallback_members_4).format(name1, name2, name3, name4)
+        return context.getString(R.string.matrix_fallback_members_4)
+            .format(name1, name2, name3, name4)
     }
 
     override fun getNameFor4membersAndMore(
@@ -36,14 +37,15 @@ class TwoMRoomDisplayNameFallbackProvider(
         name3: String,
         remainingCount: Int
     ): String {
-        return context.getString(R.string.room_name_fallback_members_more).format(name1, name2, name3, remainingCount)
+        return context.getString(R.string.matrix_fallback_members_more)
+            .format(name1, name2, name3, remainingCount)
     }
 
     override fun getNameForEmptyRoom(isDirect: Boolean, leftMemberNames: List<String>): String {
-        return context.getString(R.string.room_name_fallback_members_0)
+        return context.getString(R.string.matrix_fallback_members_0)
     }
 
     override fun getNameForRoomInvite(): String {
-        return context.getString(R.string.room_name_fallback_invite)
+        return context.getString(R.string.matrix_fallback_invite)
     }
 }

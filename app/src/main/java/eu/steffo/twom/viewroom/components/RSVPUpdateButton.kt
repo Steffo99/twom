@@ -30,7 +30,7 @@ fun RSVPUpdateButton(
         )
     ) {
         Text(
-            text = stringResource(R.string.room_rsvp_update_label)
+            text = stringResource(R.string.room_update_label)
         )
     }
 }

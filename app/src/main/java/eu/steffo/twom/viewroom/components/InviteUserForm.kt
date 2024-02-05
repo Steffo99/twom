@@ -44,7 +44,7 @@ fun InviteUserForm(
     if (room == null) {
         ErrorText(
             modifier = Modifier.basePadding(),
-            text = stringResource(R.string.room_error_room_notfound)
+            text = stringResource(R.string.invite_error_room_notfound)
         )
         return
     }
@@ -58,12 +58,12 @@ fun InviteUserForm(
         singleLine = true,
         label = {
             Text(
-                text = stringResource(R.string.room_invite_username_label)
+                text = stringResource(R.string.invite_username_label)
             )
         },
         placeholder = {
             Text(
-                text = stringResource(R.string.room_invite_username_placeholder)
+                text = stringResource(R.string.invite_username_placeholder)
             )
         },
     )
@@ -88,7 +88,7 @@ fun InviteUserForm(
                     room.membershipService().invite(userId)
                 } catch (e: Throwable) {
                     Log.e("Room", "Failed to send invite to `$userId`: $error")
-                    error = LocalizableError(R.string.room_error_invite_generic, e)
+                    error = LocalizableError(R.string.invite_error_invite_generic, e)
                     busy = false
                     return@SendInvite
                 }
@@ -101,7 +101,7 @@ fun InviteUserForm(
         },
     ) {
         Text(
-            text = stringResource(R.string.room_invite_button_label)
+            text = stringResource(R.string.invite_submit_label)
         )
     }
 

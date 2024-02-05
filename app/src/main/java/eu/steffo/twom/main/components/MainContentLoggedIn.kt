@@ -43,7 +43,7 @@ fun MainContentLoggedIn(
         } else if (roomSummaries!!.isEmpty()) {
             Text(
                 modifier = Modifier.basePadding(),
-                text = stringResource(R.string.main_roomlist_empty_text)
+                text = stringResource(R.string.main_empty_text)
             )
         } else {
             roomSummaries!!.forEach { RoomListItem(it) }

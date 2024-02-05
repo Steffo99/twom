@@ -28,7 +28,7 @@ import eu.steffo.twom.avatar.components.AvatarUser
 import eu.steffo.twom.errorhandling.components.ErrorText
 import eu.steffo.twom.matrix.complocals.LocalSession
 import eu.steffo.twom.viewroom.complocals.LocalRoom
-import eu.steffo.twom.viewroom.effects.canIKick
+import eu.steffo.twom.viewroom.effects.canCurrentSessionKickHere
 import eu.steffo.twom.viewroom.effects.observeRSVP
 import eu.steffo.twom.viewroom.effects.resolveUser
 import eu.steffo.twom.viewroom.utils.RSVPAnswer
@@ -61,14 +61,14 @@ fun MemberListItem(
     val room = roomRequest.getOrNull()
     if (room == null) {
         ErrorText(
-            text = stringResource(R.string.room_error_room_notfound)
+            text = stringResource(R.string.invite_error_room_notfound)
         )
         return
     }
 
     // This might not be necessary; I'm not sure when the internal Matrix client resolves users
     val user = resolveUser(member.userId)
-    val canKick = canIKick()
+    val canKick = canCurrentSessionKickHere()
 
     val scope = rememberCoroutineScope()
 

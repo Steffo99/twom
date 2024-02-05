@@ -125,10 +125,7 @@ fun CreateRoomFAB(
                 Log.i(TAG, "Creating room: ${createRoomParams.name}")
                 val roomId = session.roomService().createRoom(createRoomParams)
 
-                Log.d(
-                    TAG,
-                    "Successfully created room: ${createRoomParams.name}"
-                )
+                Log.d(TAG, "Successfully created room: $roomId")
             }
         }
 
@@ -142,7 +139,7 @@ fun CreateRoomFAB(
             )
         },
         text = {
-            Text(stringResource(R.string.main_efab_create_text))
+            Text(stringResource(R.string.createroom_label))
         }
     )
 }

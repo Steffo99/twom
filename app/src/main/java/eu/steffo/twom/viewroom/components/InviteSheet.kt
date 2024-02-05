@@ -50,7 +50,7 @@ fun InviteSheet(
                 modifier = Modifier
                     .basePadding()
                     .fillMaxWidth(),
-                text = stringResource(R.string.room_invite_title),
+                text = stringResource(R.string.invite_title),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
             )

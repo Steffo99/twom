@@ -12,7 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,10 +55,10 @@ fun PasswordField(
                         Icons.Outlined.RemoveRedEye
                     },
                     if(showPassword) {
-                        LocalContext.current.getString(R.string.password_hide)
+                        stringResource(R.string.password_hide)
                     }
                     else {
-                        LocalContext.current.getString(R.string.password_show)
+                        stringResource(R.string.password_show)
                     }
                 )
             }

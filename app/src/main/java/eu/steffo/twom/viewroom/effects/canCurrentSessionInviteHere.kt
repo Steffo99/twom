@@ -6,7 +6,7 @@ import observePowerLevels
 import kotlin.jvm.optionals.getOrNull
 
 @Composable
-fun canIInvite(): Boolean {
+fun canCurrentSessionInviteHere(): Boolean {
     val session = LocalSession.current ?: return false
     val powerLevelsRequest = observePowerLevels() ?: return false
     val powerLevels = powerLevelsRequest.getOrNull() ?: return false

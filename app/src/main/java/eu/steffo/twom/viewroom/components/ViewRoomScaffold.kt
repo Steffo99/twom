@@ -1,6 +1,5 @@
 package eu.steffo.twom.viewroom.components
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -20,7 +19,7 @@ import eu.steffo.twom.viewroom.complocals.LocalRoomSummary
 import org.matrix.android.sdk.api.session.Session
 import java.util.Optional
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ViewRoomScaffold(
     session: Session,

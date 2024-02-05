@@ -70,7 +70,7 @@ fun RoomIconButton(
     val room = roomRequest.getOrNull()
     if (room == null) {
         ErrorIconButton(
-            message = stringResource(R.string.room_error_room_notfound)
+            message = stringResource(R.string.invite_error_room_notfound)
         )
         return
     }

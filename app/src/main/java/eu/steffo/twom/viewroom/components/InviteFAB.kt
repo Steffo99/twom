@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
-import eu.steffo.twom.viewroom.effects.canIInvite
+import eu.steffo.twom.viewroom.effects.canCurrentSessionInviteHere
 
 @Composable
 @Preview
@@ -18,7 +18,7 @@ fun InviteFAB(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
-    if (!canIInvite()) {
+    if (!canCurrentSessionInviteHere()) {
         return
     }
 
@@ -32,7 +32,7 @@ fun InviteFAB(
             )
         },
         text = {
-            Text(stringResource(R.string.room_invite_button_label))
+            Text(stringResource(R.string.invite_submit_label))
         }
     )
 }

@@ -59,7 +59,7 @@ fun ViewRoomForm() {
     if (room == null) {
         Row(Modifier.basePadding()) {
             ErrorText(
-                text = stringResource(R.string.room_error_room_notfound)
+                text = stringResource(R.string.invite_error_room_notfound)
             )
         }
         return
