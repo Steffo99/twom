@@ -28,6 +28,7 @@ import eu.steffo.twom.avatar.components.AvatarUser
 import eu.steffo.twom.errorhandling.components.ErrorText
 import eu.steffo.twom.matrix.complocals.LocalSession
 import eu.steffo.twom.viewroom.complocals.LocalRoom
+import eu.steffo.twom.viewroom.effects.canIKick
 import eu.steffo.twom.viewroom.effects.observeRSVP
 import eu.steffo.twom.viewroom.effects.resolveUser
 import eu.steffo.twom.viewroom.utils.RSVPAnswer
@@ -67,6 +68,7 @@ fun MemberListItem(
 
     // This might not be necessary; I'm not sure when the internal Matrix client resolves users
     val user = resolveUser(member.userId)
+    val canKick = canIKick()
 
     val scope = rememberCoroutineScope()
 
@@ -132,8 +134,7 @@ fun MemberListItem(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            // TODO: Also hide if unprivileged
-            if (member.userId != session.myUserId) {
+            if (member.userId != session.myUserId && canKick) {
                 DropdownMenuItem(
                     text = {
                         Text(stringResource(R.string.room_uninvite_label))

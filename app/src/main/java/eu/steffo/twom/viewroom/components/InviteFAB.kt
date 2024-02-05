@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import eu.steffo.twom.R
+import eu.steffo.twom.viewroom.effects.canIInvite
 
 @Composable
 @Preview
@@ -17,7 +18,10 @@ fun InviteFAB(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
-    // TODO: Hide if unprivileged
+    if (!canIInvite()) {
+        return
+    }
+
     ExtendedFloatingActionButton(
         modifier = modifier,
         onClick = { onClick() },
